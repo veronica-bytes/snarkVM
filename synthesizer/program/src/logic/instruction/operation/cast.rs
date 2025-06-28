@@ -13,19 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{
-    Opcode,
-    Operand,
-    traits::{
-        RegistersLoad,
-        RegistersLoadCircuit,
-        RegistersSigner,
-        RegistersSignerCircuit,
-        RegistersStore,
-        RegistersStoreCircuit,
-        StackTrait,
-    },
-};
+use crate::{Opcode, Operand, RegistersCircuit, RegistersSigner, RegistersTrait, StackTrait};
 use console::{
     network::prelude::*,
     program::{
@@ -200,12 +188,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
 
 impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     /// Evaluates the instruction.
-    #[inline]
-    pub fn evaluate(
-        &self,
-        stack: &impl StackTrait<N>,
-        registers: &mut (impl RegistersSigner<N> + RegistersLoad<N> + RegistersStore<N>),
-    ) -> Result<()> {
+    pub fn evaluate(&self, stack: &impl StackTrait<N>, registers: &mut impl RegistersSigner<N>) -> Result<()> {
         // If the variant is `cast.lossy`, then check that the `cast_type` is a `PlaintextType::Literal`.
         if VARIANT == CastVariant::CastLossy as u8 {
             ensure!(
@@ -330,11 +313,10 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     }
 
     /// Executes the instruction.
-    #[inline]
     pub fn execute<A: circuit::Aleo<Network = N>>(
         &self,
         stack: &impl StackTrait<N>,
-        registers: &mut (impl RegistersSignerCircuit<N, A> + RegistersLoadCircuit<N, A> + RegistersStoreCircuit<N, A>),
+        registers: &mut impl RegistersCircuit<N, A>,
     ) -> Result<()> {
         // If the variant is `cast.lossy`, then check that the `cast_type` is a `PlaintextType::Literal`.
         if VARIANT == CastVariant::CastLossy as u8 {
@@ -582,12 +564,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     }
 
     /// Finalizes the instruction.
-    #[inline]
-    pub fn finalize(
-        &self,
-        stack: &impl StackTrait<N>,
-        registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
-    ) -> Result<()> {
+    pub fn finalize(&self, stack: &impl StackTrait<N>, registers: &mut impl RegistersTrait<N>) -> Result<()> {
         // If the variant is `cast.lossy`, then check that the `cast_type` is a `PlaintextType::Literal`.
         if VARIANT == CastVariant::CastLossy as u8 {
             ensure!(
@@ -644,7 +621,6 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     }
 
     /// Returns the output type from the given program and input types.
-    #[inline]
     pub fn output_types(
         &self,
         stack: &impl StackTrait<N>,
@@ -853,7 +829,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     fn cast_to_struct(
         &self,
         stack: &impl StackTrait<N>,
-        registers: &mut impl RegistersStore<N>,
+        registers: &mut impl RegistersTrait<N>,
         struct_name: Identifier<N>,
         inputs: Vec<Value<N>>,
     ) -> Result<()> {
@@ -905,7 +881,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     fn cast_to_array(
         &self,
         stack: &impl StackTrait<N>,
-        registers: &mut impl RegistersStore<N>,
+        registers: &mut impl RegistersTrait<N>,
         array_type: &ArrayType<N>,
         inputs: Vec<Value<N>>,
     ) -> Result<()> {
@@ -953,7 +929,6 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
 
 impl<N: Network, const VARIANT: u8> Parser for CastOperation<N, VARIANT> {
     /// Parses a string into an operation.
-    #[inline]
     fn parse(string: &str) -> ParserResult<Self> {
         /// Parses an operand from the string.
         fn parse_operand<N: Network>(string: &str) -> ParserResult<Operand<N>> {

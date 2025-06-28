@@ -16,13 +16,12 @@
 use super::*;
 use console::program::FinalizeType;
 
-impl<N: Network> RegistersLoad<N> for FinalizeRegisters<N> {
+impl<N: Network> RegistersTrait<N> for FinalizeRegisters<N> {
     /// Loads the value of a given operand from the registers.
     ///
     /// # Errors
     /// This method will halt if the register locator is not found.
     /// In the case of register accesses, this method will halt if the access is not found.
-    #[inline]
     fn load(&self, stack: &impl StackTrait<N>, operand: &Operand<N>) -> Result<Value<N>> {
         // Retrieve the register.
         let register = match operand {
@@ -76,5 +75,59 @@ impl<N: Network> RegistersLoad<N> for FinalizeRegisters<N> {
         };
 
         Ok(value)
+    }
+
+    /// Assigns the given value to the given register, assuming the register is not already assigned.
+    ///
+    /// # Errors
+    /// This method will halt if the given register is a register access.
+    /// This method will halt if the given register is an input register.
+    /// This method will halt if the register is already used.
+    fn store(&mut self, stack: &impl StackTrait<N>, register: &Register<N>, stack_value: Value<N>) -> Result<()> {
+        // Store the value to the register.
+        match (register, stack_value) {
+            (Register::Locator(locator), stack_value) => {
+                // Ensure the register assignments are monotonically increasing.
+                match self.last_register {
+                    None => ensure!(*locator == 0, "Out-of-order write operation at '{register}'"),
+                    Some(last) => ensure!(*locator > last, "Out-of-order write operation at '{register}'"),
+                };
+                // Ensure the register does not already exist.
+                ensure!(!self.registers.contains_key(locator), "Cannot write to occupied register '{register}'");
+
+                // Ensure the type of the register is valid.
+                match (self.finalize_types.get_type(stack, register), &stack_value) {
+                    // Ensure the plaintext value matches the plaintext type.
+                    (Ok(FinalizeType::Plaintext(plaintext_type)), Value::Plaintext(plaintext_value)) => {
+                        stack.matches_plaintext(plaintext_value, &plaintext_type)?
+                    }
+                    // Ensure the future value matches the future type.
+                    (Ok(FinalizeType::Future(locator)), Value::Future(future)) => {
+                        stack.matches_future(future, &locator)?
+                    }
+                    // Ensure the store is valid in a finalize context.
+                    (Ok(finalize_type), stack_value) => bail!(
+                        "Attempted to store a '{stack_value}' value in a register '{register}' of type '{finalize_type}' in a finalize scope",
+                    ),
+                    // Ensure the register is defined.
+                    (Err(error), _) => bail!("Register '{register}' is missing a type definition: {error}"),
+                };
+
+                // Store the plaintext value.
+                match self.registers.insert(*locator, stack_value) {
+                    // Ensure the register has not been previously stored.
+                    Some(..) => bail!("Attempted to write to register '{register}' again"),
+                    // Update the last register locator, and return on success.
+                    None => {
+                        // Update the last register locator.
+                        self.last_register = Some(*locator);
+                        // Return on success.
+                        Ok(())
+                    }
+                }
+            }
+            // Ensure the register is not a register access.
+            (Register::Access(..), _) => bail!("Cannot store to a register access: '{register}'"),
+        }
     }
 }

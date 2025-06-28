@@ -40,13 +40,7 @@ pub use position::*;
 mod set;
 pub use set::*;
 
-use crate::{
-    CastType,
-    FinalizeOperation,
-    FinalizeRegistersState,
-    Instruction,
-    traits::{FinalizeStoreTrait, RegistersLoad, RegistersStore, StackTrait},
-};
+use crate::{CastType, FinalizeOperation, FinalizeRegistersState, FinalizeStoreTrait, Instruction, StackTrait};
 use console::{
     network::prelude::*,
     program::{Identifier, Register},
@@ -132,12 +126,11 @@ impl<N: Network> Command<N> {
     }
 
     /// Finalizes the command.
-    #[inline]
     pub fn finalize(
         &self,
         stack: &impl StackTrait<N>,
         store: &impl FinalizeStoreTrait<N>,
-        registers: &mut (impl RegistersLoad<N> + RegistersStore<N> + FinalizeRegistersState<N>),
+        registers: &mut impl FinalizeRegistersState<N>,
     ) -> Result<Option<FinalizeOperation<N>>> {
         match self {
             // Finalize the instruction, and return no finalize operation.

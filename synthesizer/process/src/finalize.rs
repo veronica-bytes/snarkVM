@@ -15,7 +15,7 @@
 
 use super::*;
 use console::program::{FinalizeType, Future, Register};
-use synthesizer_program::{Await, FinalizeRegistersState, Operand};
+use synthesizer_program::{Await, FinalizeRegistersState, Operand, RegistersTrait};
 use utilities::try_vm_runtime;
 
 use std::collections::HashSet;
@@ -446,13 +446,12 @@ fn setup_await<N: Network>(
 }
 
 // A helper function that returns the index to branch to.
-#[inline]
 fn branch_to<N: Network, const VARIANT: u8>(
     counter: usize,
     branch: &Branch<N, VARIANT>,
     positions: &HashMap<Identifier<N>, usize>,
     stack: &Stack<N>,
-    registers: &impl RegistersLoad<N>,
+    registers: &impl RegistersTrait<N>,
 ) -> Result<usize> {
     // Retrieve the inputs.
     let first = registers.load(stack, branch.first())?;

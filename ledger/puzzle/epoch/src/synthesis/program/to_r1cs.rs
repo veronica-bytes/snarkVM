@@ -69,7 +69,7 @@ impl<N: Network> EpochProgram<N> {
             #[allow(unused_variables)]
             {
                 use circuit::Eject;
-                use snarkvm_synthesizer_program::RegistersLoadCircuit;
+                use snarkvm_synthesizer_program::RegistersCircuit;
                 use snarkvm_utilities::dev_println;
 
                 let is_satisfied = A::is_satisfied();

@@ -37,7 +37,7 @@ mod evaluate;
 mod execute;
 mod helpers;
 
-use crate::{CallMetrics, Process, Trace, cost_in_microcredits_v2, traits::*};
+use crate::{CallMetrics, Process, Trace, cost_in_microcredits_v2};
 use console::{
     account::{Address, PrivateKey},
     network::prelude::*,
@@ -65,7 +65,18 @@ use console::{
     types::{Field, Group},
 };
 use ledger_block::{Deployment, Transaction, Transition};
-use synthesizer_program::{CallOperator, Closure, Function, Instruction, Operand, Program, traits::*};
+use synthesizer_program::{
+    CallOperator,
+    Closure,
+    Function,
+    Instruction,
+    Operand,
+    Program,
+    RegistersCircuit,
+    RegistersSigner,
+    RegistersTrait,
+    StackTrait,
+};
 use synthesizer_snark::{Certificate, ProvingKey, UniversalSRS, VerifyingKey};
 
 use aleo_std::prelude::{finish, lap, timer};
@@ -206,7 +217,6 @@ pub struct Stack<N: Network> {
 
 impl<N: Network> Stack<N> {
     /// Initializes a new stack, if it does not already exist, given the process and the program.
-    #[inline]
     pub fn new(process: &Process<N>, program: &Program<N>) -> Result<Self> {
         // Retrieve the program ID.
         let program_id = program.id();

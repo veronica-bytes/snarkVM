@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{CallStack, Registers, RegistersCall, Stack, stack::Address};
+use crate::{CallStack, Registers, Stack, stack::Address};
 use aleo_std::prelude::{finish, lap, timer};
 use console::{
     account::Field,
@@ -24,12 +24,9 @@ use synthesizer_program::{
     Call,
     CallOperator,
     Operand,
-    RegistersLoad,
-    RegistersLoadCircuit,
-    RegistersSigner,
-    RegistersSignerCircuit,
-    RegistersStore,
-    RegistersStoreCircuit,
+    RegistersCircuit as _,
+    RegistersSigner as _,
+    RegistersTrait as _,
     StackTrait,
 };
 
@@ -41,13 +38,7 @@ pub trait CallTrait<N: Network> {
     fn execute<A: circuit::Aleo<Network = N>, R: CryptoRng + Rng>(
         &self,
         stack: &Stack<N>,
-        registers: &mut (
-                 impl RegistersCall<N>
-                 + RegistersSigner<N>
-                 + RegistersSignerCircuit<N, A>
-                 + RegistersLoadCircuit<N, A>
-                 + RegistersStoreCircuit<N, A>
-             ),
+        registers: &mut Registers<N, A>,
         rng: &mut R,
     ) -> Result<()>;
 }
@@ -134,13 +125,7 @@ impl<N: Network> CallTrait<N> for Call<N> {
     fn execute<A: circuit::Aleo<Network = N>, R: Rng + CryptoRng>(
         &self,
         stack: &Stack<N>,
-        registers: &mut (
-                 impl RegistersCall<N>
-                 + RegistersSigner<N>
-                 + RegistersSignerCircuit<N, A>
-                 + RegistersLoadCircuit<N, A>
-                 + RegistersStoreCircuit<N, A>
-             ),
+        registers: &mut Registers<N, A>,
         rng: &mut R,
     ) -> Result<()> {
         let timer = timer!("Call::execute");

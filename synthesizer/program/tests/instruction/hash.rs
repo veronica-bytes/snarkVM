@@ -43,8 +43,8 @@ use snarkvm_synthesizer_program::{
     Opcode,
     Operand,
     Program,
-    RegistersLoad,
-    RegistersLoadCircuit,
+    RegistersCircuit as _,
+    RegistersTrait as _,
 };
 use synthesizer_process::{Process, Stack};
 

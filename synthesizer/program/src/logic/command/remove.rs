@@ -13,12 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{
-    FinalizeOperation,
-    Opcode,
-    Operand,
-    traits::{FinalizeStoreTrait, RegistersLoad, StackTrait},
-};
+use crate::{FinalizeOperation, FinalizeStoreTrait, Opcode, Operand, RegistersTrait, StackTrait};
 use console::{network::prelude::*, program::Identifier};
 
 /// A remove command, e.g. `remove mapping[r0];`
@@ -59,12 +54,11 @@ impl<N: Network> Remove<N> {
 
 impl<N: Network> Remove<N> {
     /// Finalizes the command.
-    #[inline]
     pub fn finalize(
         &self,
         stack: &impl StackTrait<N>,
         store: &impl FinalizeStoreTrait<N>,
-        registers: &mut impl RegistersLoad<N>,
+        registers: &mut impl RegistersTrait<N>,
     ) -> Result<Option<FinalizeOperation<N>>> {
         // Ensure the mapping exists in storage.
         if !store.contains_mapping_confirmed(stack.program_id(), &self.mapping)? {
@@ -80,7 +74,6 @@ impl<N: Network> Remove<N> {
 
 impl<N: Network> Parser for Remove<N> {
     /// Parses a string into an operation.
-    #[inline]
     fn parse(string: &str) -> ParserResult<Self> {
         // Parse the whitespace and comments from the string.
         let (string, _) = Sanitizer::parse(string)?;
@@ -114,7 +107,6 @@ impl<N: Network> FromStr for Remove<N> {
     type Err = Error;
 
     /// Parses a string into the command.
-    #[inline]
     fn from_str(string: &str) -> Result<Self> {
         match Self::parse(string) {
             Ok((remainder, object)) => {

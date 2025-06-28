@@ -25,15 +25,7 @@ pub use operation::*;
 mod bytes;
 mod parse;
 
-use crate::traits::{
-    RegistersLoad,
-    RegistersLoadCircuit,
-    RegistersSigner,
-    RegistersSignerCircuit,
-    RegistersStore,
-    RegistersStoreCircuit,
-    StackTrait,
-};
+use crate::{RegistersCircuit, RegistersSigner, RegistersTrait, StackTrait};
 use console::{
     network::Network,
     prelude::{
@@ -398,11 +390,7 @@ impl<N: Network> Instruction<N> {
 
     /// Evaluates the instruction.
     #[inline]
-    pub fn evaluate(
-        &self,
-        stack: &impl StackTrait<N>,
-        registers: &mut (impl RegistersSigner<N> + RegistersLoad<N> + RegistersStore<N>),
-    ) -> Result<()> {
+    pub fn evaluate(&self, stack: &impl StackTrait<N>, registers: &mut impl RegistersSigner<N>) -> Result<()> {
         instruction!(self, |instruction| instruction.evaluate(stack, registers))
     }
 
@@ -411,18 +399,14 @@ impl<N: Network> Instruction<N> {
     pub fn execute<A: circuit::Aleo<Network = N>>(
         &self,
         stack: &impl StackTrait<N>,
-        registers: &mut (impl RegistersSignerCircuit<N, A> + RegistersLoadCircuit<N, A> + RegistersStoreCircuit<N, A>),
+        registers: &mut impl RegistersCircuit<N, A>,
     ) -> Result<()> {
         instruction!(self, |instruction| instruction.execute::<A>(stack, registers))
     }
 
     /// Finalizes the instruction.
     #[inline]
-    pub fn finalize(
-        &self,
-        stack: &impl StackTrait<N>,
-        registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
-    ) -> Result<()> {
+    pub fn finalize(&self, stack: &impl StackTrait<N>, registers: &mut impl RegistersTrait<N>) -> Result<()> {
         instruction!(self, |instruction| instruction.finalize(stack, registers))
     }
 

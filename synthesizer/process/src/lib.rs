@@ -28,9 +28,6 @@ pub use stack::*;
 mod trace;
 pub use trace::*;
 
-mod traits;
-pub use traits::*;
-
 mod authorize;
 mod deploy;
 mod evaluate;
@@ -52,17 +49,7 @@ use console::{
 };
 use ledger_block::{Deployment, Execution, Fee, Input, Output, Transaction, Transition};
 use ledger_store::{FinalizeStorage, FinalizeStore, atomic_batch_scope};
-use synthesizer_program::{
-    Branch,
-    Command,
-    FinalizeGlobalState,
-    FinalizeOperation,
-    Instruction,
-    Program,
-    RegistersLoad,
-    RegistersStore,
-    StackTrait,
-};
+use synthesizer_program::{Branch, Command, FinalizeGlobalState, FinalizeOperation, Instruction, Program, StackTrait};
 use synthesizer_snark::{ProvingKey, UniversalSRS, VerifyingKey};
 
 use aleo_std::prelude::{finish, lap, timer};

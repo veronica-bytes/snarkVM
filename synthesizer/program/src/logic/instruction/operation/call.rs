@@ -13,11 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{
-    Opcode,
-    Operand,
-    traits::{RegistersLoad, RegistersLoadCircuit, StackTrait},
-};
+use crate::{Opcode, Operand, RegistersCircuit, RegistersTrait, StackTrait};
 use console::{
     network::prelude::*,
     program::{Identifier, Locator, Register, RegisterType, ValueType},
@@ -145,9 +141,7 @@ impl<N: Network> Call<N> {
     pub fn destinations(&self) -> Vec<Register<N>> {
         self.destinations.clone()
     }
-}
 
-impl<N: Network> Call<N> {
     /// Returns `true` if the instruction is a function call.
     #[inline]
     pub fn is_function_call(&self, stack: &impl StackTrait<N>) -> Result<bool> {
@@ -167,7 +161,7 @@ impl<N: Network> Call<N> {
     }
 
     /// Evaluates the instruction.
-    pub fn evaluate(&self, _stack: &impl StackTrait<N>, _registers: &mut impl RegistersLoad<N>) -> Result<()> {
+    pub fn evaluate(&self, _stack: &impl StackTrait<N>, _registers: &mut impl RegistersTrait<N>) -> Result<()> {
         bail!("Forbidden operation: Evaluate cannot invoke a 'call' directly. Use 'call' in 'Stack' instead.")
     }
 
@@ -175,14 +169,14 @@ impl<N: Network> Call<N> {
     pub fn execute<A: circuit::Aleo<Network = N>>(
         &self,
         _stack: &impl StackTrait<N>,
-        _registers: &mut impl RegistersLoadCircuit<N, A>,
+        _registers: &mut impl RegistersCircuit<N, A>,
     ) -> Result<()> {
         bail!("Forbidden operation: Execute cannot invoke a 'call' directly. Use 'call' in 'Stack' instead.")
     }
 
     /// Finalizes the instruction.
     #[inline]
-    pub fn finalize(&self, _stack: &impl StackTrait<N>, _registers: &mut impl RegistersLoad<N>) -> Result<()> {
+    pub fn finalize(&self, _stack: &impl StackTrait<N>, _registers: &mut impl RegistersTrait<N>) -> Result<()> {
         bail!("Forbidden operation: Finalize cannot invoke a 'call' directly. Use 'call' in 'Stack' instead.")
     }
 

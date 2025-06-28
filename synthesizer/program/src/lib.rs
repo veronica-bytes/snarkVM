@@ -40,7 +40,7 @@ pub use logic::*;
 mod mapping;
 pub use mapping::*;
 
-pub mod traits;
+mod traits;
 pub use traits::*;
 
 mod bytes;
