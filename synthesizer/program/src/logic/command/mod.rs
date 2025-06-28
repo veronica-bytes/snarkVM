@@ -45,7 +45,7 @@ use crate::{
     FinalizeOperation,
     FinalizeRegistersState,
     Instruction,
-    traits::{CommandTrait, FinalizeStoreTrait, RegistersLoad, RegistersStore, StackMatches, StackProgram},
+    traits::{FinalizeStoreTrait, RegistersLoad, RegistersStore, StackMatches, StackProgram},
 };
 use console::{
     network::prelude::*,
@@ -79,10 +79,9 @@ pub enum Command<N: Network> {
     Position(Position<N>),
 }
 
-impl<N: Network> CommandTrait<N> for Command<N> {
+impl<N: Network> Command<N> {
     /// Returns the destination registers of the command.
-    #[inline]
-    fn destinations(&self) -> Vec<Register<N>> {
+    pub fn destinations(&self) -> Vec<Register<N>> {
         match self {
             Command::Instruction(instruction) => instruction.destinations(),
             Command::Contains(contains) => vec![contains.destination().clone()],
@@ -100,8 +99,7 @@ impl<N: Network> CommandTrait<N> for Command<N> {
 
     /// Returns the branch target, if the command is a branch command.
     /// Otherwise, returns `None`.
-    #[inline]
-    fn branch_to(&self) -> Option<&Identifier<N>> {
+    pub fn branch_to(&self) -> Option<&Identifier<N>> {
         match self {
             Command::BranchEq(branch_eq) => Some(branch_eq.position()),
             Command::BranchNeq(branch_neq) => Some(branch_neq.position()),
@@ -111,8 +109,7 @@ impl<N: Network> CommandTrait<N> for Command<N> {
 
     /// Returns the position name, if the command is a position command.
     /// Otherwise, returns `None`.
-    #[inline]
-    fn position(&self) -> Option<&Identifier<N>> {
+    pub fn position(&self) -> Option<&Identifier<N>> {
         match self {
             Command::Position(position) => Some(position.name()),
             _ => None,
@@ -120,24 +117,20 @@ impl<N: Network> CommandTrait<N> for Command<N> {
     }
 
     /// Returns `true` if the command is a call instruction.
-    #[inline]
-    fn is_call(&self) -> bool {
+    pub fn is_call(&self) -> bool {
         matches!(self, Command::Instruction(Instruction::Call(_)))
     }
 
     /// Returns `true` if the command is a cast to record instruction.
-    fn is_cast_to_record(&self) -> bool {
+    pub fn is_cast_to_record(&self) -> bool {
         matches!(self, Command::Instruction(Instruction::Cast(cast)) if matches!(cast.cast_type(), CastType::Record(_) | CastType::ExternalRecord(_)))
     }
 
     /// Returns `true` if the command is a write operation.
-    #[inline]
-    fn is_write(&self) -> bool {
+    pub fn is_write(&self) -> bool {
         matches!(self, Command::Set(_) | Command::Remove(_))
     }
-}
 
-impl<N: Network> Command<N> {
     /// Finalizes the command.
     #[inline]
     pub fn finalize(

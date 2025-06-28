@@ -15,7 +15,7 @@
 
 use super::*;
 
-impl<N: Network, Command: CommandTrait<N>> FromBytes for ProgramCore<N, Command> {
+impl<N: Network> FromBytes for ProgramCore<N> {
     fn read_le<R: Read>(mut reader: R) -> IoResult<Self> {
         // Read the version.
         let version = u8::read_le(&mut reader)?;
@@ -63,7 +63,7 @@ impl<N: Network, Command: CommandTrait<N>> FromBytes for ProgramCore<N, Command>
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> ToBytes for ProgramCore<N, Command> {
+impl<N: Network> ToBytes for ProgramCore<N> {
     fn write_le<W: Write>(&self, mut writer: W) -> IoResult<()> {
         // Write the version.
         1u8.write_le(&mut writer)?;

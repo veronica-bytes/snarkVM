@@ -15,7 +15,7 @@
 
 use super::*;
 
-impl<N: Network, Command: CommandTrait<N>> Serialize for ProgramCore<N, Command> {
+impl<N: Network> Serialize for ProgramCore<N> {
     /// Serializes the program into string or bytes.
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         match serializer.is_human_readable() {
@@ -25,7 +25,7 @@ impl<N: Network, Command: CommandTrait<N>> Serialize for ProgramCore<N, Command>
     }
 }
 
-impl<'de, N: Network, Command: CommandTrait<N>> Deserialize<'de> for ProgramCore<N, Command> {
+impl<'de, N: Network> Deserialize<'de> for ProgramCore<N> {
     /// Deserializes the program from a string or bytes.
     fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
         match deserializer.is_human_readable() {

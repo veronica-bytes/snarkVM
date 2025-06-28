@@ -15,7 +15,7 @@
 
 use super::*;
 
-impl<N: Network, Command: CommandTrait<N>> Parser for FunctionCore<N, Command> {
+impl<N: Network> Parser for FunctionCore<N> {
     /// Parses a string into a function.
     #[inline]
     fn parse(string: &str) -> ParserResult<Self> {
@@ -70,7 +70,7 @@ impl<N: Network, Command: CommandTrait<N>> Parser for FunctionCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> FromStr for FunctionCore<N, Command> {
+impl<N: Network> FromStr for FunctionCore<N> {
     type Err = Error;
 
     /// Returns a function from a string literal.
@@ -87,14 +87,14 @@ impl<N: Network, Command: CommandTrait<N>> FromStr for FunctionCore<N, Command> 
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> Debug for FunctionCore<N, Command> {
+impl<N: Network> Debug for FunctionCore<N> {
     /// Prints the function as a string.
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> Display for FunctionCore<N, Command> {
+impl<N: Network> Display for FunctionCore<N> {
     /// Prints the function as a string.
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         // Write the function to a string.

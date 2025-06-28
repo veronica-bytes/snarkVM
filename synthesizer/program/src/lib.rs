@@ -17,9 +17,9 @@
 #![allow(clippy::too_many_arguments)]
 #![warn(clippy::cast_possible_truncation)]
 
-pub type Program<N> = crate::ProgramCore<N, Command<N>>;
-pub type Function<N> = crate::FunctionCore<N, Command<N>>;
-pub type Finalize<N> = crate::FinalizeCore<N, Command<N>>;
+pub type Program<N> = crate::ProgramCore<N>;
+pub type Function<N> = crate::FunctionCore<N>;
+pub type Finalize<N> = crate::FinalizeCore<N>;
 pub type Closure<N> = crate::ClosureCore<N>;
 
 mod closure;
@@ -111,7 +111,7 @@ enum ProgramDefinition {
 }
 
 #[derive(Clone, PartialEq, Eq)]
-pub struct ProgramCore<N: Network, Command: CommandTrait<N>> {
+pub struct ProgramCore<N: Network> {
     /// The ID of the program.
     id: ProgramID<N>,
     /// A map of the declared imports for the program.
@@ -127,10 +127,10 @@ pub struct ProgramCore<N: Network, Command: CommandTrait<N>> {
     /// A map of the declared closures for the program.
     closures: IndexMap<Identifier<N>, ClosureCore<N>>,
     /// A map of the declared functions for the program.
-    functions: IndexMap<Identifier<N>, FunctionCore<N, Command>>,
+    functions: IndexMap<Identifier<N>, FunctionCore<N>>,
 }
 
-impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
+impl<N: Network> ProgramCore<N> {
     /// Initializes an empty program.
     #[inline]
     pub fn new(id: ProgramID<N>) -> Result<Self> {
@@ -186,7 +186,7 @@ impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
     }
 
     /// Returns the functions in the program.
-    pub const fn functions(&self) -> &IndexMap<Identifier<N>, FunctionCore<N, Command>> {
+    pub const fn functions(&self) -> &IndexMap<Identifier<N>, FunctionCore<N>> {
         &self.functions
     }
 
@@ -271,12 +271,12 @@ impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
     }
 
     /// Returns the function with the given name.
-    pub fn get_function(&self, name: &Identifier<N>) -> Result<FunctionCore<N, Command>> {
+    pub fn get_function(&self, name: &Identifier<N>) -> Result<FunctionCore<N>> {
         self.get_function_ref(name).cloned()
     }
 
     /// Returns a reference to the function with the given name.
-    pub fn get_function_ref(&self, name: &Identifier<N>) -> Result<&FunctionCore<N, Command>> {
+    pub fn get_function_ref(&self, name: &Identifier<N>) -> Result<&FunctionCore<N>> {
         // Attempt to retrieve the function.
         let function = self.functions.get(name).ok_or(anyhow!("Function '{}/{name}' is not defined.", self.id))?;
         // Ensure the function name matches.
@@ -292,7 +292,7 @@ impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
+impl<N: Network> ProgramCore<N> {
     /// Adds a new import statement to the program.
     ///
     /// # Errors
@@ -537,7 +537,7 @@ impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
     /// This method will halt if an output register does not already exist.
     /// This method will halt if an output type references a non-existent definition.
     #[inline]
-    fn add_function(&mut self, function: FunctionCore<N, Command>) -> Result<()> {
+    fn add_function(&mut self, function: FunctionCore<N>) -> Result<()> {
         // Retrieve the function name.
         let function_name = *function.name();
 
@@ -570,7 +570,7 @@ impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
+impl<N: Network> ProgramCore<N> {
     /// A list of reserved keywords for Aleo programs, enforced at the parser level.
     // New keywords should be enforced through `RESTRICTED_KEYWORDS` instead, if possible.
     // Adding keywords to this list will require a backwards-compatible versioning for programs.
@@ -739,7 +739,7 @@ impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
+impl<N: Network> ProgramCore<N> {
     /// Returns `true` if the program structure is well formed under the following rules:
     ///  1. The program ID must not contain the keyword "aleo" in the program name.
     ///  2. The record name must not contain the keyword "aleo".
@@ -785,7 +785,7 @@ impl<N: Network, Command: CommandTrait<N>> ProgramCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> TypeName for ProgramCore<N, Command> {
+impl<N: Network> TypeName for ProgramCore<N> {
     /// Returns the type name as a string.
     #[inline]
     fn type_name() -> &'static str {

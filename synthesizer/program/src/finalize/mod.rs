@@ -13,13 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::Command;
+
 mod input;
 use input::*;
 
 mod bytes;
 mod parse;
 
-use crate::traits::CommandTrait;
 use console::{
     network::prelude::*,
     program::{FinalizeType, Identifier, Register},
@@ -29,21 +30,21 @@ use indexmap::IndexSet;
 use std::collections::HashMap;
 
 #[derive(Clone, PartialEq, Eq)]
-pub struct FinalizeCore<N: Network, Command: CommandTrait<N>> {
+pub struct FinalizeCore<N: Network> {
     /// The name of the associated function.
     name: Identifier<N>,
     /// The input statements, added in order of the input registers.
     /// Input assignments are ensured to match the ordering of the input statements.
     inputs: IndexSet<Input<N>>,
     /// The commands, in order of execution.
-    commands: Vec<Command>,
+    commands: Vec<Command<N>>,
     /// The number of write commands.
     num_writes: u16,
     /// A mapping from `Position`s to their index in `commands`.
     positions: HashMap<Identifier<N>, usize>,
 }
 
-impl<N: Network, Command: CommandTrait<N>> FinalizeCore<N, Command> {
+impl<N: Network> FinalizeCore<N> {
     /// Initializes a new finalize with the given name.
     pub fn new(name: Identifier<N>) -> Self {
         Self { name, inputs: IndexSet::new(), commands: Vec::new(), num_writes: 0, positions: HashMap::new() }
@@ -65,7 +66,7 @@ impl<N: Network, Command: CommandTrait<N>> FinalizeCore<N, Command> {
     }
 
     /// Returns the finalize commands.
-    pub fn commands(&self) -> &[Command] {
+    pub fn commands(&self) -> &[Command<N>] {
         &self.commands
     }
 
@@ -80,7 +81,7 @@ impl<N: Network, Command: CommandTrait<N>> FinalizeCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> FinalizeCore<N, Command> {
+impl<N: Network> FinalizeCore<N> {
     /// Adds the input statement to finalize.
     ///
     /// # Errors
@@ -110,7 +111,7 @@ impl<N: Network, Command: CommandTrait<N>> FinalizeCore<N, Command> {
     /// # Errors
     /// This method will halt if the maximum number of commands has been reached.
     #[inline]
-    pub fn add_command(&mut self, command: Command) -> Result<()> {
+    pub fn add_command(&mut self, command: Command<N>) -> Result<()> {
         // Ensure the maximum number of commands has not been exceeded.
         ensure!(self.commands.len() < N::MAX_COMMANDS, "Cannot add more than {} commands", N::MAX_COMMANDS);
         // Ensure the number of write commands has not been exceeded.
@@ -155,7 +156,7 @@ impl<N: Network, Command: CommandTrait<N>> FinalizeCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> TypeName for FinalizeCore<N, Command> {
+impl<N: Network> TypeName for FinalizeCore<N> {
     /// Returns the type name as a string.
     #[inline]
     fn type_name() -> &'static str {

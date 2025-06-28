@@ -15,7 +15,7 @@
 
 use super::*;
 
-impl<N: Network, Command: CommandTrait<N>> FromBytes for FinalizeCore<N, Command> {
+impl<N: Network> FromBytes for FinalizeCore<N> {
     /// Reads the finalize from a buffer.
     #[inline]
     fn read_le<R: Read>(mut reader: R) -> IoResult<Self> {
@@ -54,7 +54,7 @@ impl<N: Network, Command: CommandTrait<N>> FromBytes for FinalizeCore<N, Command
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> ToBytes for FinalizeCore<N, Command> {
+impl<N: Network> ToBytes for FinalizeCore<N> {
     /// Writes the finalize to a buffer.
     #[inline]
     fn write_le<W: Write>(&self, mut writer: W) -> IoResult<()> {

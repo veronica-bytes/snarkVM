@@ -15,7 +15,7 @@
 
 use super::*;
 
-impl<N: Network, Command: CommandTrait<N>> FromBytes for FunctionCore<N, Command> {
+impl<N: Network> FromBytes for FunctionCore<N> {
     /// Reads the function from a buffer.
     #[inline]
     fn read_le<R: Read>(mut reader: R) -> IoResult<Self> {
@@ -71,7 +71,7 @@ impl<N: Network, Command: CommandTrait<N>> FromBytes for FunctionCore<N, Command
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> ToBytes for FunctionCore<N, Command> {
+impl<N: Network> ToBytes for FunctionCore<N> {
     /// Writes the function to a buffer.
     #[inline]
     fn write_le<W: Write>(&self, mut writer: W) -> IoResult<()> {

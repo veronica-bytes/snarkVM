@@ -22,7 +22,7 @@ use output::*;
 mod bytes;
 mod parse;
 
-use crate::{Instruction, finalize::FinalizeCore, traits::CommandTrait};
+use crate::{Instruction, finalize::FinalizeCore};
 use console::{
     network::prelude::*,
     program::{Identifier, Register, ValueType, Variant},
@@ -31,7 +31,7 @@ use console::{
 use indexmap::IndexSet;
 
 #[derive(Clone, PartialEq, Eq)]
-pub struct FunctionCore<N: Network, Command: CommandTrait<N>> {
+pub struct FunctionCore<N: Network> {
     /// The name of the function.
     name: Identifier<N>,
     /// The input statements, added in order of the input registers.
@@ -42,10 +42,10 @@ pub struct FunctionCore<N: Network, Command: CommandTrait<N>> {
     /// The output statements, in order of the desired output.
     outputs: IndexSet<Output<N>>,
     /// The optional finalize logic.
-    finalize_logic: Option<FinalizeCore<N, Command>>,
+    finalize_logic: Option<FinalizeCore<N>>,
 }
 
-impl<N: Network, Command: CommandTrait<N>> FunctionCore<N, Command> {
+impl<N: Network> FunctionCore<N> {
     /// Initializes a new function with the given name.
     pub fn new(name: Identifier<N>) -> Self {
         Self { name, inputs: IndexSet::new(), instructions: Vec::new(), outputs: IndexSet::new(), finalize_logic: None }
@@ -92,12 +92,12 @@ impl<N: Network, Command: CommandTrait<N>> FunctionCore<N, Command> {
     }
 
     /// Returns the function finalize logic.
-    pub const fn finalize_logic(&self) -> Option<&FinalizeCore<N, Command>> {
+    pub const fn finalize_logic(&self) -> Option<&FinalizeCore<N>> {
         self.finalize_logic.as_ref()
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> FunctionCore<N, Command> {
+impl<N: Network> FunctionCore<N> {
     /// Adds the input statement to the function.
     ///
     /// # Errors
@@ -186,7 +186,7 @@ impl<N: Network, Command: CommandTrait<N>> FunctionCore<N, Command> {
     /// This method will halt if the maximum number of finalize inputs has been reached.
     /// This method will halt if the number of finalize operands does not match the number of finalize inputs.
     #[inline]
-    fn add_finalize(&mut self, finalize: FinalizeCore<N, Command>) -> Result<()> {
+    fn add_finalize(&mut self, finalize: FinalizeCore<N>) -> Result<()> {
         // Ensure there is no finalize scope in memory.
         ensure!(self.finalize_logic.is_none(), "Cannot add multiple finalize scopes to function '{}'", self.name);
         // Ensure the finalize scope name matches the function name.
@@ -200,7 +200,7 @@ impl<N: Network, Command: CommandTrait<N>> FunctionCore<N, Command> {
     }
 }
 
-impl<N: Network, Command: CommandTrait<N>> TypeName for FunctionCore<N, Command> {
+impl<N: Network> TypeName for FunctionCore<N> {
     /// Returns the type name as a string.
     #[inline]
     fn type_name() -> &'static str {
