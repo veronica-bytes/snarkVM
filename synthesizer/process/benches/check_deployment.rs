@@ -16,8 +16,8 @@
 #[macro_use]
 extern crate criterion;
 
-use snarkvm_synthesizer_process::{Assignments, CallStack, Process, Stack, StackExecute};
-use synthesizer_program::{Program, StackProgram};
+use snarkvm_synthesizer_process::{Assignments, CallStack, Process, Stack};
+use synthesizer_program::{Program, StackTrait};
 
 use circuit::AleoV0;
 use console::{

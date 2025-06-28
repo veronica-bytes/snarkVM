@@ -17,7 +17,7 @@ use crate::{
     CallOperator,
     Opcode,
     Operand,
-    traits::{FinalizeStoreTrait, RegistersLoad, RegistersStore, StackMatches, StackProgram},
+    traits::{FinalizeStoreTrait, RegistersLoad, RegistersStore, StackTrait},
 };
 use console::{
     network::prelude::*,
@@ -93,7 +93,7 @@ impl<N: Network> Get<N> {
     #[inline]
     pub fn finalize(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         store: &impl FinalizeStoreTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {

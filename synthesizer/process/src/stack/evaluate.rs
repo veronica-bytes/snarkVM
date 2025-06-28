@@ -15,13 +15,12 @@
 
 use super::*;
 
-impl<N: Network> StackEvaluate<N> for Stack<N> {
+impl<N: Network> Stack<N> {
     /// Evaluates a program closure on the given inputs.
     ///
     /// # Errors
     /// This method will halt if the given inputs are not the same length as the input statements.
-    #[inline]
-    fn evaluate_closure<A: circuit::Aleo<Network = N>>(
+    pub fn evaluate_closure<A: circuit::Aleo<Network = N>>(
         &self,
         closure: &Closure<N>,
         inputs: &[Value<N>],
@@ -98,8 +97,7 @@ impl<N: Network> StackEvaluate<N> for Stack<N> {
     ///
     /// # Errors
     /// This method will halt if the given inputs are not the same length as the input statements.
-    #[inline]
-    fn evaluate_function<A: circuit::Aleo<Network = N>>(
+    pub fn evaluate_function<A: circuit::Aleo<Network = N>>(
         &self,
         call_stack: CallStack<N>,
         caller: Option<ProgramID<N>>,

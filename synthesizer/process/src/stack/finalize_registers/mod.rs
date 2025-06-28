@@ -28,8 +28,7 @@ use synthesizer_program::{
     Operand,
     RegistersLoad,
     RegistersStore,
-    StackMatches,
-    StackProgram,
+    StackTrait,
 };
 
 use indexmap::IndexMap;

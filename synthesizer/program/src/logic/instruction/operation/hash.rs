@@ -16,7 +16,7 @@
 use crate::{
     Opcode,
     Operand,
-    traits::{RegistersLoad, RegistersLoadCircuit, RegistersStore, RegistersStoreCircuit, StackMatches, StackProgram},
+    traits::{RegistersLoad, RegistersLoadCircuit, RegistersStore, RegistersStoreCircuit, StackTrait},
 };
 use console::{
     network::prelude::*,
@@ -268,7 +268,7 @@ impl<N: Network, const VARIANT: u8> HashInstruction<N, VARIANT> {
     #[inline]
     pub fn evaluate(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         // Ensure the number of operands is correct.
@@ -289,7 +289,7 @@ impl<N: Network, const VARIANT: u8> HashInstruction<N, VARIANT> {
     #[inline]
     pub fn execute<A: circuit::Aleo<Network = N>>(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoadCircuit<N, A> + RegistersStoreCircuit<N, A>),
     ) -> Result<()> {
         use circuit::traits::{ToBits, ToFields};
@@ -314,7 +314,7 @@ impl<N: Network, const VARIANT: u8> HashInstruction<N, VARIANT> {
     #[inline]
     pub fn finalize(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         self.evaluate(stack, registers)
@@ -324,7 +324,7 @@ impl<N: Network, const VARIANT: u8> HashInstruction<N, VARIANT> {
     #[inline]
     pub fn output_types(
         &self,
-        _stack: &impl StackProgram<N>,
+        _stack: &impl StackTrait<N>,
         input_types: &[RegisterType<N>],
     ) -> Result<Vec<RegisterType<N>>> {
         // Ensure the number of input types is correct.

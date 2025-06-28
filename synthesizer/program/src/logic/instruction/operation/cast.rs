@@ -23,8 +23,7 @@ use crate::{
         RegistersSignerCircuit,
         RegistersStore,
         RegistersStoreCircuit,
-        StackMatches,
-        StackProgram,
+        StackTrait,
     },
 };
 use console::{
@@ -204,7 +203,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     #[inline]
     pub fn evaluate(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersSigner<N> + RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         // If the variant is `cast.lossy`, then check that the `cast_type` is a `PlaintextType::Literal`.
@@ -334,7 +333,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     #[inline]
     pub fn execute<A: circuit::Aleo<Network = N>>(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersSignerCircuit<N, A> + RegistersLoadCircuit<N, A> + RegistersStoreCircuit<N, A>),
     ) -> Result<()> {
         // If the variant is `cast.lossy`, then check that the `cast_type` is a `PlaintextType::Literal`.
@@ -586,7 +585,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     #[inline]
     pub fn finalize(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         // If the variant is `cast.lossy`, then check that the `cast_type` is a `PlaintextType::Literal`.
@@ -648,7 +647,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     #[inline]
     pub fn output_types(
         &self,
-        stack: &impl StackProgram<N>,
+        stack: &impl StackTrait<N>,
         input_types: &[RegisterType<N>],
     ) -> Result<Vec<RegisterType<N>>> {
         // If the variant is `cast.lossy`, then check that the `cast_type` is a `PlaintextType::Literal`.
@@ -853,7 +852,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     /// A helper method to handle casting to a struct.
     fn cast_to_struct(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut impl RegistersStore<N>,
         struct_name: Identifier<N>,
         inputs: Vec<Value<N>>,
@@ -905,7 +904,7 @@ impl<N: Network, const VARIANT: u8> CastOperation<N, VARIANT> {
     /// A helper method to handle casting to an array.
     fn cast_to_array(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut impl RegistersStore<N>,
         array_type: &ArrayType<N>,
         inputs: Vec<Value<N>>,

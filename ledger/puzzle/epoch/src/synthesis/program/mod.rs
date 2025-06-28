@@ -25,8 +25,8 @@ use console::{
     prelude::{Itertools, ToBits as TBits, Uniform, Zero},
     program::{Field, Identifier, Literal, LiteralType, Value},
 };
-use snarkvm_synthesizer_process::{CallStack, Process, Registers, Stack, StackProgramTypes};
-use snarkvm_synthesizer_program::{Instruction, Program, RegistersStoreCircuit, StackProgram};
+use snarkvm_synthesizer_process::{CallStack, Process, Registers, Stack};
+use snarkvm_synthesizer_program::{Instruction, Program, RegistersStoreCircuit, StackTrait};
 
 use aleo_std::prelude::{finish, lap, timer};
 use anyhow::{Result, anyhow, bail, ensure};

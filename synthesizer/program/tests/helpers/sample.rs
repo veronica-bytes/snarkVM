@@ -23,7 +23,7 @@ use snarkvm_synthesizer_program::{
     FinalizeGlobalState,
     traits::{RegistersStore, RegistersStoreCircuit},
 };
-use synthesizer_process::{Authorization, CallStack, FinalizeRegisters, Registers, Stack, StackProgramTypes};
+use synthesizer_process::{Authorization, CallStack, FinalizeRegisters, Registers, Stack};
 
 type CurrentNetwork = MainnetV0;
 type CurrentAleo = AleoV0;

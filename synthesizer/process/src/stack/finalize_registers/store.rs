@@ -24,12 +24,7 @@ impl<N: Network> RegistersStore<N> for FinalizeRegisters<N> {
     /// This method will halt if the given register is an input register.
     /// This method will halt if the register is already used.
     #[inline]
-    fn store(
-        &mut self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        register: &Register<N>,
-        stack_value: Value<N>,
-    ) -> Result<()> {
+    fn store(&mut self, stack: &impl StackTrait<N>, register: &Register<N>, stack_value: Value<N>) -> Result<()> {
         // Store the value to the register.
         match (register, stack_value) {
             (Register::Locator(locator), stack_value) => {

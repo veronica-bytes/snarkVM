@@ -15,7 +15,7 @@
 
 use super::*;
 
-impl<N: Network> StackMatches<N> for Stack<N> {
+impl<N: Network> StackTrait<N> for Stack<N> {
     /// Checks that the given value matches the layout of the value type.
     fn matches_value_type(&self, value: &Value<N>, value_type: &ValueType<N>) -> Result<()> {
         // Ensure the value matches the declared value type in the register.
@@ -98,6 +98,218 @@ impl<N: Network> StackMatches<N> for Stack<N> {
     /// Checks that the given future matches the layout of the future type.
     fn matches_future(&self, future: &Future<N>, locator: &Locator<N>) -> Result<()> {
         self.matches_future_internal(future, locator, 0)
+    }
+
+    /// Returns `true` if the proving key for the given function name exists.
+    fn contains_proving_key(&self, function_name: &Identifier<N>) -> bool {
+        self.proving_keys.read().contains_key(function_name)
+    }
+
+    /// Returns the proving key for the given function name.
+    fn get_proving_key(&self, function_name: &Identifier<N>) -> Result<ProvingKey<N>> {
+        // If the program is 'credits.aleo', try to load the proving key, if it does not exist.
+        self.try_insert_credits_function_proving_key(function_name)?;
+        // Return the proving key, if it exists.
+        match self.proving_keys.read().get(function_name) {
+            Some(pk) => Ok(pk.clone()),
+            None => bail!("Proving key not found for: {}/{}", self.program.id(), function_name),
+        }
+    }
+
+    /// Inserts the given proving key for the given function name.
+    fn insert_proving_key(&self, function_name: &Identifier<N>, proving_key: ProvingKey<N>) -> Result<()> {
+        // Ensure the function name exists in the program.
+        ensure!(
+            self.program.contains_function(function_name),
+            "Function '{function_name}' does not exist in program '{}'.",
+            self.program.id()
+        );
+        // Insert the proving key.
+        self.proving_keys.write().insert(*function_name, proving_key);
+        Ok(())
+    }
+
+    /// Removes the proving key for the given function name.
+    fn remove_proving_key(&self, function_name: &Identifier<N>) {
+        self.proving_keys.write().shift_remove(function_name);
+    }
+
+    /// Returns `true` if the verifying key for the given function name exists.
+    fn contains_verifying_key(&self, function_name: &Identifier<N>) -> bool {
+        self.verifying_keys.read().contains_key(function_name)
+    }
+
+    /// Returns the verifying key for the given function name.
+    fn get_verifying_key(&self, function_name: &Identifier<N>) -> Result<VerifyingKey<N>> {
+        // Return the verifying key, if it exists.
+        match self.verifying_keys.read().get(function_name) {
+            Some(vk) => Ok(vk.clone()),
+            None => bail!("Verifying key not found for: {}/{}", self.program.id(), function_name),
+        }
+    }
+
+    /// Inserts the given verifying key for the given function name.
+    fn insert_verifying_key(&self, function_name: &Identifier<N>, verifying_key: VerifyingKey<N>) -> Result<()> {
+        // Ensure the function name exists in the program.
+        ensure!(
+            self.program.contains_function(function_name),
+            "Function '{function_name}' does not exist in program '{}'.",
+            self.program.id()
+        );
+        // Insert the verifying key.
+        self.verifying_keys.write().insert(*function_name, verifying_key);
+        Ok(())
+    }
+
+    /// Removes the verifying key for the given function name.
+    fn remove_verifying_key(&self, function_name: &Identifier<N>) {
+        self.verifying_keys.write().shift_remove(function_name);
+    }
+
+    /// Returns the program.
+    fn program(&self) -> &Program<N> {
+        &self.program
+    }
+
+    /// Returns the program ID.
+    fn program_id(&self) -> &ProgramID<N> {
+        self.program.id()
+    }
+
+    /// Returns the program address.
+    fn program_address(&self) -> &Address<N> {
+        &self.program_address
+    }
+
+    /// Returns the external stack for the given program ID.
+    ///
+    /// Attention - this function is used to check the existence of the external program.
+    /// Developers should explicitly handle the error case so as to not default to the main program.
+    fn get_external_stack(&self, program_id: &ProgramID<N>) -> Result<Arc<Stack<N>>> {
+        // Check that the program ID is not itself.
+        ensure!(
+            program_id != self.program.id(),
+            "Attempted to get the main program '{program_id}' as an external program."
+        );
+        // Check that the program ID is imported by the program.
+        ensure!(self.program.contains_import(program_id), "External program '{program_id}' is not imported.");
+        // Upgrade the weak reference to the process-level stack map and retrieve the external stack.
+        self.stacks
+            .upgrade()
+            .ok_or_else(|| anyhow!("Process-level stack map does not exist"))?
+            .read()
+            .get(program_id)
+            .cloned()
+            .ok_or_else(|| anyhow!("External stack for '{program_id}' does not exist"))
+    }
+
+    /// Returns the function with the given function name.
+    fn get_function(&self, function_name: &Identifier<N>) -> Result<Function<N>> {
+        self.program.get_function(function_name)
+    }
+
+    /// Returns a reference to the function with the given function name.
+    fn get_function_ref(&self, function_name: &Identifier<N>) -> Result<&Function<N>> {
+        self.program.get_function_ref(function_name)
+    }
+
+    /// Returns the expected number of calls for the given function name.
+    fn get_number_of_calls(&self, function_name: &Identifier<N>) -> Result<usize> {
+        // Initialize the base number of calls.
+        let mut num_calls = 1;
+        // Initialize a queue of functions to check.
+        let mut queue = vec![(StackRef::Internal(self), *function_name)];
+        // Iterate over the queue.
+        while let Some((stack_ref, function_name)) = queue.pop() {
+            // Ensure that the number of calls does not exceed the maximum.
+            // Note that one transition is reserved for the fee.
+            ensure!(
+                num_calls < Transaction::<N>::MAX_TRANSITIONS,
+                "Number of calls must be less than '{}'",
+                Transaction::<N>::MAX_TRANSITIONS
+            );
+            // Determine the number of calls for the function.
+            for instruction in stack_ref.get_function_ref(&function_name)?.instructions() {
+                if let Instruction::Call(call) = instruction {
+                    // Determine if this is a function call.
+                    if call.is_function_call(&*stack_ref)? {
+                        // Increment by the number of calls.
+                        num_calls += 1;
+                        // Add the function to the queue.
+                        match call.operator() {
+                            CallOperator::Locator(locator) => {
+                                queue.push((
+                                    StackRef::External(stack_ref.get_external_stack(locator.program_id())?),
+                                    *locator.resource(),
+                                ));
+                            }
+                            CallOperator::Resource(resource) => {
+                                queue.push((stack_ref.clone(), *resource));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Return the number of calls.
+        Ok(num_calls)
+    }
+
+    /// Returns a value for the given value type.
+    fn sample_value<R: Rng + CryptoRng>(
+        &self,
+        burner_address: &Address<N>,
+        value_type: &ValueType<N>,
+        rng: &mut R,
+    ) -> Result<Value<N>> {
+        match value_type {
+            ValueType::Constant(plaintext_type)
+            | ValueType::Public(plaintext_type)
+            | ValueType::Private(plaintext_type) => Ok(Value::Plaintext(self.sample_plaintext(plaintext_type, rng)?)),
+            ValueType::Record(record_name) => {
+                Ok(Value::Record(self.sample_record(burner_address, record_name, Group::rand(rng), rng)?))
+            }
+            ValueType::ExternalRecord(locator) => {
+                // Retrieve the external stack.
+                let stack = self.get_external_stack(locator.program_id())?;
+                // Sample the output.
+                Ok(Value::Record(stack.sample_record(burner_address, locator.resource(), Group::rand(rng), rng)?))
+            }
+            ValueType::Future(locator) => Ok(Value::Future(self.sample_future(locator, rng)?)),
+        }
+    }
+
+    /// Returns a record for the given record name, with the given burner address and nonce.
+    fn sample_record<R: Rng + CryptoRng>(
+        &self,
+        burner_address: &Address<N>,
+        record_name: &Identifier<N>,
+        nonce: Group<N>,
+        rng: &mut R,
+    ) -> Result<Record<N, Plaintext<N>>> {
+        // Sample a record.
+        let record = self.sample_record_internal(burner_address, record_name, nonce, 0, rng)?;
+        // Ensure the record matches the value type.
+        self.matches_record(&record, record_name)?;
+        // Return the record.
+        Ok(record)
+    }
+
+    /// Returns a record for the given record name, deriving the nonce from tvk and index.
+    fn sample_record_using_tvk<R: Rng + CryptoRng>(
+        &self,
+        burner_address: &Address<N>,
+        record_name: &Identifier<N>,
+        tvk: Field<N>,
+        index: Field<N>,
+        rng: &mut R,
+    ) -> Result<Record<N, Plaintext<N>>> {
+        // Compute the randomizer.
+        let randomizer = N::hash_to_scalar_psd2(&[tvk, index])?;
+        // Construct the record nonce from that randomizer.
+        let record_nonce = N::g_scalar_multiply(&randomizer);
+        // Sample the record with that nonce.
+        self.sample_record(burner_address, record_name, record_nonce, rng)
     }
 }
 

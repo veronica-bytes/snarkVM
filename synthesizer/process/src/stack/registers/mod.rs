@@ -32,8 +32,7 @@ use synthesizer_program::{
     RegistersSignerCircuit,
     RegistersStore,
     RegistersStoreCircuit,
-    StackMatches,
-    StackProgram,
+    StackTrait,
 };
 
 use indexmap::IndexMap;

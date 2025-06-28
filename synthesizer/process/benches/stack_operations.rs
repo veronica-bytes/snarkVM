@@ -22,7 +22,7 @@ use console::{
     types::Field,
 };
 use snarkvm_synthesizer_process::{Process, Stack};
-use synthesizer_program::{Program, StackProgram};
+use synthesizer_program::{Program, StackTrait};
 
 use circuit::prelude::bail;
 use console::{network::Network, prelude::SizeInDataBits};

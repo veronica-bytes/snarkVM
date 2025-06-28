@@ -37,8 +37,8 @@ use crate::{
     },
     prelude::{Deserialize, Deserializer, Serialize, SerializeStruct, Serializer},
     synthesizer::{
-        process::{Assignments, CallMetrics, CallStack, Process, StackExecute},
-        program::{CallOperator, Instruction, Program, StackProgram},
+        process::{Assignments, CallMetrics, CallStack, Process},
+        program::{CallOperator, Instruction, Program, StackTrait},
     },
 };
 

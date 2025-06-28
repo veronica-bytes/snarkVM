@@ -17,7 +17,7 @@ use crate::{
     FinalizeRegistersState,
     Opcode,
     Operand,
-    traits::{RegistersLoad, RegistersStore, StackMatches, StackProgram},
+    traits::{RegistersLoad, RegistersStore, StackTrait},
 };
 use console::{
     network::prelude::*,
@@ -77,7 +77,7 @@ impl<N: Network> RandChaCha<N> {
     #[inline]
     pub fn finalize(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N> + FinalizeRegistersState<N>),
     ) -> Result<()> {
         // Ensure the number of operands is within bounds.

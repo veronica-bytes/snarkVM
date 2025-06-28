@@ -17,12 +17,7 @@ use super::*;
 
 impl<N: Network> RegisterTypes<N> {
     /// Checks that the given operands matches the layout of the struct. The ordering of the operands matters.
-    pub fn matches_struct(
-        &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        operands: &[Operand<N>],
-        struct_: &StructType<N>,
-    ) -> Result<()> {
+    pub fn matches_struct(&self, stack: &Stack<N>, operands: &[Operand<N>], struct_: &StructType<N>) -> Result<()> {
         // Retrieve the struct name.
         let struct_name = struct_.name();
         // Ensure the struct name is valid.
@@ -99,12 +94,7 @@ impl<N: Network> RegisterTypes<N> {
     }
 
     /// Checks that the given operands matches the layout of the array.
-    pub fn matches_array(
-        &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        operands: &[Operand<N>],
-        array_type: &ArrayType<N>,
-    ) -> Result<()> {
+    pub fn matches_array(&self, stack: &Stack<N>, operands: &[Operand<N>], array_type: &ArrayType<N>) -> Result<()> {
         // Ensure the operands length is at least the minimum required.
         if operands.len() < N::MIN_ARRAY_ELEMENTS {
             bail!("'{array_type}' must have at least {} operand(s)", N::MIN_ARRAY_ELEMENTS)
@@ -175,12 +165,7 @@ impl<N: Network> RegisterTypes<N> {
     }
 
     /// Checks that the given record matches the layout of the record type.
-    pub fn matches_record(
-        &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        operands: &[Operand<N>],
-        record_type: &RecordType<N>,
-    ) -> Result<()> {
+    pub fn matches_record(&self, stack: &Stack<N>, operands: &[Operand<N>], record_type: &RecordType<N>) -> Result<()> {
         // Retrieve the record name.
         let record_name = record_type.name();
         // Ensure the record name is valid.

@@ -54,7 +54,6 @@ use ledger_block::{Deployment, Execution, Fee, Input, Output, Transaction, Trans
 use ledger_store::{FinalizeStorage, FinalizeStore, atomic_batch_scope};
 use synthesizer_program::{
     Branch,
-    Closure,
     Command,
     FinalizeGlobalState,
     FinalizeOperation,
@@ -62,8 +61,7 @@ use synthesizer_program::{
     Program,
     RegistersLoad,
     RegistersStore,
-    StackKeys,
-    StackProgram,
+    StackTrait,
 };
 use synthesizer_snark::{ProvingKey, UniversalSRS, VerifyingKey};
 

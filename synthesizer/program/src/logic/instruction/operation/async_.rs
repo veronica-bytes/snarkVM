@@ -20,7 +20,7 @@ use crate::{
     RegistersStore,
     RegistersStoreCircuit,
     Result,
-    traits::{RegistersLoad, StackMatches, StackProgram},
+    traits::{RegistersLoad, StackTrait},
 };
 
 use circuit::{Inject, Mode};
@@ -74,7 +74,7 @@ impl<N: Network> Async<N> {
     #[inline]
     pub fn evaluate(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         // Ensure the number of operands is correct.
@@ -104,7 +104,7 @@ impl<N: Network> Async<N> {
     /// Executes the instruction.
     pub fn execute<A: circuit::Aleo<Network = N>>(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoadCircuit<N, A> + RegistersStoreCircuit<N, A>),
     ) -> Result<()> {
         // Ensure the number of operands is correct.
@@ -139,7 +139,7 @@ impl<N: Network> Async<N> {
     #[inline]
     pub fn finalize(
         &self,
-        _stack: &(impl StackMatches<N> + StackProgram<N>),
+        _stack: &impl StackTrait<N>,
         _registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         bail!("Forbidden operation: Finalize cannot invoke 'async'.")
@@ -149,7 +149,7 @@ impl<N: Network> Async<N> {
     #[inline]
     pub fn output_types(
         &self,
-        stack: &impl StackProgram<N>,
+        stack: &impl StackTrait<N>,
         input_types: &[RegisterType<N>],
     ) -> Result<Vec<RegisterType<N>>> {
         // Ensure that an associated finalize block exists.

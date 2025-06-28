@@ -39,7 +39,7 @@ use console::{
 use rand::{CryptoRng, Rng};
 use synthesizer_snark::{ProvingKey, VerifyingKey};
 
-pub trait StackKeys<N: Network> {
+pub trait StackTrait<N: Network> {
     /// Returns `true` if the proving key for the given function name exists.
     fn contains_proving_key(&self, function_name: &Identifier<N>) -> bool;
 
@@ -63,9 +63,7 @@ pub trait StackKeys<N: Network> {
 
     /// Removes the verifying key for the given function name.
     fn remove_verifying_key(&self, function_name: &Identifier<N>);
-}
 
-pub trait StackMatches<N: Network> {
     /// Checks that the given value matches the layout of the value type.
     fn matches_value_type(&self, value: &Value<N>, value_type: &ValueType<N>) -> Result<()>;
 
@@ -83,9 +81,7 @@ pub trait StackMatches<N: Network> {
 
     /// Checks that the given future matches the layout of the future type.
     fn matches_future(&self, future: &Future<N>, locator: &Locator<N>) -> Result<()>;
-}
 
-pub trait StackProgram<N: Network> {
     /// Returns the program.
     fn program(&self) -> &Program<N>;
 
@@ -207,7 +203,7 @@ pub trait RegistersLoad<N: Network> {
     /// # Errors
     /// This method should halt if the register locator is not found.
     /// In the case of register members, this method should halt if the member is not found.
-    fn load(&self, stack: &(impl StackMatches<N> + StackProgram<N>), operand: &Operand<N>) -> Result<Value<N>>;
+    fn load(&self, stack: &impl StackTrait<N>, operand: &Operand<N>) -> Result<Value<N>>;
 
     /// Loads the literal of a given operand.
     ///
@@ -216,11 +212,7 @@ pub trait RegistersLoad<N: Network> {
     /// This method should halt if the register locator is not found.
     /// In the case of register members, this method should halt if the member is not found.
     #[inline]
-    fn load_literal(
-        &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        operand: &Operand<N>,
-    ) -> Result<Literal<N>> {
+    fn load_literal(&self, stack: &impl StackTrait<N>, operand: &Operand<N>) -> Result<Literal<N>> {
         match self.load(stack, operand)? {
             Value::Plaintext(Plaintext::Literal(literal, ..)) => Ok(literal),
             Value::Plaintext(Plaintext::Struct(..))
@@ -239,11 +231,7 @@ pub trait RegistersLoad<N: Network> {
     /// This method should halt if the register locator is not found.
     /// In the case of register members, this method should halt if the member is not found.
     #[inline]
-    fn load_plaintext(
-        &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        operand: &Operand<N>,
-    ) -> Result<Plaintext<N>> {
+    fn load_plaintext(&self, stack: &impl StackTrait<N>, operand: &Operand<N>) -> Result<Plaintext<N>> {
         match self.load(stack, operand)? {
             Value::Plaintext(plaintext) => Ok(plaintext),
             Value::Record(..) | Value::Future(..) => bail!("Operand must be a plaintext"),
@@ -257,11 +245,7 @@ pub trait RegistersLoadCircuit<N: Network, A: circuit::Aleo<Network = N>> {
     /// # Errors
     /// This method should halt if the register locator is not found.
     /// In the case of register members, this method should halt if the member is not found.
-    fn load_circuit(
-        &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        operand: &Operand<N>,
-    ) -> Result<circuit::Value<A>>;
+    fn load_circuit(&self, stack: &impl StackTrait<N>, operand: &Operand<N>) -> Result<circuit::Value<A>>;
 
     /// Loads the literal of a given operand.
     ///
@@ -270,11 +254,7 @@ pub trait RegistersLoadCircuit<N: Network, A: circuit::Aleo<Network = N>> {
     /// This method should halt if the register locator is not found.
     /// In the case of register members, this method should halt if the member is not found.
     #[inline]
-    fn load_literal_circuit(
-        &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        operand: &Operand<N>,
-    ) -> Result<circuit::Literal<A>> {
+    fn load_literal_circuit(&self, stack: &impl StackTrait<N>, operand: &Operand<N>) -> Result<circuit::Literal<A>> {
         match self.load_circuit(stack, operand)? {
             circuit::Value::Plaintext(circuit::Plaintext::Literal(literal, ..)) => Ok(literal),
             circuit::Value::Plaintext(circuit::Plaintext::Struct(..))
@@ -293,7 +273,7 @@ pub trait RegistersLoadCircuit<N: Network, A: circuit::Aleo<Network = N>> {
     #[inline]
     fn load_plaintext_circuit(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         operand: &Operand<N>,
     ) -> Result<circuit::Plaintext<A>> {
         match self.load_circuit(stack, operand)? {
@@ -310,12 +290,7 @@ pub trait RegistersStore<N: Network> {
     /// This method should halt if the given register is a register member.
     /// This method should halt if the given register is an input register.
     /// This method should halt if the register is already used.
-    fn store(
-        &mut self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        register: &Register<N>,
-        stack_value: Value<N>,
-    ) -> Result<()>;
+    fn store(&mut self, stack: &impl StackTrait<N>, register: &Register<N>, stack_value: Value<N>) -> Result<()>;
 
     /// Assigns the given literal to the given register, assuming the register is not already assigned.
     ///
@@ -324,12 +299,7 @@ pub trait RegistersStore<N: Network> {
     /// This method should halt if the given register is an input register.
     /// This method should halt if the register is already used.
     #[inline]
-    fn store_literal(
-        &mut self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        register: &Register<N>,
-        literal: Literal<N>,
-    ) -> Result<()> {
+    fn store_literal(&mut self, stack: &impl StackTrait<N>, register: &Register<N>, literal: Literal<N>) -> Result<()> {
         self.store(stack, register, Value::Plaintext(Plaintext::from(literal)))
     }
 }
@@ -343,7 +313,7 @@ pub trait RegistersStoreCircuit<N: Network, A: circuit::Aleo<Network = N>> {
     /// This method should halt if the register is already used.
     fn store_circuit(
         &mut self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         register: &Register<N>,
         stack_value: circuit::Value<A>,
     ) -> Result<()>;
@@ -357,7 +327,7 @@ pub trait RegistersStoreCircuit<N: Network, A: circuit::Aleo<Network = N>> {
     #[inline]
     fn store_literal_circuit(
         &mut self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         register: &Register<N>,
         literal: circuit::Literal<A>,
     ) -> Result<()> {

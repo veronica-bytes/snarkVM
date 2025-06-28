@@ -283,7 +283,7 @@ mod tests {
     };
     use ledger_block::Transition;
     use synthesizer_process::{ConsensusFeeVersion, cost_per_command, execution_cost_v2};
-    use synthesizer_program::StackProgram;
+    use synthesizer_program::StackTrait;
 
     use indexmap::IndexMap;
 

@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{Process, Stack, StackProgramTypes};
+use crate::{Process, Stack};
 
 use crate::stack::StackRef;
 use console::{
@@ -21,7 +21,7 @@ use console::{
     program::{FinalizeType, Identifier, LiteralType, PlaintextType},
 };
 use ledger_block::{Deployment, Execution, Transaction};
-use synthesizer_program::{CastType, Command, Finalize, Instruction, Operand, StackProgram};
+use synthesizer_program::{CastType, Command, Finalize, Instruction, Operand, StackTrait};
 
 /// Returns the *minimum* cost in microcredits to publish the given deployment (total cost, (storage cost, synthesis cost, namespace cost)).
 pub fn deployment_cost<N: Network>(deployment: &Deployment<N>) -> Result<(u64, (u64, u64, u64))> {

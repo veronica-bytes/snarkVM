@@ -23,12 +23,7 @@ impl<N: Network, A: circuit::Aleo<Network = N>> RegistersStore<N> for Registers<
     /// This method will halt if the given register is an input register.
     /// This method will halt if the register is already used.
     #[inline]
-    fn store(
-        &mut self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
-        register: &Register<N>,
-        stack_value: Value<N>,
-    ) -> Result<()> {
+    fn store(&mut self, stack: &impl StackTrait<N>, register: &Register<N>, stack_value: Value<N>) -> Result<()> {
         match register {
             Register::Locator(locator) => {
                 // Ensure the register assignments are monotonically increasing.
@@ -72,7 +67,7 @@ impl<N: Network, A: circuit::Aleo<Network = N>> RegistersStoreCircuit<N, A> for 
     #[inline]
     fn store_circuit(
         &mut self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         register: &Register<N>,
         circuit_value: circuit::Value<A>,
     ) -> Result<()> {

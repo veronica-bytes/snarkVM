@@ -16,7 +16,7 @@
 use crate::{
     Opcode,
     Operand,
-    traits::{RegistersLoad, RegistersLoadCircuit, RegistersStore, RegistersStoreCircuit, StackMatches, StackProgram},
+    traits::{RegistersLoad, RegistersLoadCircuit, RegistersStore, RegistersStoreCircuit, StackTrait},
 };
 use circuit::prelude::ToFields as CircuitToFields;
 use console::{
@@ -71,7 +71,7 @@ impl<N: Network> SignVerify<N> {
     #[inline]
     pub fn evaluate(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         // Ensure the number of operands is correct.
@@ -101,7 +101,7 @@ impl<N: Network> SignVerify<N> {
     #[inline]
     pub fn execute<A: circuit::Aleo<Network = N>>(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoadCircuit<N, A> + RegistersStoreCircuit<N, A>),
     ) -> Result<()> {
         // Ensure the number of operands is correct.
@@ -131,7 +131,7 @@ impl<N: Network> SignVerify<N> {
     #[inline]
     pub fn finalize(
         &self,
-        stack: &(impl StackMatches<N> + StackProgram<N>),
+        stack: &impl StackTrait<N>,
         registers: &mut (impl RegistersLoad<N> + RegistersStore<N>),
     ) -> Result<()> {
         self.evaluate(stack, registers)
@@ -141,7 +141,7 @@ impl<N: Network> SignVerify<N> {
     #[inline]
     pub fn output_types(
         &self,
-        _stack: &impl StackProgram<N>,
+        _stack: &impl StackTrait<N>,
         input_types: &[RegisterType<N>],
     ) -> Result<Vec<RegisterType<N>>> {
         // Ensure the number of input types is correct.

@@ -2824,10 +2824,10 @@ fn test_bond_validator_with_different_commission_fails() {
 
 mod sanity_checks {
     use super::*;
-    use crate::{Assignments, CallStack, Stack, StackExecute};
+    use crate::{Assignments, CallStack, Stack};
     use circuit::Assignment;
     use console::{program::Request, types::Field};
-    use synthesizer_program::StackProgram;
+    use synthesizer_program::StackTrait;
 
     fn get_assignment<N: Network, A: circuit::Aleo<Network = N>>(
         stack: &Stack<N>,
