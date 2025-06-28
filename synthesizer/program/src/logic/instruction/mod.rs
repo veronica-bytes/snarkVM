@@ -26,7 +26,6 @@ mod bytes;
 mod parse;
 
 use crate::traits::{
-    InstructionTrait,
     RegistersLoad,
     RegistersLoadCircuit,
     RegistersSigner,
@@ -372,24 +371,19 @@ macro_rules! opcodes {
     ($_object:expr, |$_reader:ident| $_operation:block, { $( $variant:ident, )+ }) => { [$( $variant::<N>::opcode() ),+] }
 }
 
-impl<N: Network> InstructionTrait<N> for Instruction<N> {
-    /// Returns the destination registers of the instruction.
-    #[inline]
-    fn destinations(&self) -> Vec<Register<N>> {
+impl<N: Network> Instruction<N> {
+    /// The list of all instruction opcodes.
+    pub const OPCODES: &'static [Opcode] = &instruction!(opcodes, Instruction, |None| {});
+
+    pub fn destinations(&self) -> Vec<Register<N>> {
         instruction!(self, |instruction| instruction.destinations())
     }
 
     /// Returns `true` if the given name is a reserved opcode.
-    #[inline]
-    fn is_reserved_opcode(name: &str) -> bool {
+    pub fn is_reserved_opcode(name: &str) -> bool {
         // Check if the given name matches any opcode (in its entirety; including past the first '.' if it exists).
         Instruction::<N>::OPCODES.iter().any(|opcode| **opcode == name)
     }
-}
-
-impl<N: Network> Instruction<N> {
-    /// The list of all instruction opcodes.
-    pub const OPCODES: &'static [Opcode] = &instruction!(opcodes, Instruction, |None| {});
 
     /// Returns the opcode of the instruction.
     #[inline]

@@ -45,15 +45,7 @@ use crate::{
     FinalizeOperation,
     FinalizeRegistersState,
     Instruction,
-    traits::{
-        CommandTrait,
-        FinalizeStoreTrait,
-        InstructionTrait,
-        RegistersLoad,
-        RegistersStore,
-        StackMatches,
-        StackProgram,
-    },
+    traits::{CommandTrait, FinalizeStoreTrait, RegistersLoad, RegistersStore, StackMatches, StackProgram},
 };
 use console::{
     network::prelude::*,

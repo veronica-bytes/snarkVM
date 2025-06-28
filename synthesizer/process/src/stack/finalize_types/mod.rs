@@ -43,7 +43,6 @@ use synthesizer_program::{
     Get,
     GetOrUse,
     Instruction,
-    InstructionTrait,
     MAX_ADDITIONAL_SEEDS,
     Opcode,
     Operand,

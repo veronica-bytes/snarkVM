@@ -19,8 +19,5 @@ pub use command::*;
 mod finalize_store;
 pub use finalize_store::*;
 
-mod instruction;
-pub use instruction::*;
-
 mod stack_and_registers;
 pub use stack_and_registers::*;

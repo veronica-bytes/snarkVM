@@ -38,7 +38,6 @@ use synthesizer_program::{
     Closure,
     Function,
     Instruction,
-    InstructionTrait,
     Opcode,
     Operand,
     Program,

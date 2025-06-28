@@ -22,10 +22,7 @@ use output::*;
 mod bytes;
 mod parse;
 
-use crate::{
-    finalize::FinalizeCore,
-    traits::{CommandTrait, InstructionTrait},
-};
+use crate::{Instruction, finalize::FinalizeCore, traits::CommandTrait};
 use console::{
     network::prelude::*,
     program::{Identifier, Register, ValueType, Variant},
@@ -34,21 +31,21 @@ use console::{
 use indexmap::IndexSet;
 
 #[derive(Clone, PartialEq, Eq)]
-pub struct FunctionCore<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> {
+pub struct FunctionCore<N: Network, Command: CommandTrait<N>> {
     /// The name of the function.
     name: Identifier<N>,
     /// The input statements, added in order of the input registers.
     /// Input assignments are ensured to match the ordering of the input statements.
     inputs: IndexSet<Input<N>>,
     /// The instructions, in order of execution.
-    instructions: Vec<Instruction>,
+    instructions: Vec<Instruction<N>>,
     /// The output statements, in order of the desired output.
     outputs: IndexSet<Output<N>>,
     /// The optional finalize logic.
     finalize_logic: Option<FinalizeCore<N, Command>>,
 }
 
-impl<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> FunctionCore<N, Instruction, Command> {
+impl<N: Network, Command: CommandTrait<N>> FunctionCore<N, Command> {
     /// Initializes a new function with the given name.
     pub fn new(name: Identifier<N>) -> Self {
         Self { name, inputs: IndexSet::new(), instructions: Vec::new(), outputs: IndexSet::new(), finalize_logic: None }
@@ -75,7 +72,7 @@ impl<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> Fun
     }
 
     /// Returns the function instructions.
-    pub fn instructions(&self) -> &[Instruction] {
+    pub fn instructions(&self) -> &[Instruction<N>] {
         &self.instructions
     }
 
@@ -100,7 +97,7 @@ impl<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> Fun
     }
 }
 
-impl<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> FunctionCore<N, Instruction, Command> {
+impl<N: Network, Command: CommandTrait<N>> FunctionCore<N, Command> {
     /// Adds the input statement to the function.
     ///
     /// # Errors
@@ -137,7 +134,7 @@ impl<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> Fun
     /// This method will halt if the maximum number of instructions has been reached.
     /// This method will halt if a finalize logic has been added.
     #[inline]
-    pub fn add_instruction(&mut self, instruction: Instruction) -> Result<()> {
+    pub fn add_instruction(&mut self, instruction: Instruction<N>) -> Result<()> {
         // Ensure that there are no output statements in memory.
         ensure!(self.outputs.is_empty(), "Cannot add instructions after outputs have been added");
 
@@ -203,9 +200,7 @@ impl<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> Fun
     }
 }
 
-impl<N: Network, Instruction: InstructionTrait<N>, Command: CommandTrait<N>> TypeName
-    for FunctionCore<N, Instruction, Command>
-{
+impl<N: Network, Command: CommandTrait<N>> TypeName for FunctionCore<N, Command> {
     /// Returns the type name as a string.
     #[inline]
     fn type_name() -> &'static str {

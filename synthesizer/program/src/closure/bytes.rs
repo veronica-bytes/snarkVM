@@ -15,7 +15,7 @@
 
 use super::*;
 
-impl<N: Network, Instruction: InstructionTrait<N>> FromBytes for ClosureCore<N, Instruction> {
+impl<N: Network> FromBytes for ClosureCore<N> {
     /// Reads the closure from a buffer.
     #[inline]
     fn read_le<R: Read>(mut reader: R) -> IoResult<Self> {
@@ -68,7 +68,7 @@ impl<N: Network, Instruction: InstructionTrait<N>> FromBytes for ClosureCore<N, 
     }
 }
 
-impl<N: Network, Instruction: InstructionTrait<N>> ToBytes for ClosureCore<N, Instruction> {
+impl<N: Network> ToBytes for ClosureCore<N> {
     /// Writes the closure to a buffer.
     #[inline]
     fn write_le<W: Write>(&self, mut writer: W) -> IoResult<()> {
