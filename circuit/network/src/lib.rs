@@ -28,7 +28,7 @@ pub use v0::*;
 use snarkvm_circuit_collections::merkle_tree::MerklePath;
 use snarkvm_circuit_types::{Boolean, Field, Group, Scalar, environment::Environment};
 
-/// Attention: Do not use `Send + Sync` on this trait, as it is not thread-safe.
+// Note: The functions of this trait are not thread safe.
 pub trait Aleo: Environment {
     /// The maximum number of field elements in data (must not exceed u16::MAX).
     const MAX_DATA_SIZE_IN_FIELDS: u32 = <Self::Network as console::Network>::MAX_DATA_SIZE_IN_FIELDS;
