@@ -15,8 +15,6 @@
 
 use crate::{
     atomic_batch_scope,
-    cow_to_cloned,
-    cow_to_copied,
     helpers::{Map, MapRead},
 };
 use console::network::prelude::*;
@@ -234,10 +232,10 @@ pub trait CommitteeStorage<N: Network>: 'static + Clone + Send + Sync {
 
     /// Returns the current round.
     fn current_round(&self) -> Result<u64> {
-        match self.current_round_map().get_confirmed(&ROUND_KEY)? {
-            Some(round) => Ok(cow_to_copied!(round)),
-            None => bail!("Current round not found in committee storage"),
-        }
+        let Some(round) = self.current_round_map().get_confirmed(&ROUND_KEY)? else {
+            bail!("Current round not found in committee storage");
+        };
+        Ok(*round)
     }
 
     /// Returns the current height.
@@ -245,34 +243,26 @@ pub trait CommitteeStorage<N: Network>: 'static + Clone + Send + Sync {
         // Retrieve the current round.
         let current_round = self.current_round()?;
         // Retrieve the current height.
-        match self.round_to_height_map().get_confirmed(&current_round)? {
-            Some(height) => Ok(cow_to_copied!(height)),
-            None => bail!("Current height not found in committee storage"),
-        }
+        let Some(height) = self.round_to_height_map().get_confirmed(&current_round)? else {
+            bail!("Current height not found in committee storage");
+        };
+        Ok(*height)
     }
 
     /// Returns the current committee.
     fn current_committee(&self) -> Result<Committee<N>> {
-        match self.get_committee(self.current_height()?)? {
-            Some(committee) => Ok(committee),
-            None => bail!("Current committee not found in committee storage"),
-        }
+        self.get_committee(self.current_height()?)?
+            .ok_or_else(|| anyhow!("Current committee not found in committee storage"))
     }
 
     /// Returns the height for the given `round`.
     fn get_height_for_round(&self, round: u64) -> Result<Option<u32>> {
-        match self.round_to_height_map().get_confirmed(&round)? {
-            Some(height) => Ok(Some(cow_to_copied!(height))),
-            None => Ok(None),
-        }
+        Ok(self.round_to_height_map().get_confirmed(&round)?.map(|x| *x))
     }
 
     /// Returns the committee for the given `height`.
     fn get_committee(&self, height: u32) -> Result<Option<Committee<N>>> {
-        match self.committee_map().get_confirmed(&height)? {
-            Some(committee) => Ok(Some(cow_to_cloned!(committee))),
-            None => Ok(None),
-        }
+        Ok(self.committee_map().get_confirmed(&height)?.map(|x| x.into_owned()))
     }
 
     /// Returns the committee for the given `round`.

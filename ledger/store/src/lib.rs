@@ -33,26 +33,6 @@ pub use transaction::*;
 mod transition;
 pub use transition::*;
 
-#[macro_export]
-macro_rules! cow_to_copied {
-    ($cow:expr) => {
-        match $cow {
-            std::borrow::Cow::Borrowed(inner) => *inner,
-            std::borrow::Cow::Owned(inner) => inner,
-        }
-    };
-}
-
-#[macro_export]
-macro_rules! cow_to_cloned {
-    ($cow:expr) => {
-        match $cow {
-            std::borrow::Cow::Borrowed(inner) => (*inner).clone(),
-            std::borrow::Cow::Owned(inner) => inner,
-        }
-    };
-}
-
 use console::prelude::{Result, bail};
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]

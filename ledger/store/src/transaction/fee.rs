@@ -17,8 +17,6 @@ use crate::{
     TransitionStorage,
     TransitionStore,
     atomic_batch_scope,
-    cow_to_cloned,
-    cow_to_copied,
     helpers::{Map, MapRead},
 };
 use console::network::prelude::*;
@@ -121,9 +119,8 @@ pub trait FeeStorage<N: Network>: Clone + Send + Sync {
     /// Removes the fee for the given `transaction ID`.
     fn remove(&self, transaction_id: &N::TransactionID) -> Result<()> {
         // Retrieve the fee transition ID.
-        let (transition_id, _, _) = match self.fee_map().get_confirmed(transaction_id)? {
-            Some(fee_id) => cow_to_cloned!(fee_id),
-            None => bail!("Failed to locate the fee transition ID for transaction '{transaction_id}'"),
+        let Some((transition_id, _, _)) = self.fee_map().get_confirmed(transaction_id)?.map(|x| x.into_owned()) else {
+            bail!("Failed to locate the fee transition ID for transaction '{transaction_id}'");
         };
 
         atomic_batch_scope!(self, {
@@ -143,18 +140,16 @@ pub trait FeeStorage<N: Network>: Clone + Send + Sync {
         &self,
         transition_id: &N::TransitionID,
     ) -> Result<Option<N::TransactionID>> {
-        match self.reverse_fee_map().get_confirmed(transition_id)? {
-            Some(transaction_id) => Ok(Some(cow_to_copied!(transaction_id))),
-            None => Ok(None),
-        }
+        Ok(self.reverse_fee_map().get_confirmed(transition_id)?.map(|x| *x))
     }
 
     /// Returns the fee for the given `transaction ID`.
     fn get_fee(&self, transaction_id: &N::TransactionID) -> Result<Option<Fee<N>>> {
         // Retrieve the fee transition ID.
-        let (fee_transition_id, global_state_root, proof) = match self.fee_map().get_confirmed(transaction_id)? {
-            Some(fee) => cow_to_cloned!(fee),
-            None => return Ok(None),
+        let Some((fee_transition_id, global_state_root, proof)) =
+            self.fee_map().get_confirmed(transaction_id)?.map(|x| x.into_owned())
+        else {
+            return Ok(None);
         };
         // Retrieve the fee transition.
         match self.transition_store().get_transition(&fee_transition_id)? {
