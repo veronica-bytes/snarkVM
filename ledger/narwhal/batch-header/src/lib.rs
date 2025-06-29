@@ -17,6 +17,8 @@
 #![warn(clippy::cast_possible_truncation)]
 #![allow(clippy::too_many_arguments)]
 
+extern crate snarkvm_console as console;
+
 mod bytes;
 mod serialize;
 mod string;
@@ -27,7 +29,7 @@ use console::{
     prelude::*,
     types::Field,
 };
-use narwhal_transmission_id::TransmissionID;
+use snarkvm_ledger_narwhal_transmission_id::TransmissionID;
 
 use indexmap::IndexSet;
 
@@ -295,8 +297,9 @@ pub mod test_helpers {
         // Sample the committee ID.
         let committee_id = Field::<CurrentNetwork>::rand(rng);
         // Sample transmission IDs.
-        let transmission_ids =
-            narwhal_transmission_id::test_helpers::sample_transmission_ids(rng).into_iter().collect::<IndexSet<_>>();
+        let transmission_ids = snarkvm_ledger_narwhal_transmission_id::test_helpers::sample_transmission_ids(rng)
+            .into_iter()
+            .collect::<IndexSet<_>>();
         // Checkpoint the timestamp for the batch.
         let timestamp = OffsetDateTime::now_utc().unix_timestamp();
         // Return the batch header.

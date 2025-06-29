@@ -16,5 +16,8 @@
 #![forbid(unsafe_code)]
 #![allow(clippy::too_many_arguments)]
 
+#[cfg(feature = "snarkvm-console-collections")]
+extern crate snarkvm_console_collections as console;
+
 pub mod kary_merkle_tree;
 pub mod merkle_tree;

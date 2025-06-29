@@ -20,7 +20,7 @@ use console::{
     network::prelude::*,
     program::{Register, Request, Value, ValueType},
 };
-use synthesizer_program::{
+use snarkvm_synthesizer_program::{
     Call,
     CallOperator,
     Operand,

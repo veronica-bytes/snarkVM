@@ -37,9 +37,9 @@ use console::{
     types::{Address, Field},
 };
 use rand::{CryptoRng, Rng};
-use synthesizer_snark::{ProvingKey, VerifyingKey};
+use snarkvm_synthesizer_snark::{ProvingKey, VerifyingKey};
 
-/// This trait is intended to be implemented only by `synthesizer_process::Stack`.
+/// This trait is intended to be implemented only by `snarkvm_synthesizer_process::Stack`.
 ///
 /// We make it a trait only to avoid circular dependencies.
 pub trait StackTrait<N: Network> {
@@ -232,7 +232,7 @@ pub trait RegistersTrait<N: Network> {
     }
 }
 
-/// This trait is intended to be implemented only by `synthesizer_process::Registers`.
+/// This trait is intended to be implemented only by `snarkvm_synthesizer_process::Registers`.
 ///
 /// We make it a trait only to avoid circular dependencies.
 pub trait RegistersCircuit<N: Network, A: circuit::Aleo<Network = N>> {

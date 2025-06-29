@@ -17,22 +17,22 @@
 extern crate criterion;
 
 use snarkvm_synthesizer_process::{Assignments, CallStack, Process, Stack};
-use synthesizer_program::{Program, StackTrait};
+use snarkvm_synthesizer_program::{Program, StackTrait};
 
-use circuit::AleoV0;
-use console::{
+use criterion::Criterion;
+use snarkvm_circuit::AleoV0;
+use snarkvm_console::{
     account::{Address, PrivateKey},
     network::{MainnetV0, prelude::*},
     program::{Identifier, ProgramID, Request, Value},
 };
-use criterion::Criterion;
+use snarkvm_utilities::TestRng;
 use std::{str::FromStr, time::Duration};
-use utilities::TestRng;
 
 type CurrentNetwork = MainnetV0;
 type CurrentAleo = AleoV0;
 
-fn prepare_check_deployment<N: Network, A: circuit::Aleo<Network = N>>(
+fn prepare_check_deployment<N: Network, A: snarkvm_circuit::Aleo<Network = N>>(
     c: &mut Criterion,
     stack: &Stack<N>,
     private_key: &PrivateKey<N>,
@@ -85,7 +85,7 @@ fn transfer_private(c: &mut Criterion) {
     // Declare the inputs.
     let r0 = Value::from_str(&format!(
         "{{ owner: {caller}.private, microcredits: 1_500_000_000_000_000_u64.private, _nonce: {}.public }}",
-        console::types::Group::<CurrentNetwork>::zero()
+        snarkvm_console::types::Group::<CurrentNetwork>::zero()
     ))
     .unwrap();
     let r1 = Value::<CurrentNetwork>::from_str(&format!("{caller}")).unwrap();

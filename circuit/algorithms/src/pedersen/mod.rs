@@ -18,7 +18,7 @@ mod commit_uncompressed;
 mod hash;
 mod hash_uncompressed;
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-algorithms"))]
 use snarkvm_circuit_types::environment::{assert_count, assert_output_mode, assert_scope};
 
 use crate::{Commit, CommitUncompressed, Hash, HashUncompressed};
@@ -38,7 +38,7 @@ pub struct Pedersen<E: Environment, const NUM_BITS: u8> {
     random_base: Vec<Group<E>>,
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-algorithms")]
 impl<E: Environment, const NUM_BITS: u8> Inject for Pedersen<E, NUM_BITS> {
     type Primitive = console::Pedersen<E::Network, NUM_BITS>;
 
@@ -56,7 +56,7 @@ impl<E: Environment, const NUM_BITS: u8> Inject for Pedersen<E, NUM_BITS> {
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-algorithms"))]
 mod tests {
     use super::*;
     use snarkvm_circuit_types::environment::Circuit;

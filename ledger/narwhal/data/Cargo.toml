@@ -26,16 +26,15 @@ edition = "2021"
 [features]
 async = [ "tokio" ]
 
-[dependencies.console]
-package = "snarkvm-console"
-path = "../../../console"
-version = "=3.8.0"
+[dependencies.snarkvm-console]
+workspace = true
+features = [ "default" ]
 
 [dependencies.bytes]
-version = "1"
+workspace = true
 
 [dependencies.serde_json]
-version = "1.0"
+workspace = true
 features = [ "preserve_order" ]
 
 [dependencies.tokio]
@@ -43,10 +42,8 @@ optional = true
 version = "1"
 features = [ "rt" ]
 
-[dev-dependencies.ledger-block]
-package = "snarkvm-ledger-block"
-path = "../../../ledger/block"
+[dev-dependencies.snarkvm-ledger-block]
+workspace = true
 
-[dev-dependencies.ledger-test-helpers]
-package = "snarkvm-ledger-test-helpers"
-path = "../../../ledger/test-helpers"
+[dev-dependencies.snarkvm-ledger-test-helpers]
+workspace = true

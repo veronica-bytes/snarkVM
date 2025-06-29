@@ -29,8 +29,8 @@ use console::{
     program::{BlockTree, HeaderLeaf, ProgramID, StatePath},
     types::Field,
 };
-use ledger_authority::Authority;
-use ledger_block::{
+use snarkvm_ledger_authority::Authority;
+use snarkvm_ledger_block::{
     Block,
     ConfirmedTransaction,
     Header,
@@ -40,9 +40,9 @@ use ledger_block::{
     Transaction,
     Transactions,
 };
-use ledger_narwhal_batch_certificate::BatchCertificate;
-use ledger_puzzle::{Solution, SolutionID};
-use synthesizer_program::{FinalizeOperation, Program};
+use snarkvm_ledger_narwhal_batch_certificate::BatchCertificate;
+use snarkvm_ledger_puzzle::{Solution, SolutionID};
+use snarkvm_synthesizer_program::{FinalizeOperation, Program};
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;
@@ -1377,7 +1377,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the block.
-        let block = ledger_test_helpers::sample_genesis_block(rng);
+        let block = snarkvm_ledger_test_helpers::sample_genesis_block(rng);
         let block_hash = block.hash();
 
         // Initialize a new block store.
@@ -1407,7 +1407,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the block.
-        let block = ledger_test_helpers::sample_genesis_block(rng);
+        let block = snarkvm_ledger_test_helpers::sample_genesis_block(rng);
         let block_hash = block.hash();
         assert!(block.transactions().num_accepted() > 0, "This test must be run with at least one transaction.");
 
@@ -1448,7 +1448,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the block.
-        let block = ledger_test_helpers::sample_genesis_block(rng);
+        let block = snarkvm_ledger_test_helpers::sample_genesis_block(rng);
         assert!(block.transactions().num_accepted() > 0, "This test must be run with at least one transaction.");
 
         // Initialize a new block store.
@@ -1467,7 +1467,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the block.
-        let block = ledger_test_helpers::sample_genesis_block(rng);
+        let block = snarkvm_ledger_test_helpers::sample_genesis_block(rng);
         assert!(block.transactions().num_accepted() > 0, "This test must be run with at least one transaction.");
 
         // Initialize a new block store.
@@ -1486,7 +1486,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the block.
-        let block = ledger_test_helpers::sample_genesis_block(rng);
+        let block = snarkvm_ledger_test_helpers::sample_genesis_block(rng);
         assert!(block.transactions().num_accepted() > 0, "This test must be run with at least one transaction.");
 
         // Initialize a new block store.
@@ -1508,12 +1508,12 @@ mod tests {
     fn test_rejected_transaction() {
         let rng = &mut TestRng::default();
 
-        let private_key = ledger_test_helpers::sample_genesis_private_key(rng);
+        let private_key = snarkvm_ledger_test_helpers::sample_genesis_private_key(rng);
 
         let block_store = BlockStore::<CurrentNetwork, BlockMemory<_>>::open(StorageMode::new_test(None)).unwrap();
 
-        let fee = ledger_test_helpers::sample_fee_public_transaction(rng);
-        let rejected = ledger_test_helpers::sample_rejected_execution(false, rng);
+        let fee = snarkvm_ledger_test_helpers::sample_fee_public_transaction(rng);
+        let rejected = snarkvm_ledger_test_helpers::sample_rejected_execution(false, rng);
         let transactions =
             Transactions::from_iter([
                 ConfirmedTransaction::rejected_execute(0, fee.clone(), rejected.clone(), vec![]).unwrap()

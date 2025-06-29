@@ -39,7 +39,7 @@ use snarkvm_utilities::{ExecutionPool, cfg_iter};
 
 use anyhow::{Result, ensure};
 use itertools::Itertools;
-use rand_core::RngCore;
+use rand::RngCore;
 use std::collections::BTreeMap;
 
 #[cfg(not(feature = "serial"))]

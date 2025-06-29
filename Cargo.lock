@@ -1091,10 +1091,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
 dependencies = [
  "cfg-if",
- "js-sys",
  "libc",
  "wasi 0.11.0+wasi-snapshot-preview1",
- "wasm-bindgen",
 ]
 
 [[package]]
@@ -2722,7 +2720,6 @@ dependencies = [
  "itertools 0.11.0",
  "num-traits",
  "rand",
- "rand_core",
  "rayon",
  "serde",
  "serde_json",
@@ -2806,7 +2803,6 @@ dependencies = [
  "itertools 0.11.0",
  "nom",
  "num-traits",
- "once_cell",
  "serial_test",
  "sha2",
  "smallvec",
@@ -3008,7 +3004,6 @@ dependencies = [
  "anyhow",
  "indexmap 2.9.0",
  "lazy_static",
- "once_cell",
  "paste",
  "serde",
  "snarkvm-algorithms",
@@ -3048,7 +3043,6 @@ dependencies = [
  "indexmap 2.9.0",
  "num-derive",
  "num-traits",
- "once_cell",
  "serde_json",
  "snarkvm-console-account",
  "snarkvm-console-algorithms",
@@ -3238,7 +3232,6 @@ dependencies = [
  "aleo-std",
  "bincode",
  "indexmap 2.9.0",
- "once_cell",
  "rayon",
  "serde_json",
  "snarkvm-algorithms",
@@ -3419,7 +3412,6 @@ name = "snarkvm-ledger-query"
 version = "3.8.0"
 dependencies = [
  "async-trait",
- "http",
  "reqwest",
  "snarkvm-console",
  "snarkvm-ledger-store",
@@ -3437,7 +3429,6 @@ dependencies = [
  "bincode",
  "indexmap 2.9.0",
  "locktick",
- "once_cell",
  "parking_lot",
  "rayon",
  "rocksdb",
@@ -3463,7 +3454,6 @@ name = "snarkvm-ledger-test-helpers"
 version = "3.8.0"
 dependencies = [
  "aleo-std",
- "once_cell",
  "snarkvm-algorithms",
  "snarkvm-circuit",
  "snarkvm-console",
@@ -3525,7 +3515,6 @@ dependencies = [
  "itertools 0.11.0",
  "locktick",
  "lru",
- "once_cell",
  "parking_lot",
  "rand",
  "rayon",
@@ -3563,7 +3552,6 @@ dependencies = [
  "criterion",
  "indexmap 2.9.0",
  "locktick",
- "once_cell",
  "parking_lot",
  "rand",
  "rand_chacha",
@@ -3606,7 +3594,6 @@ version = "3.8.0"
 dependencies = [
  "bincode",
  "colored",
- "once_cell",
  "serde_json",
  "snarkvm-algorithms",
  "snarkvm-circuit",
@@ -3646,7 +3633,6 @@ dependencies = [
 name = "snarkvm-wasm"
 version = "3.8.0"
 dependencies = [
- "getrandom 0.2.16",
  "snarkvm-console",
  "snarkvm-curves",
  "snarkvm-fields",

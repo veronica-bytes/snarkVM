@@ -64,7 +64,7 @@ impl<'de, N: Network> Deserialize<'de> for Solutions<N> {
 pub(super) mod tests {
     use super::*;
     use console::account::{Address, PrivateKey};
-    use ledger_puzzle::{PartialSolution, Solution};
+    use snarkvm_ledger_puzzle::{PartialSolution, Solution};
 
     type CurrentNetwork = console::network::MainnetV0;
 

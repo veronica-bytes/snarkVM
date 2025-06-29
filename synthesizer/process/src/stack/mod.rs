@@ -64,8 +64,8 @@ use console::{
     },
     types::{Field, Group},
 };
-use ledger_block::{Deployment, Transaction, Transition};
-use synthesizer_program::{
+use snarkvm_ledger_block::{Deployment, Transaction, Transition};
+use snarkvm_synthesizer_program::{
     CallOperator,
     Closure,
     Function,
@@ -77,7 +77,7 @@ use synthesizer_program::{
     RegistersTrait,
     StackTrait,
 };
-use synthesizer_snark::{Certificate, ProvingKey, UniversalSRS, VerifyingKey};
+use snarkvm_synthesizer_snark::{Certificate, ProvingKey, UniversalSRS, VerifyingKey};
 
 use aleo_std::prelude::{finish, lap, timer};
 use indexmap::IndexMap;

@@ -28,7 +28,7 @@ use snarkvm_utilities::ExecutionPool;
 
 use anyhow::Result;
 use itertools::Itertools;
-use rand_core::RngCore;
+use rand::RngCore;
 use std::collections::{BTreeMap, VecDeque};
 
 struct LinevalPrepInstance<F: PrimeField> {

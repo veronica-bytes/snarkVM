@@ -32,7 +32,7 @@ use snarkvm_utilities::{
 use crate::srs::{UniversalProver, UniversalVerifier};
 use anyhow::Result;
 use core::ops::{Add, AddAssign};
-use rand_core::RngCore;
+use rand::RngCore;
 use std::{collections::BTreeMap, io, ops::Range, sync::Arc};
 
 /// `UniversalParams` are the universal parameters for the KZG10 scheme.

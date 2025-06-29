@@ -39,9 +39,9 @@ use console::{
     },
     types::{Field, Group, U64},
 };
-use ledger_committee::Committee;
-use ledger_narwhal_batch_header::BatchHeader;
-use synthesizer_program::FinalizeOperation;
+use snarkvm_ledger_committee::Committee;
+use snarkvm_ledger_narwhal_batch_header::BatchHeader;
+use snarkvm_synthesizer_program::FinalizeOperation;
 
 use indexmap::IndexMap;
 
@@ -374,7 +374,7 @@ pub mod test_helpers {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ledger_narwhal_batch_header::BatchHeader;
+    use snarkvm_ledger_narwhal_batch_header::BatchHeader;
 
     type CurrentNetwork = console::network::MainnetV0;
 

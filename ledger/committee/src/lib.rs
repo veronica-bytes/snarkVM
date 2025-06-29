@@ -16,6 +16,8 @@
 #![forbid(unsafe_code)]
 #![warn(clippy::cast_possible_truncation)]
 
+extern crate snarkvm_console as console;
+
 mod bytes;
 mod serialize;
 mod string;
@@ -29,7 +31,7 @@ use console::{
     program::{Literal, LiteralType},
     types::{Address, Field},
 };
-use ledger_narwhal_batch_header::BatchHeader;
+use snarkvm_ledger_narwhal_batch_header::BatchHeader;
 
 use indexmap::IndexMap;
 use std::collections::HashSet;
@@ -98,7 +100,7 @@ impl<N: Network> Committee<N> {
         // Compute the committee ID.
         let id = Self::compute_committee_id(starting_round, &members, total_stake)?;
         #[cfg(feature = "metrics")]
-        metrics::gauge(metrics::committee::TOTAL_STAKE, total_stake as f64);
+        snarkvm_metrics::gauge(snarkvm_metrics::committee::TOTAL_STAKE, total_stake as f64);
         // Return the new committee.
         Ok(Self { id, starting_round, members, total_stake })
     }

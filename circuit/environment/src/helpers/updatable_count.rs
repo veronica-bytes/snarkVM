@@ -16,7 +16,6 @@
 use crate::{Constant, Constraints, Measurement, Private, Public};
 
 use core::fmt::Debug;
-use once_cell::sync::{Lazy, OnceCell};
 use std::{
     cmp::Ordering,
     collections::{BTreeSet, HashMap},
@@ -25,11 +24,11 @@ use std::{
     fs,
     ops::Range,
     path::{Path, PathBuf},
-    sync::Mutex,
+    sync::{LazyLock, Mutex, OnceLock},
 };
 
-static FILES: Lazy<Mutex<HashMap<&'static str, FileUpdates>>> = Lazy::new(Default::default);
-static WORKSPACE_ROOT: OnceCell<PathBuf> = OnceCell::new();
+static FILES: LazyLock<Mutex<HashMap<&'static str, FileUpdates>>> = LazyLock::new(Default::default);
+static WORKSPACE_ROOT: OnceLock<PathBuf> = OnceLock::new();
 
 /// To update the arguments to `count_is!`, run cargo test with the `UPDATE_COUNT` flag set to the name of the file containing the macro invocation.
 /// e.g. `UPDATE_COUNT=boolean cargo test
@@ -287,19 +286,14 @@ impl FileUpdates {
             false => {
                 // Append `path` to the workspace root.
                 WORKSPACE_ROOT
-                    .get_or_try_init(|| {
+                    .get_or_init(|| {
                         // Heuristic, see https://github.com/rust-lang/cargo/issues/3946
-                        let workspace_root = Path::new(&env!("CARGO_MANIFEST_DIR"))
+                        Path::new(&env!("CARGO_MANIFEST_DIR"))
                             .ancestors()
                             .filter(|it| it.join("Cargo.toml").exists())
                             .last()
                             .unwrap()
-                            .to_path_buf();
-
-                        Ok(workspace_root)
-                    })
-                    .unwrap_or_else(|_: env::VarError| {
-                        panic!("No CARGO_MANIFEST_DIR env var and the path is relative: {}", path.display())
+                            .to_path_buf()
                     })
                     .join(path)
             }

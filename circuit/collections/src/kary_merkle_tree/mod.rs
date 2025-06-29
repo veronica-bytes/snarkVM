@@ -18,7 +18,7 @@ pub use helpers::{BooleanHash, LeafHash, PathHash};
 
 mod verify;
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-collections"))]
 use snarkvm_circuit_types::environment::assert_scope;
 
 use snarkvm_circuit_types::{Boolean, Field, U16, U64, environment::prelude::*};
@@ -30,7 +30,7 @@ pub struct KaryMerklePath<E: Environment, PH: PathHash<E>, const DEPTH: u8, cons
     siblings: Vec<Vec<PH::Hash>>,
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-collections")]
 impl<E: Environment, PH: PathHash<E>, const DEPTH: u8, const ARITY: u8> Inject for KaryMerklePath<E, PH, DEPTH, ARITY> {
     type Primitive = console::kary_merkle_tree::KaryMerklePath<PH::Primitive, DEPTH, ARITY>;
 
@@ -60,7 +60,7 @@ impl<E: Environment, PH: PathHash<E>, const DEPTH: u8, const ARITY: u8> Inject f
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-collections")]
 impl<E: Environment, PH: PathHash<E>, const DEPTH: u8, const ARITY: u8> Eject for KaryMerklePath<E, PH, DEPTH, ARITY> {
     type Primitive = console::kary_merkle_tree::KaryMerklePath<PH::Primitive, DEPTH, ARITY>;
 
@@ -78,7 +78,7 @@ impl<E: Environment, PH: PathHash<E>, const DEPTH: u8, const ARITY: u8> Eject fo
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-collections"))]
 mod tests {
     use super::*;
     use console::{

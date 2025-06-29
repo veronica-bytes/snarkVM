@@ -15,7 +15,7 @@
 
 use super::*;
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> ToFields for Signature<A> {
     type Field = Field<A>;
 
@@ -27,7 +27,7 @@ impl<A: Aleo> ToFields for Signature<A> {
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-account"))]
 mod tests {
     use super::*;
     use crate::Circuit;

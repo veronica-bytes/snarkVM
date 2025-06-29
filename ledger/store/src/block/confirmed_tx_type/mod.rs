@@ -53,7 +53,7 @@ pub mod test_helpers {
     /// Samples a rejected deploy.
     pub(crate) fn sample_rejected_deploy(rng: &mut TestRng) -> ConfirmedTxType<CurrentNetwork> {
         // Sample the rejected deployment.
-        let rejected = ledger_test_helpers::sample_rejected_deployment(rng.gen(), rng);
+        let rejected = snarkvm_ledger_test_helpers::sample_rejected_deployment(rng.gen(), rng);
         // Return the rejected deploy.
         ConfirmedTxType::RejectedDeploy(rng.gen(), rejected)
     }
@@ -61,7 +61,7 @@ pub mod test_helpers {
     /// Samples a rejected execution.
     pub(crate) fn sample_rejected_execute(rng: &mut TestRng) -> ConfirmedTxType<CurrentNetwork> {
         // Sample the rejected execution.
-        let rejected = ledger_test_helpers::sample_rejected_execution(rng.gen(), rng);
+        let rejected = snarkvm_ledger_test_helpers::sample_rejected_execution(rng.gen(), rng);
         // Return the rejected execution.
         ConfirmedTxType::RejectedExecute(rng.gen(), rejected)
     }

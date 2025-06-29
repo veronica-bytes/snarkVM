@@ -17,6 +17,8 @@
 #![allow(clippy::too_many_arguments)]
 #![warn(clippy::cast_possible_truncation)]
 
+extern crate snarkvm_console as console;
+
 mod partial_solution;
 pub use partial_solution::*;
 

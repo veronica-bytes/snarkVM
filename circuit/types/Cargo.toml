@@ -9,37 +9,29 @@ license = "Apache-2.0"
 edition = "2021"
 
 [dependencies.snarkvm-circuit-environment]
-path = "../environment"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-address]
-path = "./address"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-boolean]
-path = "./boolean"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-field]
-path = "./field"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-group]
-path = "./group"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-integers]
-path = "./integers"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-scalar]
-path = "./scalar"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-string]
-path = "./string"
-version = "=3.8.0"
+workspace = true
 
-[dev-dependencies.console]
-package = "snarkvm-console"
-path = "../../console"
+[dev-dependencies.snarkvm-console]
+workspace = true
+features = [ "default" ]

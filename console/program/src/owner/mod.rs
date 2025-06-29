@@ -66,12 +66,12 @@ pub(crate) mod test_helpers {
     use super::*;
     use snarkvm_console_network::MainnetV0;
 
-    use once_cell::sync::OnceCell;
+    use std::sync::OnceLock;
 
     type CurrentNetwork = MainnetV0;
 
     pub(crate) fn sample_program_owner() -> ProgramOwner<CurrentNetwork> {
-        static INSTANCE: OnceCell<ProgramOwner<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<ProgramOwner<CurrentNetwork>> = OnceLock::new();
         *INSTANCE.get_or_init(|| {
             // Initialize the RNG.
             let rng = &mut TestRng::default();

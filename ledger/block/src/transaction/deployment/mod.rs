@@ -25,8 +25,8 @@ use console::{
     program::{Identifier, ProgramID},
     types::Field,
 };
-use synthesizer_program::Program;
-use synthesizer_snark::{Certificate, VerifyingKey};
+use snarkvm_synthesizer_program::Program;
+use snarkvm_synthesizer_snark::{Certificate, VerifyingKey};
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct Deployment<N: Network> {
@@ -186,15 +186,15 @@ impl<N: Network> Deployment<N> {
 pub mod test_helpers {
     use super::*;
     use console::network::MainnetV0;
-    use synthesizer_process::Process;
+    use snarkvm_synthesizer_process::Process;
 
-    use once_cell::sync::OnceCell;
+    use std::sync::OnceLock;
 
     type CurrentNetwork = MainnetV0;
-    type CurrentAleo = circuit::network::AleoV0;
+    type CurrentAleo = snarkvm_circuit::network::AleoV0;
 
     pub(crate) fn sample_deployment(rng: &mut TestRng) -> Deployment<CurrentNetwork> {
-        static INSTANCE: OnceCell<Deployment<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Deployment<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize a new program.

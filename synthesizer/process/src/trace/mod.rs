@@ -19,18 +19,17 @@ pub use call_metrics::*;
 mod inclusion;
 pub use inclusion::*;
 
-use algorithms::snark::varuna::VarunaVersion;
 use circuit::Assignment;
 use console::{
     network::prelude::*,
     program::{InputID, Locator},
 };
-use ledger_block::{Execution, Fee, Transition};
-use ledger_query::QueryTrait;
-use synthesizer_snark::{Proof, ProvingKey, VerifyingKey};
+use snarkvm_algorithms::snark::varuna::VarunaVersion;
+use snarkvm_ledger_block::{Execution, Fee, Transition};
+use snarkvm_ledger_query::QueryTrait;
+use snarkvm_synthesizer_snark::{Proof, ProvingKey, VerifyingKey};
 
-use once_cell::sync::OnceCell;
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::OnceLock};
 
 #[derive(Clone, Debug, Default)]
 pub struct Trace<N: Network> {
@@ -44,9 +43,9 @@ pub struct Trace<N: Network> {
     call_metrics: Vec<CallMetrics<N>>,
 
     /// A tracker for the inclusion assignments.
-    inclusion_assignments: OnceCell<Vec<InclusionAssignment<N>>>,
+    inclusion_assignments: OnceLock<Vec<InclusionAssignment<N>>>,
     /// A tracker for the global state root.
-    global_state_root: OnceCell<N::StateRoot>,
+    global_state_root: OnceLock<N::StateRoot>,
 }
 
 impl<N: Network> Trace<N> {
@@ -56,8 +55,8 @@ impl<N: Network> Trace<N> {
             transitions: Vec::new(),
             transition_tasks: HashMap::new(),
             inclusion_tasks: Inclusion::new(),
-            inclusion_assignments: OnceCell::new(),
-            global_state_root: OnceCell::new(),
+            inclusion_assignments: OnceLock::new(),
+            global_state_root: OnceLock::new(),
             call_metrics: Vec::new(),
         }
     }

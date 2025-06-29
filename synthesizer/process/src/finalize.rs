@@ -15,8 +15,8 @@
 
 use super::*;
 use console::program::{FinalizeType, Future, Register};
-use synthesizer_program::{Await, FinalizeRegistersState, Operand, RegistersTrait};
-use utilities::try_vm_runtime;
+use snarkvm_synthesizer_program::{Await, FinalizeRegistersState, Operand, RegistersTrait};
+use snarkvm_utilities::try_vm_runtime;
 
 use std::collections::HashSet;
 
@@ -481,7 +481,7 @@ mod tests {
     use super::*;
     use crate::tests::test_execute::{sample_fee, sample_finalize_state};
     use console::prelude::TestRng;
-    use ledger_store::{
+    use snarkvm_ledger_store::{
         BlockStore,
         helpers::memory::{BlockMemory, FinalizeMemory},
     };

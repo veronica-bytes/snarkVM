@@ -24,11 +24,12 @@ use snarkvm_circuit_network::Aleo;
 use snarkvm_circuit_types::{Address, Scalar, environment::prelude::*};
 
 use core::ops::Deref;
+use std::cell::OnceCell;
 
 /// The account view key is able to decrypt records and ciphertext.
 pub struct ViewKey<A: Aleo>(Scalar<A>, OnceCell<Address<A>>);
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Inject for ViewKey<A> {
     type Primitive = console::ViewKey<A::Network>;
 
@@ -38,7 +39,7 @@ impl<A: Aleo> Inject for ViewKey<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Eject for ViewKey<A> {
     type Primitive = console::ViewKey<A::Network>;
 
@@ -61,7 +62,7 @@ impl<A: Aleo> Deref for ViewKey<A> {
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-account"))]
 mod tests {
     use super::*;
     use crate::{Circuit, helpers::generate_account};

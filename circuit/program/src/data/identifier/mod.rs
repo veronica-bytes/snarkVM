@@ -39,7 +39,7 @@ use snarkvm_utilities::ToBits as TB;
 #[derive(Clone)]
 pub struct Identifier<A: Aleo>(Field<A>, u8); // Number of bytes in the identifier.
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Identifier<A> {
     type Primitive = console::Identifier<A::Network>;
 
@@ -58,7 +58,7 @@ impl<A: Aleo> Inject for Identifier<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Eject for Identifier<A> {
     type Primitive = console::Identifier<A::Network>;
 
@@ -77,7 +77,7 @@ impl<A: Aleo> Eject for Identifier<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Parser for Identifier<A> {
     /// Parses a UTF-8 string into an identifier.
     #[inline]
@@ -89,7 +89,7 @@ impl<A: Aleo> Parser for Identifier<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> FromStr for Identifier<A> {
     type Err = Error;
 
@@ -108,14 +108,14 @@ impl<A: Aleo> FromStr for Identifier<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Debug for Identifier<A> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Display for Identifier<A> {
     /// Prints the identifier as a string.
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
@@ -153,7 +153,7 @@ impl<A: Aleo> From<&Identifier<A>> for LinearCombination<A::BaseField> {
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-program"))]
 pub(crate) mod tests {
     use super::*;
     use crate::Circuit;

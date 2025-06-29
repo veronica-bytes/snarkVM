@@ -34,7 +34,7 @@ use console::{
         ValueType,
     },
 };
-use synthesizer_program::{
+use snarkvm_synthesizer_program::{
     CallOperator,
     CastType,
     Closure,

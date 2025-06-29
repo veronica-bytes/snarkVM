@@ -32,9 +32,9 @@ use console::{
     network::prelude::*,
     program::{Identifier, ProgramID},
 };
-use ledger_block::{Deployment, Execution, Transaction};
-use synthesizer_program::Program;
-use synthesizer_snark::{Certificate, VerifyingKey};
+use snarkvm_ledger_block::{Deployment, Execution, Transaction};
+use snarkvm_synthesizer_program::Program;
+use snarkvm_synthesizer_snark::{Certificate, VerifyingKey};
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;
@@ -481,12 +481,12 @@ mod tests {
 
         // Sample the transactions.
         for transaction in [
-            ledger_test_helpers::sample_deployment_transaction(true, rng),
-            ledger_test_helpers::sample_deployment_transaction(false, rng),
-            ledger_test_helpers::sample_execution_transaction_with_fee(true, rng),
-            ledger_test_helpers::sample_execution_transaction_with_fee(false, rng),
-            ledger_test_helpers::sample_fee_private_transaction(rng),
-            ledger_test_helpers::sample_fee_public_transaction(rng),
+            snarkvm_ledger_test_helpers::sample_deployment_transaction(true, rng),
+            snarkvm_ledger_test_helpers::sample_deployment_transaction(false, rng),
+            snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(true, rng),
+            snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(false, rng),
+            snarkvm_ledger_test_helpers::sample_fee_private_transaction(rng),
+            snarkvm_ledger_test_helpers::sample_fee_public_transaction(rng),
         ] {
             let transaction_id = transaction.id();
 
@@ -522,12 +522,12 @@ mod tests {
 
         // Sample the transactions.
         for transaction in [
-            ledger_test_helpers::sample_deployment_transaction(true, rng),
-            ledger_test_helpers::sample_deployment_transaction(false, rng),
-            ledger_test_helpers::sample_execution_transaction_with_fee(true, rng),
-            ledger_test_helpers::sample_execution_transaction_with_fee(false, rng),
-            ledger_test_helpers::sample_fee_private_transaction(rng),
-            ledger_test_helpers::sample_fee_public_transaction(rng),
+            snarkvm_ledger_test_helpers::sample_deployment_transaction(true, rng),
+            snarkvm_ledger_test_helpers::sample_deployment_transaction(false, rng),
+            snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(true, rng),
+            snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(false, rng),
+            snarkvm_ledger_test_helpers::sample_fee_private_transaction(rng),
+            snarkvm_ledger_test_helpers::sample_fee_public_transaction(rng),
         ] {
             let transaction_id = transaction.id();
             let transition_ids = transaction.transition_ids();

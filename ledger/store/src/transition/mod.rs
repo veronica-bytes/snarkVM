@@ -28,7 +28,7 @@ use console::{
     program::{Ciphertext, Identifier, Plaintext, ProgramID, Record},
     types::{Field, Group},
 };
-use ledger_block::{Input, Output, Transition};
+use snarkvm_ledger_block::{Input, Output, Transition};
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;
@@ -653,8 +653,8 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the transactions.
-        let transaction_0 = ledger_test_helpers::sample_execution_transaction_with_fee(true, rng);
-        let transaction_1 = ledger_test_helpers::sample_execution_transaction_with_fee(false, rng);
+        let transaction_0 = snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(true, rng);
+        let transaction_1 = snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(false, rng);
         let transactions = vec![transaction_0, transaction_1];
 
         for transaction in transactions {

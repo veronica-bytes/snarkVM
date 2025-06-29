@@ -22,8 +22,8 @@ use console::{
     program::{InputID, StatePath, TRANSACTION_DEPTH, TransactionLeaf, TransitionLeaf, TransitionPath},
     types::{Field, Group},
 };
-use ledger_block::{Input, Output, Transaction, Transition};
-use ledger_query::QueryTrait;
+use snarkvm_ledger_block::{Input, Output, Transaction, Transition};
+use snarkvm_ledger_query::QueryTrait;
 
 use std::collections::HashMap;
 

@@ -19,8 +19,8 @@ use console::{
     program::{ProgramID, StatePath},
     types::Field,
 };
-use ledger_store::{BlockStorage, BlockStore};
-use synthesizer_program::Program;
+use snarkvm_ledger_store::{BlockStorage, BlockStore};
+use snarkvm_synthesizer_program::Program;
 
 // ureq re-exports the `http` crate.
 use ureq::http;

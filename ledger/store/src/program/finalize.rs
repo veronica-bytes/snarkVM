@@ -23,7 +23,7 @@ use console::{
     program::{Identifier, Plaintext, ProgramID, Value},
     types::Field,
 };
-use synthesizer_program::{FinalizeOperation, FinalizeStoreTrait};
+use snarkvm_synthesizer_program::{FinalizeOperation, FinalizeStoreTrait};
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;

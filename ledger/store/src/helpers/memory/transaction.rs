@@ -29,8 +29,8 @@ use console::{
     prelude::*,
     program::{Identifier, ProgramID, ProgramOwner},
 };
-use synthesizer_program::Program;
-use synthesizer_snark::{Certificate, Proof, VerifyingKey};
+use snarkvm_synthesizer_program::Program;
+use snarkvm_synthesizer_snark::{Certificate, Proof, VerifyingKey};
 
 /// An in-memory transaction storage.
 #[derive(Clone)]

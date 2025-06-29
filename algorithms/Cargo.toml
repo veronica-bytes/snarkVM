@@ -46,43 +46,34 @@ harness = false
 required-features = [ "test" ]
 
 [dependencies.snarkvm-curves]
-path = "../curves"
-version = "=3.8.0"
-default-features = false
+workspace = true
 
 [dependencies.snarkvm-fields]
-path = "../fields"
-version = "=3.8.0"
-default-features = false
+workspace = true
 
 [dependencies.snarkvm-parameters]
-path = "../parameters"
-version = "=3.8.0"
+workspace = true
 optional = true
 
 [dependencies.snarkvm-utilities]
-path = "../utilities"
-version = "=3.8.0"
-default-features = false
+workspace = true
 
 [dependencies.snarkvm-algorithms-cuda]
-path = "./cuda"
-version = "=3.8.0"
+workspace = true
 optional = true
 
 [dependencies.aleo-std]
-version = "1.0.1"
-default-features = false
+workspace = true
 
 [dependencies.anyhow]
-version = "1.0"
+workspace = true
 
 [dependencies.blake2]
 version = "0.10"
 default-features = true
 
 [dependencies.cfg-if]
-version = "1.0.0"
+workspace = true
 optional = true
 
 [dependencies.fxhash]
@@ -93,61 +84,53 @@ optional = true
 version = "0.15"
 
 [dependencies.hex]
-version = "0.4"
+workspace = true
 
 [dependencies.indexmap]
-version = "2.0.0"
+workspace = true
 optional = true
 
 [dependencies.itertools]
-version = "0.11.0"
+workspace = true
 
 [dependencies.rand]
-version = "0.8"
-
-[dependencies.rand_core]
-version = "0.6"
-default-features = false
-optional = true
+workspace = true
 
 [dependencies.rayon]
-version = "1"
+workspace = true
 
 [dependencies.serde]
-version = "1.0"
-default-features = false
+workspace = true
 features = [ "derive" ]
 
 [dependencies.sha2]
-version = "0.10"
-default-features = false
+workspace = true
 
 [dependencies.smallvec]
-version = "1.11"
-default-features = false
+workspace = true
 features = [ "const_generics", "const_new" ]
 
 [dependencies.thiserror]
-version = "2.0.11"
+workspace = true
 
 [dependencies.num-traits]
-version = "0.2"
+workspace = true
 
 [dev-dependencies.expect-test]
-version = "1.4.1"
+workspace = true
 
 [dev-dependencies.bincode]
-version = "1"
+workspace = true
 
 [dev-dependencies.criterion]
-version = "0.5.1"
+workspace = true
 
 [dev-dependencies.serde_json]
-version = "1"
+workspace = true
 features = [ "preserve_order" ]
 
 [dev-dependencies.serial_test]
-version = "2.0"
+workspace = true
 
 [features]
 default = [
@@ -179,7 +162,7 @@ fft = [ ]
 locktick = [ "snarkvm-parameters?/locktick" ]
 msm = [ ]
 test = [ ]
-polycommit = [ "crypto_hash", "fft", "msm", "rand_core" ]
+polycommit = [ "crypto_hash", "fft", "msm", ]
 polycommit_wasm = [ "polycommit", "snarkvm-parameters/wasm" ]
 polycommit_full = [ "polycommit", "snarkvm-parameters/default" ]
 r1cs = [ "cfg-if", "fxhash", "indexmap" ]

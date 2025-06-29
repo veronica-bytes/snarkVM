@@ -225,7 +225,7 @@ impl Network for MainnetV0 {
 
     /// Returns the `proving key` for the inclusion circuit.
     fn inclusion_proving_key() -> &'static Arc<VarunaProvingKey<Self>> {
-        static INSTANCE: OnceCell<Arc<VarunaProvingKey<Console>>> = OnceCell::new();
+        static INSTANCE: OnceLock<Arc<VarunaProvingKey<Console>>> = OnceLock::new();
         INSTANCE.get_or_init(|| {
             // Skipping the first byte, which is the encoded version.
             Arc::new(
@@ -237,7 +237,7 @@ impl Network for MainnetV0 {
 
     /// Returns the `verifying key` for the inclusion circuit.
     fn inclusion_verifying_key() -> &'static Arc<VarunaVerifyingKey<Self>> {
-        static INSTANCE: OnceCell<Arc<VarunaVerifyingKey<Console>>> = OnceCell::new();
+        static INSTANCE: OnceLock<Arc<VarunaVerifyingKey<Console>>> = OnceLock::new();
         INSTANCE.get_or_init(|| {
             // Skipping the first byte, which is the encoded version.
             Arc::new(
@@ -266,7 +266,7 @@ impl Network for MainnetV0 {
 
     /// Returns the Varuna universal prover.
     fn varuna_universal_prover() -> &'static UniversalProver<Self::PairingCurve> {
-        static INSTANCE: OnceCell<UniversalProver<<Console as Environment>::PairingCurve>> = OnceCell::new();
+        static INSTANCE: OnceLock<UniversalProver<<Console as Environment>::PairingCurve>> = OnceLock::new();
         INSTANCE.get_or_init(|| {
             snarkvm_algorithms::polycommit::kzg10::UniversalParams::load()
                 .expect("Failed to load universal SRS (KZG10).")
@@ -277,7 +277,7 @@ impl Network for MainnetV0 {
 
     /// Returns the Varuna universal verifier.
     fn varuna_universal_verifier() -> &'static UniversalVerifier<Self::PairingCurve> {
-        static INSTANCE: OnceCell<UniversalVerifier<<Console as Environment>::PairingCurve>> = OnceCell::new();
+        static INSTANCE: OnceLock<UniversalVerifier<<Console as Environment>::PairingCurve>> = OnceLock::new();
         INSTANCE.get_or_init(|| {
             snarkvm_algorithms::polycommit::kzg10::UniversalParams::load()
                 .expect("Failed to load universal SRS (KZG10).")

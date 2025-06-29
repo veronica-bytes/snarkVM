@@ -37,7 +37,7 @@ pub struct ComputeKey<A: Aleo> {
     sk_prf: Scalar<A>,
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Inject for ComputeKey<A> {
     type Primitive = console::ComputeKey<A::Network>;
 
@@ -69,7 +69,7 @@ impl<A: Aleo> ComputeKey<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Eject for ComputeKey<A> {
     type Primitive = console::ComputeKey<A::Network>;
 
@@ -87,7 +87,7 @@ impl<A: Aleo> Eject for ComputeKey<A> {
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-account"))]
 pub(crate) mod tests {
     use super::*;
     use crate::{Circuit, helpers::generate_account};

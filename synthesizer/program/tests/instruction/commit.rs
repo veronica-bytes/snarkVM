@@ -23,6 +23,7 @@ use console::{
     prelude::*,
     program::{Identifier, Literal, LiteralType, Plaintext, Register, Value},
 };
+use snarkvm_synthesizer_process::{Process, Stack};
 use snarkvm_synthesizer_program::{
     CommitBHP256,
     CommitBHP512,
@@ -37,7 +38,6 @@ use snarkvm_synthesizer_program::{
     RegistersCircuit as _,
     RegistersTrait as _,
 };
-use synthesizer_process::{Process, Stack};
 
 type CurrentNetwork = MainnetV0;
 type CurrentAleo = AleoV0;

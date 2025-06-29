@@ -16,21 +16,23 @@
 #![forbid(unsafe_code)]
 #![warn(clippy::cast_possible_truncation)]
 
+extern crate snarkvm_console as console;
+
 #[macro_use]
 extern crate tracing;
 
-pub use ledger_authority as authority;
-pub use ledger_block as block;
-pub use ledger_committee as committee;
-pub use ledger_narwhal as narwhal;
-pub use ledger_puzzle as puzzle;
-pub use ledger_query as query;
-pub use ledger_store as store;
+pub use snarkvm_ledger_authority as authority;
+pub use snarkvm_ledger_block as block;
+pub use snarkvm_ledger_committee as committee;
+pub use snarkvm_ledger_narwhal as narwhal;
+pub use snarkvm_ledger_puzzle as puzzle;
+pub use snarkvm_ledger_query as query;
+pub use snarkvm_ledger_store as store;
 
 pub use crate::block::*;
 
 #[cfg(feature = "test-helpers")]
-pub use ledger_test_helpers;
+pub use snarkvm_ledger_test_helpers;
 
 mod helpers;
 pub use helpers::*;
@@ -53,13 +55,13 @@ use console::{
     program::{Ciphertext, Entry, Identifier, Literal, Plaintext, ProgramID, Record, StatePath, Value},
     types::{Field, Group},
 };
-use ledger_authority::Authority;
-use ledger_committee::Committee;
-use ledger_narwhal::{BatchCertificate, Subdag, Transmission, TransmissionID};
-use ledger_puzzle::{Puzzle, PuzzleSolutions, Solution, SolutionID};
-use ledger_query::QueryTrait;
-use ledger_store::{ConsensusStorage, ConsensusStore};
-use synthesizer::{
+use snarkvm_ledger_authority::Authority;
+use snarkvm_ledger_committee::Committee;
+use snarkvm_ledger_narwhal::{BatchCertificate, Subdag, Transmission, TransmissionID};
+use snarkvm_ledger_puzzle::{Puzzle, PuzzleSolutions, Solution, SolutionID};
+use snarkvm_ledger_query::QueryTrait;
+use snarkvm_ledger_store::{ConsensusStorage, ConsensusStore};
+use snarkvm_synthesizer::{
     program::{FinalizeGlobalState, Program},
     vm::VM,
 };
@@ -465,25 +467,26 @@ pub(crate) mod test_helpers {
         network::MainnetV0,
         prelude::*,
     };
-    use ledger_store::ConsensusStore;
     use snarkvm_circuit::network::AleoV0;
-    use synthesizer::vm::VM;
+    use snarkvm_ledger_store::ConsensusStore;
+    use snarkvm_synthesizer::vm::VM;
 
     pub(crate) type CurrentNetwork = MainnetV0;
     pub(crate) type CurrentAleo = AleoV0;
 
     #[cfg(not(feature = "rocks"))]
     pub(crate) type CurrentLedger =
-        Ledger<CurrentNetwork, ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>>;
+        Ledger<CurrentNetwork, snarkvm_ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>>;
     #[cfg(feature = "rocks")]
-    pub(crate) type CurrentLedger = Ledger<CurrentNetwork, ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>>;
+    pub(crate) type CurrentLedger =
+        Ledger<CurrentNetwork, snarkvm_ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>>;
 
     #[cfg(not(feature = "rocks"))]
     pub(crate) type CurrentConsensusStore =
-        ConsensusStore<CurrentNetwork, ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>>;
+        ConsensusStore<CurrentNetwork, snarkvm_ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>>;
     #[cfg(feature = "rocks")]
     pub(crate) type CurrentConsensusStore =
-        ConsensusStore<CurrentNetwork, ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>>;
+        ConsensusStore<CurrentNetwork, snarkvm_ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>>;
 
     #[allow(dead_code)]
     pub(crate) struct TestEnv {

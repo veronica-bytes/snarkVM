@@ -26,11 +26,13 @@ use snarkvm_curves::traits::{AffineCurve, PairingCurve, PairingEngine, Projectiv
 use snarkvm_fields::{One, Zero};
 
 use anyhow::{Result, bail, ensure};
-use core::{convert::TryInto, marker::PhantomData, ops::Mul};
-use rand_core::{RngCore, SeedableRng};
+use rand::{RngCore, SeedableRng};
 use std::{
     borrow::Borrow,
     collections::{BTreeMap, BTreeSet},
+    convert::TryInto,
+    marker::PhantomData,
+    ops::Mul,
 };
 
 mod data_structures;

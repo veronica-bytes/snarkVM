@@ -15,7 +15,7 @@
 
 use super::*;
 
-use utilities::DeserializeExt;
+use snarkvm_utilities::DeserializeExt;
 
 impl<N: Network + Serialize> Serialize for Restrictions<N> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>

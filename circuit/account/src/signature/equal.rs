@@ -15,7 +15,7 @@
 
 use super::*;
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Equal<Self> for Signature<A> {
     type Output = Boolean<A>;
 
@@ -67,7 +67,7 @@ impl<A: Aleo> OutputMode<dyn Equal<Signature<A>, Output = Boolean<A>>> for Signa
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-account"))]
 mod tests {
     use super::*;
     use crate::Circuit;

@@ -20,37 +20,31 @@ edition = "2021"
 default = [ "query" ]
 async = [ "dep:reqwest" ]
 serial = [
-  "console/serial",
-  "ledger-store/serial",
-  "synthesizer-program/serial"
+  "snarkvm-console/serial",
+  "snarkvm-ledger-store/serial",
+  "snarkvm-synthesizer-program/serial"
 ]
 wasm = [
-  "console/wasm",
-  "ledger-store/wasm",
-  "synthesizer-program/wasm"
+  "snarkvm-console/wasm",
+  "snarkvm-ledger-store/wasm",
+  "snarkvm-synthesizer-program/wasm"
 ]
 query = [
-  "dep:ledger-store",
-  "dep:synthesizer-program",
+  "dep:snarkvm-ledger-store",
+  "dep:snarkvm-synthesizer-program",
   "dep:ureq",
-  "dep:http"
 ]
 
-[dependencies.console]
-package = "snarkvm-console"
-path = "../../console"
-version = "=3.8.0"
+[dependencies.snarkvm-console]
+workspace = true
+features = [ "default" ]
 
-[dependencies.ledger-store]
-package = "snarkvm-ledger-store"
-path = "../store"
-version = "=3.8.0"
+[dependencies.snarkvm-ledger-store]
+workspace = true
 optional = true
 
-[dependencies.synthesizer-program]
-package = "snarkvm-synthesizer-program"
-path = "../../synthesizer/program"
-version = "=3.8.0"
+[dependencies.snarkvm-synthesizer-program]
+workspace = true
 optional = true
 
 [dependencies.async-trait]
@@ -64,8 +58,4 @@ optional = true
 [dependencies.ureq]
 workspace = true
 features = [ "json" ]
-optional = true
-
-[dependencies.http]
-version = "1"
 optional = true

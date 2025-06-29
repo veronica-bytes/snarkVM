@@ -22,7 +22,7 @@ use console::{
     program::{Ciphertext, Future, Plaintext, Record},
     types::{Field, Group},
 };
-use ledger_block::Output;
+use snarkvm_ledger_block::Output;
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;
@@ -572,7 +572,7 @@ mod tests {
     #[test]
     fn test_insert_get_remove() {
         // Sample the transition outputs.
-        for (transition_id, output) in ledger_test_helpers::sample_outputs() {
+        for (transition_id, output) in snarkvm_ledger_test_helpers::sample_outputs() {
             // Initialize a new output store.
             let output_store = OutputMemory::open(StorageMode::Test(None)).unwrap();
 
@@ -599,7 +599,7 @@ mod tests {
     #[test]
     fn test_find_transition_id() {
         // Sample the transition outputs.
-        for (transition_id, output) in ledger_test_helpers::sample_outputs() {
+        for (transition_id, output) in snarkvm_ledger_test_helpers::sample_outputs() {
             // Initialize a new output store.
             let output_store = OutputMemory::open(StorageMode::Test(None)).unwrap();
 

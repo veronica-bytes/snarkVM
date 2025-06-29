@@ -26,13 +26,13 @@ use console::{
     program::{Entry, Identifier, Literal, Plaintext, ProgramID, Value},
     types::U16,
 };
-use ledger_authority::Authority;
-use ledger_block::{Block, ConfirmedTransaction, Execution, Ratify, Rejected, Transaction};
-use ledger_committee::{Committee, MIN_VALIDATOR_STAKE};
-use ledger_narwhal::{BatchCertificate, BatchHeader, Data, Subdag, Transmission, TransmissionID};
-use ledger_store::ConsensusStore;
+use snarkvm_ledger_authority::Authority;
+use snarkvm_ledger_block::{Block, ConfirmedTransaction, Execution, Ratify, Rejected, Transaction};
+use snarkvm_ledger_committee::{Committee, MIN_VALIDATOR_STAKE};
+use snarkvm_ledger_narwhal::{BatchCertificate, BatchHeader, Data, Subdag, Transmission, TransmissionID};
+use snarkvm_ledger_store::ConsensusStore;
+use snarkvm_synthesizer::{Stack, program::Program, vm::VM};
 use snarkvm_utilities::try_vm_runtime;
-use synthesizer::{Stack, program::Program, vm::VM};
 
 use indexmap::{IndexMap, IndexSet};
 use rand::seq::SliceRandom;
@@ -40,9 +40,9 @@ use std::collections::{BTreeMap, HashMap, HashSet};
 use time::OffsetDateTime;
 
 #[cfg(not(feature = "rocks"))]
-type LedgerType = ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>;
+type LedgerType = snarkvm_ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>;
 #[cfg(feature = "rocks")]
-type LedgerType = ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>;
+type LedgerType = snarkvm_ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>;
 
 /// Initializes a sample VM.
 fn sample_vm() -> VM<CurrentNetwork, LedgerType> {
@@ -375,7 +375,7 @@ fn test_get_bonded_balances() {
     let bonded_mapping =
         ledger.vm().finalize_store().get_mapping_confirmed(credits_program_id, bonded_mapping).unwrap();
     // Deserialize the bonded stakers.
-    let stakers = synthesizer::vm::bonded_map_into_stakers(bonded_mapping).unwrap();
+    let stakers = snarkvm_synthesizer::vm::bonded_map_into_stakers(bonded_mapping).unwrap();
     // Check that the bonded amounts match the bonded mapping.
     for (staker, (_, amount)) in stakers {
         assert_eq!(amount, ledger.get_bonded_amount(&staker).unwrap());
@@ -1158,7 +1158,7 @@ finalize foo:
     // This simulates a malicious validator re-using execution content.
     let execution_to_mutate = transaction_to_mutate.execution().unwrap();
     // Sample a transition.
-    let sample = ledger_test_helpers::sample_transition(rng);
+    let sample = snarkvm_ledger_test_helpers::sample_transition(rng);
     // Extend the transitions.
     let mutated_transitions = std::iter::once(sample).chain(execution_to_mutate.transitions().cloned());
     // Create a mutated execution.
@@ -2748,8 +2748,8 @@ function foo:
 mod valid_solutions {
     use super::*;
     use crate::is_solution_limit_reached::STAKE_REQUIREMENTS_PER_SOLUTION;
-    use ledger_puzzle::Solution;
     use rand::prelude::SliceRandom;
+    use snarkvm_ledger_puzzle::Solution;
     use std::collections::HashSet;
 
     // Helper function to set up a prover's account with sufficient balance to generate solutions.

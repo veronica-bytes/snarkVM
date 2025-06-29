@@ -17,6 +17,9 @@
 #![allow(clippy::too_many_arguments)]
 #![warn(clippy::cast_possible_truncation)]
 
+extern crate snarkvm_circuit as circuit;
+extern crate snarkvm_console as console;
+
 pub type Program<N> = crate::ProgramCore<N>;
 pub type Function<N> = crate::FunctionCore<N>;
 pub type Finalize<N> = crate::FinalizeCore<N>;

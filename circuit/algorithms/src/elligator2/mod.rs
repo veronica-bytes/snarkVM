@@ -15,7 +15,7 @@
 
 mod encode;
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-algorithms"))]
 use snarkvm_circuit_types::environment::assert_scope;
 
 use snarkvm_circuit_types::prelude::*;

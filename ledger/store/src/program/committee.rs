@@ -18,7 +18,7 @@ use crate::{
     helpers::{Map, MapRead},
 };
 use console::network::prelude::*;
-use ledger_committee::Committee;
+use snarkvm_ledger_committee::Committee;
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;
@@ -398,7 +398,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the committee.
-        let committee_0 = ledger_committee::test_helpers::sample_committee_for_round(0, rng);
+        let committee_0 = snarkvm_ledger_committee::test_helpers::sample_committee_for_round(0, rng);
 
         // Initialize a new committee store.
         let store = CommitteeStore::<CurrentNetwork, CommitteeMemory<_>>::open(StorageMode::new_test(None)).unwrap();
@@ -430,7 +430,7 @@ mod tests {
         assert_eq!(store.get_committee_for_round(3).unwrap(), None);
 
         // Sample another committee.
-        let committee_1 = ledger_committee::test_helpers::sample_committee_for_round(5, rng);
+        let committee_1 = snarkvm_ledger_committee::test_helpers::sample_committee_for_round(5, rng);
 
         // Insert the committee.
         store.insert(1, committee_1.clone()).unwrap();
@@ -519,7 +519,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the committee.
-        let committee_0 = ledger_committee::test_helpers::sample_committee_for_round(0, rng);
+        let committee_0 = snarkvm_ledger_committee::test_helpers::sample_committee_for_round(0, rng);
 
         // Initialize a new committee store.
         let store = CommitteeStore::<CurrentNetwork, CommitteeMemory<_>>::open(StorageMode::new_test(None)).unwrap();
@@ -534,7 +534,7 @@ mod tests {
         assert_eq!(store.current_committee().unwrap(), committee_0);
 
         // Sample another committee.
-        let committee_1 = ledger_committee::test_helpers::sample_committee_for_round(5, rng);
+        let committee_1 = snarkvm_ledger_committee::test_helpers::sample_committee_for_round(5, rng);
 
         // Insert the committee.
         store.insert(1, committee_1.clone()).unwrap();

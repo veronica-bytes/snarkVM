@@ -19,55 +19,42 @@ test_targets = [ ]
 test_consensus_heights = [ ]
 
 [dependencies.snarkvm-algorithms]
-path = "../../algorithms"
-version = "=3.8.0"
-default-features = false
+workspace = true
 features = [ "snark" ]
 
 [dependencies.snarkvm-console-algorithms]
-path = "../algorithms"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-console-collections]
-path = "../collections"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-console-network-environment]
-path = "./environment"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-console-types]
-path = "../types"
-version = "=3.8.0"
-default-features = false
+workspace = true
 features = [ "field", "group", "scalar" ]
 
 [dependencies.snarkvm-curves]
-path = "../../curves"
-version = "=3.8.0"
-default-features = false
+workspace = true
 
 [dependencies.snarkvm-parameters]
-path = "../../parameters"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.anyhow]
-version = "1.0.73"
+workspace = true
 
 [dependencies.indexmap]
-version = "2"
+workspace = true
 
 [dependencies.lazy_static]
-version = "1.4"
-
-[dependencies.once_cell]
-version = "1.18"
+workspace = true
 
 [dependencies.serde]
-version = "1.0"
+workspace = true
 
 [dependencies.paste]
-version = "1.0"
+workspace = true
 
 [package.metadata.cargo-machete]
 ignored = ["paste"]

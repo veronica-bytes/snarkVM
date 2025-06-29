@@ -19,7 +19,7 @@ mod string;
 
 use crate::{Transaction, Transition};
 use console::{account::Field, network::prelude::*, program::ProgramID};
-use synthesizer_snark::Proof;
+use snarkvm_synthesizer_snark::Proof;
 
 use indexmap::IndexMap;
 

@@ -18,23 +18,23 @@
 #[macro_use]
 extern crate criterion;
 
-use console::{
+use snarkvm_console::{
     account::*,
     network::{MainnetV0, Network},
     program::{Plaintext, Record, Value},
 };
-use ledger_block::Transition;
-use ledger_store::ConsensusStore;
-use synthesizer::{VM, program::Program};
+use snarkvm_ledger_block::Transition;
+use snarkvm_ledger_store::ConsensusStore;
+use snarkvm_synthesizer::{VM, program::Program};
 
 use aleo_std::StorageMode;
 use criterion::Criterion;
 use indexmap::IndexMap;
 
 #[cfg(not(feature = "rocks"))]
-type LedgerType = ledger_store::helpers::memory::ConsensusMemory<MainnetV0>;
+type LedgerType = snarkvm_ledger_store::helpers::memory::ConsensusMemory<MainnetV0>;
 #[cfg(feature = "rocks")]
-type LedgerType = ledger_store::helpers::rocksdb::ConsensusDB<MainnetV0>;
+type LedgerType = snarkvm_ledger_store::helpers::rocksdb::ConsensusDB<MainnetV0>;
 
 fn initialize_vm<R: Rng + CryptoRng>(
     private_key: &PrivateKey<MainnetV0>,

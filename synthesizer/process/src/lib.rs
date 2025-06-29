@@ -19,6 +19,9 @@
 // TODO (howardwu): Update the return type on `execute` after stabilizing the interface.
 #![allow(clippy::type_complexity)]
 
+extern crate snarkvm_circuit as circuit;
+extern crate snarkvm_console as console;
+
 mod cost;
 pub use cost::*;
 
@@ -40,17 +43,25 @@ mod verify_fee;
 #[cfg(test)]
 mod tests;
 
-use algorithms::snark::varuna::VarunaVersion;
 use console::{
     account::PrivateKey,
     network::prelude::*,
     program::{Identifier, Literal, Locator, Plaintext, ProgramID, Record, Response, Value, compute_function_id},
     types::{Field, U16, U64},
 };
-use ledger_block::{Deployment, Execution, Fee, Input, Output, Transaction, Transition};
-use ledger_store::{FinalizeStorage, FinalizeStore, atomic_batch_scope};
-use synthesizer_program::{Branch, Command, FinalizeGlobalState, FinalizeOperation, Instruction, Program, StackTrait};
-use synthesizer_snark::{ProvingKey, UniversalSRS, VerifyingKey};
+use snarkvm_algorithms::snark::varuna::VarunaVersion;
+use snarkvm_ledger_block::{Deployment, Execution, Fee, Input, Output, Transaction, Transition};
+use snarkvm_ledger_store::{FinalizeStorage, FinalizeStore, atomic_batch_scope};
+use snarkvm_synthesizer_program::{
+    Branch,
+    Command,
+    FinalizeGlobalState,
+    FinalizeOperation,
+    Instruction,
+    Program,
+    StackTrait,
+};
+use snarkvm_synthesizer_snark::{ProvingKey, UniversalSRS, VerifyingKey};
 
 use aleo_std::prelude::{finish, lap, timer};
 use indexmap::IndexMap;
@@ -285,13 +296,13 @@ impl<N: Network> Process<N> {
 pub mod test_helpers {
     use super::*;
     use console::{account::PrivateKey, network::MainnetV0, program::Identifier};
-    use ledger_block::Transition;
-    use ledger_query::Query;
-    use ledger_store::{BlockStore, helpers::memory::BlockMemory};
-    use synthesizer_program::Program;
+    use snarkvm_ledger_block::Transition;
+    use snarkvm_ledger_query::Query;
+    use snarkvm_ledger_store::{BlockStore, helpers::memory::BlockMemory};
+    use snarkvm_synthesizer_program::Program;
 
     use aleo_std::StorageMode;
-    use once_cell::sync::OnceCell;
+    use std::sync::OnceLock;
 
     type CurrentNetwork = MainnetV0;
     type CurrentAleo = circuit::network::AleoV0;
@@ -325,7 +336,7 @@ pub mod test_helpers {
         let block_store = BlockStore::<CurrentNetwork, BlockMemory<_>>::open(StorageMode::new_test(None)).unwrap();
 
         // Prepare the assignments from the block store.
-        trace.prepare(&ledger_query::Query::from(block_store)).unwrap();
+        trace.prepare(&snarkvm_ledger_query::Query::from(block_store)).unwrap();
 
         // Get the locator.
         let locator = format!("{:?}:{function_name:?}", program.id());
@@ -335,11 +346,11 @@ pub mod test_helpers {
     }
 
     pub fn sample_key() -> (Identifier<CurrentNetwork>, ProvingKey<CurrentNetwork>, VerifyingKey<CurrentNetwork>) {
-        static INSTANCE: OnceCell<(
+        static INSTANCE: OnceLock<(
             Identifier<CurrentNetwork>,
             ProvingKey<CurrentNetwork>,
             VerifyingKey<CurrentNetwork>,
-        )> = OnceCell::new();
+        )> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize a new program.
@@ -378,7 +389,7 @@ function compute:
     }
 
     pub(crate) fn sample_execution() -> Execution<CurrentNetwork> {
-        static INSTANCE: OnceCell<Execution<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Execution<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize a new program.

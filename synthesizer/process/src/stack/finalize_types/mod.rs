@@ -32,7 +32,7 @@ use console::{
         StructType,
     },
 };
-use synthesizer_program::{
+use snarkvm_synthesizer_program::{
     Await,
     Branch,
     CallOperator,

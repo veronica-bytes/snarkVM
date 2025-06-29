@@ -15,13 +15,13 @@
 
 mod utilities;
 
-use console::{
+use snarkvm_console::{
     account::PrivateKey,
     network::prelude::*,
     program::{Identifier, Literal, ProgramID, Value},
     types::Boolean,
 };
-use synthesizer_process::Process;
+use snarkvm_synthesizer_process::Process;
 use utilities::*;
 
 use rayon::prelude::*;

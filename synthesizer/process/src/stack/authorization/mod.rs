@@ -18,7 +18,7 @@ mod serialize;
 mod string;
 
 use console::{network::prelude::*, program::Request, types::Field};
-use ledger_block::{Transaction, Transition};
+use snarkvm_ledger_block::{Transaction, Transition};
 
 use indexmap::IndexMap;
 #[cfg(feature = "locktick")]

@@ -23,14 +23,14 @@ mod finalize;
 mod verify;
 
 use crate::{Restrictions, cast_mut_ref, cast_ref, convert, process};
-use algorithms::snark::varuna::VarunaVersion;
 use console::{
     account::{Address, PrivateKey},
     network::prelude::*,
     program::{Argument, Identifier, Literal, Locator, Plaintext, ProgramID, ProgramOwner, Record, Response, Value},
     types::{Field, Group, U64},
 };
-use ledger_block::{
+use snarkvm_algorithms::snark::varuna::VarunaVersion;
+use snarkvm_ledger_block::{
     Block,
     ConfirmedTransaction,
     Deployment,
@@ -45,11 +45,11 @@ use ledger_block::{
     Transaction,
     Transactions,
 };
-use ledger_committee::Committee;
-use ledger_narwhal_data::Data;
-use ledger_puzzle::Puzzle;
-use ledger_query::{Query, QueryTrait};
-use ledger_store::{
+use snarkvm_ledger_committee::Committee;
+use snarkvm_ledger_narwhal_data::Data;
+use snarkvm_ledger_puzzle::Puzzle;
+use snarkvm_ledger_query::{Query, QueryTrait};
+use snarkvm_ledger_store::{
     BlockStore,
     ConsensusStorage,
     ConsensusStore,
@@ -59,9 +59,16 @@ use ledger_store::{
     TransitionStore,
     atomic_finalize,
 };
-use synthesizer_process::{Authorization, Process, Trace, deployment_cost, execution_cost_v1, execution_cost_v2};
-use synthesizer_program::{FinalizeGlobalState, FinalizeOperation, FinalizeStoreTrait, Program};
-use utilities::try_vm_runtime;
+use snarkvm_synthesizer_process::{
+    Authorization,
+    Process,
+    Trace,
+    deployment_cost,
+    execution_cost_v1,
+    execution_cost_v2,
+};
+use snarkvm_synthesizer_program::{FinalizeGlobalState, FinalizeOperation, FinalizeStoreTrait, Program};
+use snarkvm_utilities::try_vm_runtime;
 
 use aleo_std::prelude::{finish, lap, timer};
 use indexmap::{IndexMap, IndexSet};
@@ -237,7 +244,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         // Initialize a new instance of the puzzle.
         macro_rules! logic {
             ($network:path, $aleo:path) => {{
-                let puzzle = Puzzle::new::<ledger_puzzle_epoch::SynthesisPuzzle<$network, $aleo>>();
+                let puzzle = Puzzle::new::<snarkvm_ledger_puzzle_epoch::SynthesisPuzzle<$network, $aleo>>();
                 Ok(cast_ref!(puzzle as Puzzle<N>).clone())
             }};
         }
@@ -253,16 +260,16 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
 
         // Construct the committee members.
         let members = indexmap::indexmap! {
-            Address::try_from(private_keys[0])? => (ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
-            Address::try_from(private_keys[1])? => (ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
-            Address::try_from(private_keys[2])? => (ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
-            Address::try_from(private_keys[3])? => (ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
+            Address::try_from(private_keys[0])? => (snarkvm_ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
+            Address::try_from(private_keys[1])? => (snarkvm_ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
+            Address::try_from(private_keys[2])? => (snarkvm_ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
+            Address::try_from(private_keys[3])? => (snarkvm_ledger_committee::MIN_VALIDATOR_STAKE, true, 0u8),
         };
         // Construct the committee.
         let committee = Committee::<N>::new_genesis(members)?;
 
         // Compute the remaining supply.
-        let remaining_supply = N::STARTING_SUPPLY - (ledger_committee::MIN_VALIDATOR_STAKE * 4);
+        let remaining_supply = N::STARTING_SUPPLY - (snarkvm_ledger_committee::MIN_VALIDATOR_STAKE * 4);
         // Construct the public balances.
         let public_balances = indexmap::indexmap! {
             Address::try_from(private_keys[0])? => remaining_supply / 4,
@@ -451,23 +458,23 @@ pub(crate) mod test_helpers {
         program::{Entry, Value},
         types::Field,
     };
-    use ledger_block::{Block, Header, Input, Metadata, Transition};
-    use ledger_test_helpers::{large_transaction_program, small_transaction_program};
-    use synthesizer_program::Program;
+    use snarkvm_ledger_block::{Block, Header, Input, Metadata, Transition};
+    use snarkvm_ledger_test_helpers::{large_transaction_program, small_transaction_program};
+    use snarkvm_synthesizer_program::Program;
 
     use aleo_std::StorageMode;
     use indexmap::IndexMap;
-    use once_cell::sync::OnceCell;
     use serde_json::json;
-    use synthesizer_snark::{Proof, VerifyingKey};
+    use snarkvm_synthesizer_snark::{Proof, VerifyingKey};
+    use std::sync::OnceLock;
 
     pub(crate) type CurrentNetwork = MainnetV0;
     type CurrentAleo = AleoV0;
 
     #[cfg(not(feature = "rocks"))]
-    type LedgerType = ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>;
+    type LedgerType = snarkvm_ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>;
     #[cfg(feature = "rocks")]
-    type LedgerType = ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>;
+    type LedgerType = snarkvm_ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>;
 
     /// Samples a new finalize state.
     pub(crate) fn sample_finalize_state(block_height: u32) -> FinalizeGlobalState {
@@ -495,7 +502,7 @@ pub(crate) mod test_helpers {
     }
 
     pub(crate) fn sample_genesis_private_key(rng: &mut TestRng) -> PrivateKey<CurrentNetwork> {
-        static INSTANCE: OnceCell<PrivateKey<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<PrivateKey<CurrentNetwork>> = OnceLock::new();
         *INSTANCE.get_or_init(|| {
             // Initialize a new caller.
             PrivateKey::<CurrentNetwork>::new(rng).unwrap()
@@ -503,7 +510,7 @@ pub(crate) mod test_helpers {
     }
 
     pub(crate) fn sample_genesis_block(rng: &mut TestRng) -> Block<CurrentNetwork> {
-        static INSTANCE: OnceCell<Block<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Block<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize the VM.
@@ -528,7 +535,7 @@ pub(crate) mod test_helpers {
     }
 
     pub(crate) fn sample_program() -> Program<CurrentNetwork> {
-        static INSTANCE: OnceCell<Program<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Program<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize a new program.
@@ -569,7 +576,7 @@ function compute:
     }
 
     pub(crate) fn sample_deployment_transaction(rng: &mut TestRng) -> Transaction<CurrentNetwork> {
-        static INSTANCE: OnceCell<Transaction<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Transaction<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize the program.
@@ -606,7 +613,7 @@ function compute:
     }
 
     pub(crate) fn sample_execution_transaction_without_fee(rng: &mut TestRng) -> Transaction<CurrentNetwork> {
-        static INSTANCE: OnceCell<Transaction<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Transaction<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize a new caller.
@@ -649,7 +656,7 @@ function compute:
     }
 
     pub(crate) fn sample_execution_transaction_with_private_fee(rng: &mut TestRng) -> Transaction<CurrentNetwork> {
-        static INSTANCE: OnceCell<Transaction<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Transaction<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize a new caller.
@@ -693,7 +700,7 @@ function compute:
     }
 
     pub(crate) fn sample_execution_transaction_with_public_fee(rng: &mut TestRng) -> Transaction<CurrentNetwork> {
-        static INSTANCE: OnceCell<Transaction<CurrentNetwork>> = OnceCell::new();
+        static INSTANCE: OnceLock<Transaction<CurrentNetwork>> = OnceLock::new();
         INSTANCE
             .get_or_init(|| {
                 // Initialize a new caller.

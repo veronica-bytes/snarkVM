@@ -21,8 +21,8 @@ use crate::{
     helpers::{Map, MapRead},
 };
 use console::network::prelude::*;
-use ledger_block::{Execution, Transaction, Transition};
-use synthesizer_snark::Proof;
+use snarkvm_ledger_block::{Execution, Transaction, Transition};
+use snarkvm_synthesizer_snark::Proof;
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;
@@ -471,11 +471,11 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the execution transaction.
-        let transaction = ledger_test_helpers::sample_execution_transaction_with_fee(true, rng);
+        let transaction = snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(true, rng);
         insert_get_remove(transaction).unwrap();
 
         // Sample the execution transaction.
-        let transaction = ledger_test_helpers::sample_execution_transaction_with_fee(false, rng);
+        let transaction = snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(false, rng);
         insert_get_remove(transaction).unwrap();
     }
 
@@ -484,11 +484,11 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the execution transaction.
-        let transaction = ledger_test_helpers::sample_execution_transaction_with_fee(true, rng);
+        let transaction = snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(true, rng);
         find_transaction_id(transaction).unwrap();
 
         // Sample the execution transaction.
-        let transaction = ledger_test_helpers::sample_execution_transaction_with_fee(false, rng);
+        let transaction = snarkvm_ledger_test_helpers::sample_execution_transaction_with_fee(false, rng);
         find_transaction_id(transaction).unwrap();
     }
 }

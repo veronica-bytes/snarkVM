@@ -14,7 +14,6 @@
 // limitations under the License.
 
 use crate::{CallStack, Process, Stack, Trace};
-use algorithms::snark::varuna::VarunaVersion;
 use circuit::{Aleo, network::AleoV0};
 use console::{
     account::{Address, PrivateKey, ViewKey},
@@ -22,17 +21,18 @@ use console::{
     program::{Identifier, Literal, Plaintext, ProgramID, Record, Value},
     types::{Field, U64},
 };
-use ledger_block::{Fee, Transaction};
-use ledger_query::Query;
-use ledger_store::{
+use snarkvm_algorithms::snark::varuna::VarunaVersion;
+use snarkvm_ledger_block::{Fee, Transaction};
+use snarkvm_ledger_query::Query;
+use snarkvm_ledger_store::{
     BlockStorage,
     BlockStore,
     FinalizeStorage,
     FinalizeStore,
     helpers::memory::{BlockMemory, FinalizeMemory},
 };
-use synthesizer_program::{FinalizeGlobalState, FinalizeStoreTrait, Program, StackTrait};
-use synthesizer_snark::UniversalSRS;
+use snarkvm_synthesizer_program::{FinalizeGlobalState, FinalizeStoreTrait, Program, StackTrait};
+use snarkvm_synthesizer_snark::UniversalSRS;
 
 use aleo_std::StorageMode;
 #[cfg(feature = "locktick")]

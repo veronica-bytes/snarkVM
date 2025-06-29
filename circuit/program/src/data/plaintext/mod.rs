@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use std::cell::OnceCell;
+
 #[cfg(test)]
 use snarkvm_circuit_types::environment::assert_scope;
 
@@ -40,7 +42,7 @@ pub enum Plaintext<A: Aleo> {
     Array(Vec<Plaintext<A>>, OnceCell<Vec<Boolean<A>>>),
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Plaintext<A> {
     type Primitive = console::Plaintext<A::Network>;
 
@@ -54,7 +56,7 @@ impl<A: Aleo> Inject for Plaintext<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Eject for Plaintext<A> {
     type Primitive = console::Plaintext<A::Network>;
 
@@ -99,7 +101,7 @@ impl<A: Aleo> From<&Literal<A>> for Plaintext<A> {
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-program"))]
 mod tests {
     use super::*;
     use crate::Circuit;

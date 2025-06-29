@@ -17,6 +17,9 @@
 #![allow(clippy::too_many_arguments)]
 #![cfg_attr(test, allow(clippy::assertions_on_result_states))]
 
+#[cfg(feature = "snarkvm-console-types-boolean")]
+extern crate snarkvm_console_types_boolean as console;
+
 mod helpers;
 
 pub mod and;
@@ -52,7 +55,7 @@ impl<E: Environment> Boolean<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-boolean")]
 impl<E: Environment> Inject for Boolean<E> {
     type Primitive = bool;
 
@@ -79,7 +82,7 @@ impl<E: Environment> Inject for Boolean<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-boolean")]
 impl<E: Environment> Eject for Boolean<E> {
     type Primitive = bool;
 
@@ -100,7 +103,7 @@ impl<E: Environment> Eject for Boolean<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-boolean")]
 impl<E: Environment> Parser for Boolean<E> {
     /// Parses a string into a boolean circuit.
     #[inline]
@@ -117,7 +120,7 @@ impl<E: Environment> Parser for Boolean<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-boolean")]
 impl<E: Environment> FromStr for Boolean<E> {
     type Err = Error;
 
@@ -136,7 +139,7 @@ impl<E: Environment> FromStr for Boolean<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-boolean")]
 impl<E: Environment> TypeName for Boolean<E> {
     /// Returns the type name of the circuit as a string.
     #[inline]
@@ -145,14 +148,14 @@ impl<E: Environment> TypeName for Boolean<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-boolean")]
 impl<E: Environment> Debug for Boolean<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-boolean")]
 impl<E: Environment> Display for Boolean<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}.{}", self.eject_value(), self.eject_mode())

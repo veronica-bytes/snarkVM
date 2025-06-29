@@ -24,7 +24,7 @@ use console::{
     program::{Identifier, Literal, Locator, Plaintext, ProgramID},
     types::Field,
 };
-use ledger_block::{Execution, Input, Output, Transition};
+use snarkvm_ledger_block::{Execution, Input, Output, Transition};
 
 use indexmap::IndexMap;
 
@@ -381,7 +381,7 @@ mod tests {
     use console::types::I8;
 
     use indexmap::indexmap;
-    use ledger_block::Input;
+    use snarkvm_ledger_block::Input;
 
     type CurrentNetwork = console::network::MainnetV0;
 

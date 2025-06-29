@@ -17,6 +17,9 @@
 #![allow(clippy::too_many_arguments)]
 #![cfg_attr(test, allow(clippy::assertions_on_result_states))]
 
+#[cfg(feature = "snarkvm-console-types-scalar")]
+extern crate snarkvm_console_types_scalar as console;
+
 mod helpers;
 
 pub mod add;
@@ -33,6 +36,8 @@ use snarkvm_circuit_environment::prelude::*;
 use snarkvm_circuit_types_boolean::Boolean;
 use snarkvm_circuit_types_field::Field;
 
+use std::cell::OnceCell;
+
 #[derive(Clone)]
 pub struct Scalar<E: Environment> {
     /// The primary representation of the scalar element.
@@ -44,7 +49,7 @@ pub struct Scalar<E: Environment> {
 
 impl<E: Environment> ScalarTrait for Scalar<E> {}
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-scalar")]
 impl<E: Environment> Inject for Scalar<E> {
     type Primitive = console::Scalar<E::Network>;
 
@@ -63,7 +68,7 @@ impl<E: Environment> Inject for Scalar<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-scalar")]
 impl<E: Environment> Eject for Scalar<E> {
     type Primitive = console::Scalar<E::Network>;
 
@@ -81,7 +86,7 @@ impl<E: Environment> Eject for Scalar<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-scalar")]
 impl<E: Environment> Parser for Scalar<E> {
     /// Parses a string into a scalar circuit.
     #[inline]
@@ -98,7 +103,7 @@ impl<E: Environment> Parser for Scalar<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-scalar")]
 impl<E: Environment> FromStr for Scalar<E> {
     type Err = Error;
 
@@ -117,7 +122,7 @@ impl<E: Environment> FromStr for Scalar<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-scalar")]
 impl<E: Environment> TypeName for Scalar<E> {
     /// Returns the type name of the circuit as a string.
     #[inline]
@@ -126,14 +131,14 @@ impl<E: Environment> TypeName for Scalar<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-scalar")]
 impl<E: Environment> Debug for Scalar<E> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-scalar")]
 impl<E: Environment> Display for Scalar<E> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{}.{}", self.eject_value(), self.eject_mode())

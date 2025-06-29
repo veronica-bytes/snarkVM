@@ -13,14 +13,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use algorithms::snark::varuna::VarunaVersion;
+extern crate snarkvm_circuit as circuit;
+extern crate snarkvm_console as console;
+
 use console::{
     account::{Address, PrivateKey},
     prelude::*,
     program::{Ciphertext, Literal, Plaintext, ProgramOwner, Record, Value},
     types::Field,
 };
-use ledger_block::{
+use snarkvm_algorithms::snark::varuna::VarunaVersion;
+use snarkvm_ledger_block::{
     Block,
     ConfirmedTransaction,
     Deployment,
@@ -35,13 +38,13 @@ use ledger_block::{
     Transactions,
     Transition,
 };
-use ledger_query::Query;
-use ledger_store::{BlockStore, helpers::memory::BlockMemory};
-use synthesizer_process::Process;
-use synthesizer_program::Program;
+use snarkvm_ledger_query::Query;
+use snarkvm_ledger_store::{BlockStore, helpers::memory::BlockMemory};
+use snarkvm_synthesizer_process::Process;
+use snarkvm_synthesizer_program::Program;
 
 use aleo_std::StorageMode;
-use once_cell::sync::OnceCell;
+use std::sync::OnceLock;
 
 type CurrentNetwork = console::network::MainnetV0;
 type CurrentAleo = circuit::network::AleoV0;
@@ -131,7 +134,7 @@ pub fn sample_outputs() -> Vec<(<CurrentNetwork as Network>::TransitionID, Outpu
 /******************************************* Deployment *******************************************/
 
 pub fn sample_deployment(rng: &mut TestRng) -> Deployment<CurrentNetwork> {
-    static INSTANCE: OnceCell<Deployment<CurrentNetwork>> = OnceCell::new();
+    static INSTANCE: OnceLock<Deployment<CurrentNetwork>> = OnceLock::new();
     INSTANCE
         .get_or_init(|| {
             // Initialize a new program.
@@ -207,7 +210,7 @@ pub fn sample_rejected_execution(is_fee_private: bool, rng: &mut TestRng) -> Rej
 
 /// Samples a random hardcoded private fee.
 pub fn sample_fee_private_hardcoded(rng: &mut TestRng) -> Fee<CurrentNetwork> {
-    static INSTANCE: OnceCell<Fee<CurrentNetwork>> = OnceCell::new();
+    static INSTANCE: OnceLock<Fee<CurrentNetwork>> = OnceLock::new();
     INSTANCE
         .get_or_init(|| {
             // Sample a deployment or execution ID.
@@ -265,7 +268,7 @@ pub fn sample_fee_private(deployment_or_execution_id: Field<CurrentNetwork>, rng
 
 /// Samples a random hardcoded public fee.
 pub fn sample_fee_public_hardcoded(rng: &mut TestRng) -> Fee<CurrentNetwork> {
-    static INSTANCE: OnceCell<Fee<CurrentNetwork>> = OnceCell::new();
+    static INSTANCE: OnceLock<Fee<CurrentNetwork>> = OnceLock::new();
     INSTANCE
         .get_or_init(|| {
             // Sample a deployment or execution ID.
@@ -393,7 +396,7 @@ pub fn sample_execution_transaction_with_fee(is_fee_private: bool, rng: &mut Tes
 
 /// Samples a large transaction.
 pub fn sample_large_execution_transaction(rng: &mut TestRng) -> Transaction<CurrentNetwork> {
-    static INSTANCE: once_cell::sync::OnceCell<Execution<CurrentNetwork>> = once_cell::sync::OnceCell::new();
+    static INSTANCE: std::sync::OnceLock<Execution<CurrentNetwork>> = std::sync::OnceLock::new();
 
     let execution = INSTANCE
         .get_or_init(|| {
@@ -401,7 +404,7 @@ pub fn sample_large_execution_transaction(rng: &mut TestRng) -> Transaction<Curr
             let program = large_transaction_program();
 
             // Construct the process.
-            let mut process = synthesizer_process::Process::load().unwrap();
+            let mut process = snarkvm_synthesizer_process::Process::load().unwrap();
             // Add the program.
             process.add_program(&program).unwrap();
 
@@ -422,14 +425,14 @@ pub fn sample_large_execution_transaction(rng: &mut TestRng) -> Transaction<Curr
             let (_, mut trace) = process.execute::<CurrentAleo, _>(authorization, rng).unwrap();
 
             // Initialize a new block store.
-            let block_store =
-                ledger_store::BlockStore::<CurrentNetwork, ledger_store::helpers::memory::BlockMemory<_>>::open(
-                    StorageMode::new_test(None),
-                )
-                .unwrap();
+            let block_store = snarkvm_ledger_store::BlockStore::<
+                CurrentNetwork,
+                snarkvm_ledger_store::helpers::memory::BlockMemory<_>,
+            >::open(StorageMode::new_test(None))
+            .unwrap();
 
             // Prepare the assignments.
-            trace.prepare(&ledger_query::Query::from(block_store)).unwrap();
+            trace.prepare(&snarkvm_ledger_query::Query::from(block_store)).unwrap();
             // Compute the proof and construct the execution.
             let execution = trace.prove_execution::<CurrentAleo, _>("testing.aleo", VarunaVersion::V1, rng).unwrap();
             // Reconstruct the execution from bytes.
@@ -493,13 +496,13 @@ pub fn sample_genesis_block_and_transaction(rng: &mut TestRng) -> (Block<Current
 pub fn sample_genesis_block_and_components(
     rng: &mut TestRng,
 ) -> (Block<CurrentNetwork>, Transaction<CurrentNetwork>, PrivateKey<CurrentNetwork>) {
-    static INSTANCE: OnceCell<(Block<CurrentNetwork>, Transaction<CurrentNetwork>, PrivateKey<CurrentNetwork>)> =
-        OnceCell::new();
+    static INSTANCE: OnceLock<(Block<CurrentNetwork>, Transaction<CurrentNetwork>, PrivateKey<CurrentNetwork>)> =
+        OnceLock::new();
     INSTANCE.get_or_init(|| crate::sample_genesis_block_and_components_raw(rng)).clone()
 }
 
 pub fn sample_genesis_private_key(rng: &mut TestRng) -> PrivateKey<CurrentNetwork> {
-    static INSTANCE: OnceCell<PrivateKey<CurrentNetwork>> = OnceCell::new();
+    static INSTANCE: OnceLock<PrivateKey<CurrentNetwork>> = OnceLock::new();
     *INSTANCE.get_or_init(|| {
         // Initialize a new caller.
         PrivateKey::<CurrentNetwork>::new(rng).unwrap()

@@ -33,7 +33,7 @@ pub enum Entry<A: Aleo, Private: Visibility<A>> {
     Private(Private),
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Entry<A, Plaintext<A>> {
     type Primitive = console::Entry<A::Network, console::Plaintext<A::Network>>;
 
@@ -47,7 +47,7 @@ impl<A: Aleo> Inject for Entry<A, Plaintext<A>> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Entry<A, Ciphertext<A>> {
     type Primitive = console::Entry<A::Network, console::Ciphertext<A::Network>>;
 
@@ -61,7 +61,7 @@ impl<A: Aleo> Inject for Entry<A, Ciphertext<A>> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Eject for Entry<A, Plaintext<A>> {
     type Primitive = console::Entry<A::Network, console::Plaintext<A::Network>>;
 
@@ -84,7 +84,7 @@ impl<A: Aleo> Eject for Entry<A, Plaintext<A>> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Eject for Entry<A, Ciphertext<A>> {
     type Primitive = console::Entry<A::Network, console::Ciphertext<A::Network>>;
 

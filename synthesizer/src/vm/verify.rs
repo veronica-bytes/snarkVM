@@ -429,7 +429,7 @@ mod tests {
         account::{Address, ViewKey},
         types::Field,
     };
-    use ledger_block::{Block, Header, Metadata, Transaction, Transition};
+    use snarkvm_ledger_block::{Block, Header, Metadata, Transaction, Transition};
 
     type CurrentNetwork = test_helpers::CurrentNetwork;
 

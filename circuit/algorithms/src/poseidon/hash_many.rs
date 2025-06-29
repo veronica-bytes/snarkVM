@@ -193,7 +193,7 @@ impl<E: Environment, const RATE: usize> Poseidon<E, RATE> {
     }
 }
 
-#[cfg(all(test, feature = "console"))]
+#[cfg(all(test, feature = "snarkvm-console-algorithms"))]
 mod tests {
     use super::*;
     use snarkvm_circuit_types::environment::Circuit;

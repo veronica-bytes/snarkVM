@@ -16,13 +16,13 @@
 mod utilities;
 
 use aleo_std::StorageMode;
-use console::{
+use snarkvm_console::{
     account::{PrivateKey, ViewKey},
     network::prelude::*,
     program::{Entry, Identifier, Literal, Plaintext, ProgramID, Record, U64, Value},
     types::{Boolean, Field},
 };
-use ledger_block::{
+use snarkvm_ledger_block::{
     Block,
     ConfirmedTransaction,
     Header,
@@ -32,20 +32,20 @@ use ledger_block::{
     Transactions,
     Transition,
 };
-use ledger_store::{ConsensusStorage, ConsensusStore};
+use snarkvm_ledger_store::{ConsensusStorage, ConsensusStore};
 use snarkvm_synthesizer::{VM, program::FinalizeOperation};
-use synthesizer_program::FinalizeGlobalState;
+use snarkvm_synthesizer_program::FinalizeGlobalState;
 
 use anyhow::Result;
-use console::account::Address;
 use indexmap::IndexMap;
 use rayon::prelude::*;
+use snarkvm_console::account::Address;
 use utilities::*;
 
 #[cfg(not(feature = "rocks"))]
-type LedgerType = ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>;
+type LedgerType = snarkvm_ledger_store::helpers::memory::ConsensusMemory<CurrentNetwork>;
 #[cfg(feature = "rocks")]
-type LedgerType = ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>;
+type LedgerType = snarkvm_ledger_store::helpers::rocksdb::ConsensusDB<CurrentNetwork>;
 
 #[test]
 fn test_vm_execute_and_finalize() {

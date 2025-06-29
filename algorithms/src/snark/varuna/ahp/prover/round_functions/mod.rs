@@ -25,8 +25,7 @@ use snarkvm_fields::PrimeField;
 
 use anyhow::Result;
 use itertools::Itertools;
-use rand::Rng;
-use rand_core::CryptoRng;
+use rand::{CryptoRng, Rng};
 use std::collections::BTreeMap;
 
 use snarkvm_utilities::{cfg_iter, dev_println};

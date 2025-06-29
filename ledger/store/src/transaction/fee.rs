@@ -20,8 +20,8 @@ use crate::{
     helpers::{Map, MapRead},
 };
 use console::network::prelude::*;
-use ledger_block::Fee;
-use synthesizer_snark::Proof;
+use snarkvm_ledger_block::Fee;
+use snarkvm_synthesizer_snark::Proof;
 
 use aleo_std_storage::StorageMode;
 use anyhow::Result;
@@ -259,15 +259,15 @@ impl<N: Network, F: FeeStorage<N>> FeeStore<N, F> {
 mod tests {
     use super::*;
     use crate::helpers::memory::FeeMemory;
-    use ledger_block::Transaction;
+    use snarkvm_ledger_block::Transaction;
 
     #[test]
     fn test_insert_get_remove() {
         let rng = &mut TestRng::default();
 
         // Sample the fee transactions.
-        let transaction_0 = ledger_test_helpers::sample_fee_private_transaction(rng);
-        let transaction_1 = ledger_test_helpers::sample_fee_public_transaction(rng);
+        let transaction_0 = snarkvm_ledger_test_helpers::sample_fee_private_transaction(rng);
+        let transaction_1 = snarkvm_ledger_test_helpers::sample_fee_public_transaction(rng);
         let transactions = vec![transaction_0, transaction_1];
 
         for transaction in transactions {
@@ -306,8 +306,8 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample the fee transactions.
-        let transaction_0 = ledger_test_helpers::sample_fee_private_transaction(rng);
-        let transaction_1 = ledger_test_helpers::sample_fee_public_transaction(rng);
+        let transaction_0 = snarkvm_ledger_test_helpers::sample_fee_private_transaction(rng);
+        let transaction_1 = snarkvm_ledger_test_helpers::sample_fee_public_transaction(rng);
         let transactions = vec![transaction_0, transaction_1];
 
         for transaction in transactions {

@@ -16,12 +16,14 @@
 #![forbid(unsafe_code)]
 #![warn(clippy::cast_possible_truncation)]
 
+extern crate snarkvm_console as console;
+
 mod bytes;
 mod serialize;
 mod string;
 
 use console::{network::TRANSACTION_PREFIX, prelude::*};
-use ledger_puzzle::{SOLUTION_ID_PREFIX, SolutionID};
+use snarkvm_ledger_puzzle::{SOLUTION_ID_PREFIX, SolutionID};
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum TransmissionID<N: Network> {

@@ -22,7 +22,7 @@ use console::{
     program::{Identifier, Literal, Plaintext, Value},
     types::{Boolean, U8, U64},
 };
-use ledger_committee::Committee;
+use snarkvm_ledger_committee::Committee;
 
 use anyhow::{Result, bail, ensure};
 use indexmap::{IndexMap, indexmap};
@@ -304,7 +304,7 @@ pub fn to_next_withdraw_map<N: Network>(
 pub(crate) mod test_helpers {
     use super::*;
     use crate::vm::TestRng;
-    use ledger_committee::{MIN_DELEGATOR_STAKE, MIN_VALIDATOR_STAKE};
+    use snarkvm_ledger_committee::{MIN_DELEGATOR_STAKE, MIN_VALIDATOR_STAKE};
 
     use rand::{CryptoRng, Rng};
 
@@ -466,7 +466,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample a committee.
-        let committee = ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
+        let committee = snarkvm_ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
 
         // Initialize the committee map.
         let committee_map = to_committee_map(committee.members());
@@ -489,7 +489,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample a committee.
-        let committee = ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
+        let committee = snarkvm_ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
         // Convert the committee into stakers.
         let expected_stakers = crate::committee::test_helpers::to_stakers(committee.members(), rng);
         // Initialize the bonded map.
@@ -509,7 +509,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample a committee.
-        let committee = ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
+        let committee = snarkvm_ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
         // Convert the committee into stakers.
         let stakers = crate::committee::test_helpers::to_stakers(committee.members(), rng);
 
@@ -526,7 +526,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample a committee.
-        let committee = ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
+        let committee = snarkvm_ledger_committee::test_helpers::sample_committee_for_round_and_size(1, 25, rng);
         // Convert the committee into stakers.
         let _stakers = crate::committee::test_helpers::to_stakers(committee.members(), rng);
         // Convert the committee into delegations.
@@ -547,7 +547,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample a committee.
-        let committee = ledger_committee::test_helpers::sample_committee(rng);
+        let committee = snarkvm_ledger_committee::test_helpers::sample_committee(rng);
         // Convert the committee into stakers.
         let stakers: IndexMap<Address<console::network::MainnetV0>, (Address<console::network::MainnetV0>, u64)> =
             crate::committee::test_helpers::to_stakers(committee.members(), rng);
@@ -569,7 +569,7 @@ mod tests {
         let rng = &mut TestRng::default();
 
         // Sample a committee.
-        let committee = ledger_committee::test_helpers::sample_committee(rng);
+        let committee = snarkvm_ledger_committee::test_helpers::sample_committee(rng);
         // Convert the committee into stakers.
         let stakers = crate::committee::test_helpers::to_stakers(committee.members(), rng);
 

@@ -18,7 +18,7 @@
 #[macro_use]
 extern crate criterion;
 
-use console::{
+use snarkvm_console::{
     account::*,
     network::{MainnetV0, Network},
 };

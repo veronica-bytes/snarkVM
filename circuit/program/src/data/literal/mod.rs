@@ -97,7 +97,7 @@ impl<A: Aleo> From<Signature<A>> for Literal<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Literal<A> {
     type Primitive = console::Literal<A::Network>;
 
@@ -125,7 +125,7 @@ impl<A: Aleo> Inject for Literal<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Eject for Literal<A> {
     type Primitive = console::Literal<A::Network>;
 
@@ -176,7 +176,7 @@ impl<A: Aleo> Eject for Literal<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Parser for Literal<A> {
     /// Parses a string into a literal.
     #[inline]
@@ -203,7 +203,7 @@ impl<A: Aleo> Parser for Literal<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> FromStr for Literal<A> {
     type Err = Error;
 
@@ -222,7 +222,7 @@ impl<A: Aleo> FromStr for Literal<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Literal<A> {
     /// Returns the type name of the literal.
     pub fn type_name(&self) -> &str {
@@ -248,14 +248,14 @@ impl<A: Aleo> Literal<A> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Debug for Literal<A> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Display for Literal<A> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match self {

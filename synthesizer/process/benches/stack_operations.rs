@@ -16,20 +16,20 @@
 #[macro_use]
 extern crate criterion;
 
-use console::{
+use snarkvm_console::{
     network::MainnetV0,
     program::{Identifier, ProgramID},
     types::Field,
 };
 use snarkvm_synthesizer_process::{Process, Stack};
-use synthesizer_program::{Program, StackTrait};
+use snarkvm_synthesizer_program::{Program, StackTrait};
 
-use circuit::prelude::bail;
-use console::{network::Network, prelude::SizeInDataBits};
 use criterion::{BatchSize, Criterion};
 use rand::{Rng as _, distributions::Alphanumeric};
+use snarkvm_circuit::prelude::bail;
+use snarkvm_console::{network::Network, prelude::SizeInDataBits};
+use snarkvm_utilities::TestRng;
 use std::str::FromStr;
-use utilities::TestRng;
 
 type CurrentNetwork = MainnetV0;
 
@@ -154,7 +154,7 @@ fn add_program_at_depth(process: &mut Process<CurrentNetwork>, depth: usize) {
 }
 
 // Samples a random identifier as a string.
-fn sample_identifier_as_string<N: Network>(rng: &mut TestRng) -> console::prelude::Result<String> {
+fn sample_identifier_as_string<N: Network>(rng: &mut TestRng) -> snarkvm_console::prelude::Result<String> {
     // Sample a random fixed-length alphanumeric string, that always starts with an alphabetic character.
     let string = "a".to_string()
         + &rng

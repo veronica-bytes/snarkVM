@@ -511,7 +511,7 @@ impl<N: Network> Stack<N> {
     pub(crate) fn log_circuit<A: circuit::Aleo<Network = N>>(scope: impl std::fmt::Display) {
         #[cfg(debug_assertions)]
         {
-            use utilities::dev_println;
+            use snarkvm_utilities::dev_println;
 
             use colored::Colorize as _;
 

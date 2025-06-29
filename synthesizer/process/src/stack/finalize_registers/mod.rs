@@ -21,7 +21,7 @@ use console::{
     program::{Identifier, Literal, Plaintext, Register, Value},
     types::{U16, U32},
 };
-use synthesizer_program::{FinalizeGlobalState, FinalizeRegistersState, Operand, RegistersTrait, StackTrait};
+use snarkvm_synthesizer_program::{FinalizeGlobalState, FinalizeRegistersState, Operand, RegistersTrait, StackTrait};
 
 use indexmap::IndexMap;
 

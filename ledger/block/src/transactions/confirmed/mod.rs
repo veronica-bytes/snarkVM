@@ -19,7 +19,7 @@ mod string;
 
 use crate::{Transaction, rejected::Rejected};
 use console::{network::prelude::*, program::FINALIZE_ID_DEPTH, types::Field};
-use synthesizer_program::FinalizeOperation;
+use snarkvm_synthesizer_program::FinalizeOperation;
 
 pub type NumFinalizeSize = u16;
 

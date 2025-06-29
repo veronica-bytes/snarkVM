@@ -16,14 +16,16 @@
 #![forbid(unsafe_code)]
 #![warn(clippy::cast_possible_truncation)]
 
+extern crate snarkvm_console as console;
+
 mod bytes;
 mod serialize;
 mod string;
 
 use console::prelude::*;
-use ledger_block::Transaction;
-use ledger_narwhal_data::Data;
-use ledger_puzzle::Solution;
+use snarkvm_ledger_block::Transaction;
+use snarkvm_ledger_narwhal_data::Data;
+use snarkvm_ledger_puzzle::Solution;
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum Transmission<N: Network> {

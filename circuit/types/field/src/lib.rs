@@ -17,6 +17,8 @@
 #![allow(clippy::too_many_arguments)]
 #![cfg_attr(test, allow(clippy::assertions_on_result_states))]
 
+extern crate snarkvm_console_types_field as console;
+
 mod helpers;
 
 pub mod add;
@@ -42,6 +44,8 @@ use snarkvm_circuit_environment::{assert_count, assert_output_mode, assert_scope
 use snarkvm_circuit_environment::prelude::*;
 use snarkvm_circuit_types_boolean::Boolean;
 
+use std::cell::OnceCell;
+
 #[derive(Clone)]
 pub struct Field<E: Environment> {
     /// The linear combination contains the primary representation of the field.
@@ -60,7 +64,7 @@ impl<E: Environment> Default for Field<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-field")]
 impl<E: Environment> Inject for Field<E> {
     type Primitive = console::Field<E::Network>;
 
@@ -70,7 +74,7 @@ impl<E: Environment> Inject for Field<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-field")]
 impl<E: Environment> Eject for Field<E> {
     type Primitive = console::Field<E::Network>;
 
@@ -85,7 +89,7 @@ impl<E: Environment> Eject for Field<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-field")]
 impl<E: Environment> Parser for Field<E> {
     /// Parses a string into a field circuit.
     #[inline]
@@ -102,7 +106,7 @@ impl<E: Environment> Parser for Field<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-field")]
 impl<E: Environment> FromStr for Field<E> {
     type Err = Error;
 
@@ -121,7 +125,7 @@ impl<E: Environment> FromStr for Field<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-field")]
 impl<E: Environment> TypeName for Field<E> {
     /// Returns the type name of the circuit as a string.
     #[inline]
@@ -130,14 +134,14 @@ impl<E: Environment> TypeName for Field<E> {
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-field")]
 impl<E: Environment> Debug for Field<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-#[cfg(feature = "console")]
+#[cfg(feature = "snarkvm-console-types-field")]
 impl<E: Environment> Display for Field<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}.{}", self.eject_value(), self.eject_mode())

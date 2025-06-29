@@ -8,20 +8,16 @@ repository = "https://github.com/ProvableHQ/snarkVM"
 license = "Apache-2.0"
 edition = "2021"
 
-[dependencies.console]
-package = "snarkvm-console-types-field"
-path = "../../../console/types/field"
-version = "=3.8.0"
+[dependencies.snarkvm-console-types-field]
+workspace = true
 optional = true
 
 [dependencies.snarkvm-circuit-environment]
-path = "../../environment"
-version = "=3.8.0"
+workspace = true
 
 [dependencies.snarkvm-circuit-types-boolean]
-path = "../boolean"
-version = "=3.8.0"
+workspace = true
 
 [features]
 default = [ "enable_console" ]
-enable_console = [ "console" ]
+enable_console = [ "snarkvm-console-types-field" ]
