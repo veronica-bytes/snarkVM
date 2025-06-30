@@ -10,7 +10,6 @@ edition = "2021"
 
 [dependencies.snarkvm-console-algorithms]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-circuit-types]
 workspace = true
@@ -28,5 +27,3 @@ workspace = true
 workspace = true
 
 [features]
-default = [ "enable_console" ]
-enable_console = [ "snarkvm-console-algorithms" ]

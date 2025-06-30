@@ -24,7 +24,6 @@ pub struct GraphKey<A: Aleo> {
     sk_tag: Field<A>,
 }
 
-#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Inject for GraphKey<A> {
     type Primitive = console::GraphKey<A::Network>;
 
@@ -44,7 +43,6 @@ impl<A: Aleo> GraphKey<A> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Eject for GraphKey<A> {
     type Primitive = console::GraphKey<A::Network>;
 
@@ -62,7 +60,7 @@ impl<A: Aleo> Eject for GraphKey<A> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-account"))]
+#[cfg(test)]
 pub(crate) mod tests {
     use super::*;
     use crate::{Circuit, helpers::generate_account};

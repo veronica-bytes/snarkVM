@@ -13,8 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use std::{cmp::min, str::FromStr};
+
 use crate::{FftField, FieldError, FieldParameters, PoseidonDefaultField};
-use snarkvm_utilities::{biginteger::BigInteger, cmp::min, str::FromStr};
+use snarkvm_utilities::biginteger::BigInteger;
 
 /// The interface for a prime field.
 pub trait PrimeField:

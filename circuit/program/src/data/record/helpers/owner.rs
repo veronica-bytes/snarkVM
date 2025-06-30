@@ -26,7 +26,6 @@ pub enum Owner<A: Aleo, Private: Visibility<A>> {
     Private(Private),
 }
 
-#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Owner<A, Plaintext<A>> {
     type Primitive = console::Owner<A::Network, console::Plaintext<A::Network>>;
 
@@ -45,7 +44,6 @@ impl<A: Aleo> Inject for Owner<A, Plaintext<A>> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Owner<A, Ciphertext<A>> {
     type Primitive = console::Owner<A::Network, console::Ciphertext<A::Network>>;
 

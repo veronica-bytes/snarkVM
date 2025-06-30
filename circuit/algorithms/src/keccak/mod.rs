@@ -15,7 +15,7 @@
 
 mod hash;
 
-#[cfg(all(test, feature = "snarkvm-console-algorithms"))]
+#[cfg(test)]
 use snarkvm_circuit_types::environment::assert_scope;
 #[cfg(test)]
 use snarkvm_utilities::{TestRng, Uniform};

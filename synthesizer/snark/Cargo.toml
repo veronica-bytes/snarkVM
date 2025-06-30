@@ -28,7 +28,7 @@ default = [ ]
 aleo-cli = [ "colored" ]
 cuda = [ "snarkvm-algorithms/cuda" ]
 serial = [ "snarkvm-console/serial", "snarkvm-algorithms/serial" ]
-wasm = [ "snarkvm-console/wasm", "snarkvm-algorithms/wasm" ]
+wasm = [ "snarkvm-console/wasm" ]
 
 [dependencies.snarkvm-circuit]
 workspace = true

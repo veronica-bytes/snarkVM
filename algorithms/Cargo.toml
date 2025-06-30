@@ -53,7 +53,6 @@ workspace = true
 
 [dependencies.snarkvm-parameters]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-utilities]
 workspace = true
@@ -133,44 +132,13 @@ features = [ "preserve_order" ]
 workspace = true
 
 [features]
-default = [
-  "full",
-  "snarkvm-curves/default",
-  "snarkvm-fields/default",
-  "snarkvm-utilities/default"
-]
-full = [
-  "crypto_hash",
-  "fft",
-  "msm",
-  "polycommit_full",
-  "r1cs",
-  "snark"
-]
-wasm = [
-  "crypto_hash",
-  "fft",
-  "msm",
-  "polycommit_wasm",
-  "r1cs",
-  "snark",
-]
 cuda = [ "snarkvm-algorithms-cuda" ]
 profiler = [ "aleo-std/profiler" ]
-crypto_hash = [ ]
-fft = [ ]
-locktick = [ "snarkvm-parameters?/locktick" ]
-msm = [ ]
 test = [ ]
-polycommit = [ "crypto_hash", "fft", "msm", ]
-polycommit_wasm = [ "polycommit", "snarkvm-parameters/wasm" ]
-polycommit_full = [ "polycommit", "snarkvm-parameters/default" ]
-r1cs = [ "cfg-if", "fxhash", "indexmap" ]
 serial = [
   "snarkvm-curves/serial",
   "snarkvm-fields/serial",
   "snarkvm-utilities/serial"
 ]
-snark = [ "crypto_hash", "fft", "msm", "polycommit", "r1cs" ]
 test_exports = [ ]
 dev-print = [ "snarkvm-utilities/dev-print" ]

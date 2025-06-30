@@ -102,7 +102,7 @@ impl<E: Environment, const NUM_BITS: u8> OutputMode<dyn HashUncompressed<Input =
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-algorithms"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use snarkvm_circuit_types::environment::Circuit;

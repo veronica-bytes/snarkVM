@@ -10,7 +10,6 @@ edition = "2021"
 
 [dependencies.snarkvm-console-types-address]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-circuit-environment]
 workspace = true
@@ -26,7 +25,3 @@ workspace = true
 
 [dependencies.snarkvm-circuit-types-scalar]
 workspace = true
-
-[features]
-default = [ "enable_console" ]
-enable_console = [ "snarkvm-console-types-address" ]

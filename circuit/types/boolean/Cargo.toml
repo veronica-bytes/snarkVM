@@ -15,14 +15,9 @@ harness = false
 
 [dependencies.snarkvm-console-types-boolean]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-circuit-environment]
 workspace = true
 
 [dev-dependencies.criterion]
 workspace = true
-
-[features]
-default = [ "enable_console" ]
-enable_console = [ "snarkvm-console-types-boolean" ]

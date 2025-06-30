@@ -95,7 +95,7 @@ pub(super) fn impl_canonical_serialize(ast: &syn::DeriveInput) -> TokenStream {
 
     let gen = quote! {
         impl #impl_generics snarkvm_utilities::CanonicalSerialize for #name #ty_generics #where_clause {
-            fn serialize_with_mode<W: snarkvm_utilities::io::Write>(&self, mut writer: W, compress: snarkvm_utilities::serialize::Compress) -> Result<(), snarkvm_utilities::serialize::SerializationError> {
+            fn serialize_with_mode<W: std::io::Write>(&self, mut writer: W, compress: snarkvm_utilities::serialize::Compress) -> Result<(), snarkvm_utilities::serialize::SerializationError> {
                 #(#serialize_body)*
                 Ok(())
             }

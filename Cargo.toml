@@ -149,7 +149,6 @@ save_r1cs_hashes = [ "snarkvm-circuit/save_r1cs_hashes" ]
 history = [ "snarkvm-synthesizer/history" ]
 parameters_no_std_out = [ "snarkvm-parameters/no_std_out" ]
 locktick = [
-  "snarkvm-algorithms?/locktick",
   "snarkvm-ledger?/locktick",
   "snarkvm-parameters?/locktick",
   "snarkvm-synthesizer?/locktick"
@@ -414,7 +413,6 @@ version = "=3.8.0"
 [workspace.dependencies.snarkvm-utilities]
 path = "utilities"
 version = "=3.8.0"
-default-features = false
 
 [workspace.dependencies.snarkvm-utilities-derives]
 path = "utilities/derives"

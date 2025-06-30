@@ -188,7 +188,7 @@ macro_rules! impl_primefield_serializer {
     ($field: ident, $params: ident, $byte_size: expr) => {
         impl<P: $params> CanonicalSerializeWithFlags for $field<P> {
             #[allow(unused_qualifications)]
-            fn serialize_with_flags<W: snarkvm_utilities::io::Write, F: snarkvm_utilities::Flags>(
+            fn serialize_with_flags<W: std::io::Write, F: snarkvm_utilities::Flags>(
                 &self,
                 mut writer: W,
                 flags: F,
@@ -230,7 +230,7 @@ macro_rules! impl_primefield_serializer {
         impl<P: $params> CanonicalSerialize for $field<P> {
             #[allow(unused_qualifications)]
             #[inline]
-            fn serialize_with_mode<W: snarkvm_utilities::io::Write>(
+            fn serialize_with_mode<W: std::io::Write>(
                 &self,
                 writer: W,
                 _compress: snarkvm_utilities::serialize::Compress,
@@ -252,7 +252,7 @@ macro_rules! impl_primefield_serializer {
 
         impl<P: $params> CanonicalDeserializeWithFlags for $field<P> {
             #[allow(unused_qualifications)]
-            fn deserialize_with_flags<R: snarkvm_utilities::io::Read, F: snarkvm_utilities::Flags>(
+            fn deserialize_with_flags<R: std::io::Read, F: snarkvm_utilities::Flags>(
                 mut reader: R,
             ) -> Result<(Self, F), snarkvm_utilities::serialize::SerializationError> {
                 use snarkvm_utilities::serialize::SerializationError;
@@ -293,7 +293,7 @@ macro_rules! impl_primefield_serializer {
 
         impl<P: $params> CanonicalDeserialize for $field<P> {
             #[allow(unused_qualifications)]
-            fn deserialize_with_mode<R: snarkvm_utilities::io::Read>(
+            fn deserialize_with_mode<R: std::io::Read>(
                 reader: R,
                 _compress: snarkvm_utilities::serialize::Compress,
                 _validate: snarkvm_utilities::serialize::Validate,

@@ -149,7 +149,7 @@ Constants: {}, Public: {}, Private: {}, Constraints: {}
                         num_constraints,
                     );
                     // Use resume_unwind instead of panic!() to prevent a backtrace, which is unnecessary noise.
-                    snarkvm_utilities::panic::resume_unwind(Box::new(()));
+                    std::panic::resume_unwind(Box::new(()));
                 }
             }
         }
@@ -493,7 +493,7 @@ mod test {
     fn check_position() {
         let count = count_is!(0, 0, 0, 0);
         assert_eq!(count.file, "circuit/environment/src/helpers/updatable_count.rs");
-        assert_eq!(count.line, 500);
+        assert_eq!(count.line, 494);
         assert_eq!(count.column, 21);
     }
 
@@ -564,7 +564,7 @@ mod test {
     #[serial]
     fn check_count_updates_correctly_multiple_times() {
         // `count` is originally `count_is!(1, 2, 3, 4)`. Replace `original_count` to demonstrate replacement.
-        let count = count_is!(17, 18, 19, 20);
+        let count = count_is!(13, 14, 15, 16);
 
         env::set_var("UPDATE_COUNT", "updatable_count.rs");
 

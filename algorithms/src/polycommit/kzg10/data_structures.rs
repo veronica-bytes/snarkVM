@@ -23,9 +23,7 @@ use snarkvm_parameters::mainnet::PowersOfG;
 use snarkvm_utilities::{
     FromBytes,
     ToBytes,
-    borrow::Cow,
     error,
-    io::{Read, Write},
     serialize::{CanonicalDeserialize, CanonicalSerialize, Compress, SerializationError, Valid, Validate},
 };
 
@@ -33,7 +31,14 @@ use crate::srs::{UniversalProver, UniversalVerifier};
 use anyhow::Result;
 use core::ops::{Add, AddAssign};
 use rand::RngCore;
-use std::{collections::BTreeMap, io, ops::Range, sync::Arc};
+use std::{
+    borrow::Cow,
+    collections::BTreeMap,
+    io,
+    io::{Read, Write},
+    ops::Range,
+    sync::Arc,
+};
 
 /// `UniversalParams` are the universal parameters for the KZG10 scheme.
 #[derive(Clone, Debug)]

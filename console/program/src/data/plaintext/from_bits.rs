@@ -65,9 +65,7 @@ impl<N: Network> Plaintext<N> {
             let literal = Literal::from_bits_le(literal_variant, next_bits(literal_size as usize)?)?;
 
             // Cache the plaintext bits, and return the literal.
-            let lock = OnceLock::new();
-            lock.set(bits_le.to_vec()).unwrap();
-            Ok(Self::Literal(literal, lock))
+            Ok(Self::Literal(literal, bits_le.to_vec().into()))
         }
         // Struct
         else if variant == [false, true] {
@@ -90,9 +88,7 @@ impl<N: Network> Plaintext<N> {
             }
 
             // Cache the plaintext bits, and return the struct.
-            let lock = OnceLock::new();
-            lock.set(bits_le.to_vec()).unwrap();
-            Ok(Self::Struct(members, lock))
+            Ok(Self::Struct(members, bits_le.to_vec().into()))
         }
         // Array
         else if variant == [true, false] {
@@ -110,9 +106,7 @@ impl<N: Network> Plaintext<N> {
             }
 
             // Cache the plaintext bits, and return the array.
-            let lock = OnceLock::new();
-            lock.set(bits_le.to_vec()).unwrap();
-            Ok(Self::Array(elements, lock))
+            Ok(Self::Array(elements, bits_le.to_vec().into()))
         }
         // Unknown variant.
         else {
@@ -157,9 +151,7 @@ impl<N: Network> Plaintext<N> {
             let literal = Literal::from_bits_be(literal_variant, next_bits(literal_size as usize)?)?;
 
             // Cache the plaintext bits, and return the literal.
-            let lock = OnceLock::new();
-            lock.set(bits_be.to_vec()).unwrap();
-            Ok(Self::Literal(literal, lock))
+            Ok(Self::Literal(literal, bits_be.to_vec().into()))
         }
         // Struct
         else if variant == [false, true] {
@@ -179,9 +171,7 @@ impl<N: Network> Plaintext<N> {
             }
 
             // Cache the plaintext bits, and return the struct.
-            let lock = OnceLock::new();
-            lock.set(bits_be.to_vec()).unwrap();
-            Ok(Self::Struct(members, lock))
+            Ok(Self::Struct(members, bits_be.to_vec().into()))
         }
         // Array
         else if variant == [true, false] {
@@ -199,9 +189,7 @@ impl<N: Network> Plaintext<N> {
             }
 
             // Cache the plaintext bits, and return the array.
-            let lock = OnceLock::new();
-            lock.set(bits_be.to_vec()).unwrap();
-            Ok(Self::Array(elements, lock))
+            Ok(Self::Array(elements, bits_be.to_vec().into()))
         }
         // Unknown variant.
         else {

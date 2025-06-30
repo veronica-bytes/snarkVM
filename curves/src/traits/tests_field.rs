@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use std::io::Cursor;
+
 use snarkvm_fields::{
     FftField,
     Field,
@@ -22,7 +24,6 @@ use snarkvm_fields::{
     traits::{FftParameters, FieldParameters},
 };
 use snarkvm_utilities::{
-    io::Cursor,
     rand::TestRng,
     serialize::{CanonicalDeserialize, Flags, SWFlags},
 };

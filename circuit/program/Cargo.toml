@@ -10,7 +10,6 @@ edition = "2021"
 
 [dependencies.snarkvm-console-program]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-circuit-account]
 workspace = true
@@ -47,6 +46,4 @@ workspace = true
 workspace = true
 
 [features]
-default = [ "enable_console" ]
-enable_console = [ "snarkvm-console-program" ]
 dev-print = [ "snarkvm-utilities/dev-print" ]

@@ -22,7 +22,7 @@ impl<A: Aleo> ViewKey<A> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-account"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::{Circuit, helpers::generate_account};

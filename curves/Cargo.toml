@@ -36,6 +36,7 @@ harness = false
 
 [dependencies.snarkvm-fields]
 workspace = true
+default-features = false
 
 [dependencies.snarkvm-utilities]
 workspace = true
@@ -66,6 +67,5 @@ workspace = true
 rustc_version = "0.4"
 
 [features]
-default = [ "snarkvm-fields/default", "snarkvm-utilities/default" ]
 serial = [ "snarkvm-fields/serial" ]
 dev-print = [ "snarkvm-utilities/dev-print" ]

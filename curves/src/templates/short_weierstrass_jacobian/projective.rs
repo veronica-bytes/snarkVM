@@ -18,7 +18,7 @@ use crate::{
     traits::{AffineCurve, ProjectiveCurve, ShortWeierstrassParameters as Parameters},
 };
 use snarkvm_fields::{Field, One, Zero, impl_add_sub_from_field_ref};
-use snarkvm_utilities::{FromBytes, ToBytes, cfg_iter_mut, rand::Uniform, serialize::*};
+use snarkvm_utilities::{FromBytes, ToBytes, cfg_iter_mut, rand::Uniform};
 
 use core::{
     fmt::{Display, Formatter, Result as FmtResult},
@@ -170,7 +170,7 @@ impl<P: Parameters> ProjectiveCurve for Projective<P> {
     /// TODO (howardwu): This method can likely be sped up.
     #[inline]
     fn batch_normalization(v: &mut [Self]) {
-        // Montgomery’s Trick and Fast Implementation of Masked AES
+        // Montgomery's Trick and Fast Implementation of Masked AES
         // Genelle, Prouff and Quisquater
         // Section 3.2
 

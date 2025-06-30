@@ -42,7 +42,6 @@ pub enum Plaintext<A: Aleo> {
     Array(Vec<Plaintext<A>>, OnceCell<Vec<Boolean<A>>>),
 }
 
-#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Inject for Plaintext<A> {
     type Primitive = console::Plaintext<A::Network>;
 
@@ -56,7 +55,6 @@ impl<A: Aleo> Inject for Plaintext<A> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-program")]
 impl<A: Aleo> Eject for Plaintext<A> {
     type Primitive = console::Plaintext<A::Network>;
 
@@ -101,7 +99,7 @@ impl<A: Aleo> From<&Literal<A>> for Plaintext<A> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-program"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::Circuit;

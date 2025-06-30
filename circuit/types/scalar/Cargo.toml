@@ -10,7 +10,6 @@ edition = "2021"
 
 [dependencies.snarkvm-console-types-scalar]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-circuit-environment]
 workspace = true
@@ -20,7 +19,3 @@ workspace = true
 
 [dependencies.snarkvm-circuit-types-field]
 workspace = true
-
-[features]
-default = [ "enable_console" ]
-enable_console = [ "snarkvm-console-types-scalar" ]

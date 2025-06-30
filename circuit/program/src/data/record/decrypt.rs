@@ -83,7 +83,7 @@ impl<A: Aleo> Record<A, Ciphertext<A>> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-program"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::{Circuit, Literal};

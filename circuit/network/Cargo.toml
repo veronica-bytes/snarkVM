@@ -10,7 +10,6 @@ edition = "2021"
 
 [dependencies.snarkvm-console-network]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-circuit-algorithms]
 workspace = true
@@ -25,6 +24,4 @@ workspace = true
 workspace = true
 
 [features]
-default = [ "enable_console" ]
-enable_console = [ "snarkvm-console-network" ]
 wasm = [ "snarkvm-console-network/wasm" ]

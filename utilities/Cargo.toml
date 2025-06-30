@@ -29,7 +29,7 @@ optional = true
 
 [dependencies.aleo-std]
 workspace = true
-optional = true
+features = [ "cpu" ]
 
 [dependencies.anyhow]
 workspace = true
@@ -39,7 +39,6 @@ workspace = true
 
 [dependencies.num_cpus]
 version = "1"
-optional = true
 
 [dependencies.num-bigint]
 version = "0.4"
@@ -73,7 +72,7 @@ workspace = true
 features = [ "derive" ]
 
 [features]
-default = [ "aleo-std/cpu", "derive", "num_cpus", "std" ]
+default = [ "derive" ]
 derive = [ "snarkvm-utilities-derives" ]
 dev-print = [ ]
 serial = [ "derive" ]

@@ -19,19 +19,14 @@ use crate::{
     traits::{AffineCurve, ProjectiveCurve, TwistedEdwardsParameters as Parameters},
 };
 use snarkvm_fields::{Field, One, PrimeField, SquareRootField, Zero};
-use snarkvm_utilities::{
-    FromBytes,
-    ToBytes,
-    bititerator::BitIteratorBE,
-    io::{Read, Result as IoResult, Write},
-    rand::Uniform,
-    serialize::*,
-};
+use snarkvm_utilities::{FromBytes, ToBytes, bititerator::BitIteratorBE, rand::Uniform, serialize::*};
 
-use core::{
+use std::{
     fmt::{Display, Formatter, Result as FmtResult},
+    io::{Read, Result as IoResult, Write},
     ops::{Mul, Neg},
 };
+
 use rand::{
     Rng,
     distributions::{Distribution, Standard},

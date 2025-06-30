@@ -17,7 +17,6 @@
 #![allow(clippy::too_many_arguments)]
 #![cfg_attr(test, allow(clippy::assertions_on_result_states))]
 
-#[cfg(feature = "snarkvm-console-types-group")]
 extern crate snarkvm_console_types_group as console;
 
 mod helpers;
@@ -56,7 +55,6 @@ impl<E: Environment> Group<E> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-types-group")]
 impl<E: Environment> Inject for Group<E> {
     type Primitive = console::Group<E::Network>;
 
@@ -151,7 +149,6 @@ impl<E: Environment> Group<E> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-types-group")]
 impl<E: Environment> Eject for Group<E> {
     type Primitive = console::Group<E::Network>;
 
@@ -166,7 +163,6 @@ impl<E: Environment> Eject for Group<E> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-types-group")]
 impl<E: Environment> Parser for Group<E> {
     /// Parses a string into a group circuit.
     #[inline]
@@ -183,7 +179,6 @@ impl<E: Environment> Parser for Group<E> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-types-group")]
 impl<E: Environment> FromStr for Group<E> {
     type Err = Error;
 
@@ -202,7 +197,6 @@ impl<E: Environment> FromStr for Group<E> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-types-group")]
 impl<E: Environment> TypeName for Group<E> {
     /// Returns the type name of the circuit as a string.
     #[inline]
@@ -211,14 +205,12 @@ impl<E: Environment> TypeName for Group<E> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-types-group")]
 impl<E: Environment> Debug for Group<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-#[cfg(feature = "snarkvm-console-types-group")]
 impl<E: Environment> Display for Group<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}.{}", self.eject_value(), self.eject_mode())

@@ -17,7 +17,7 @@ license = "Apache-2.0"
 edition = "2021"
 
 [features]
-default = [ "indexmap/rayon", "rayon" ]
+default = [ "indexmap/rayon" ]
 serial = [
   "snarkvm-console/serial",
   "snarkvm-ledger-authority/serial",
@@ -74,7 +74,6 @@ features = [ "serde" ]
 
 [dependencies.rayon]
 workspace = true
-optional = true
 
 [dependencies.serde_json]
 workspace = true

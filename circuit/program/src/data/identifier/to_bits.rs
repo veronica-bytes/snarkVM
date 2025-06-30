@@ -47,7 +47,7 @@ impl<A: Aleo> ToBits for &Identifier<A> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-program"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::{Circuit, data::identifier::tests::sample_console_identifier};

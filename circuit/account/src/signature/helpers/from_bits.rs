@@ -15,7 +15,6 @@
 
 use super::*;
 
-#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> FromBits for Signature<A> {
     type Boolean = Boolean<A>;
 
@@ -72,7 +71,7 @@ impl<A: Aleo> FromBits for Signature<A> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-account"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::Circuit;

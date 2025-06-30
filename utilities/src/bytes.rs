@@ -13,13 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::{
-    Vec,
-    error,
+use std::{
     fmt,
     io::{Read, Result as IoResult, Write},
     marker::PhantomData,
+    net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr},
 };
+
 use serde::{
     Deserializer,
     Serializer,
@@ -27,14 +27,15 @@ use serde::{
     ser::{self, SerializeTuple},
 };
 use smol_str::SmolStr;
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
+
+use crate::error;
 
 /// Takes as input a sequence of structs, and converts them to a series of little-endian bytes.
 /// All traits that implement `ToBytes` can be automatically converted to bytes in this manner.
 #[macro_export]
 macro_rules! to_bytes_le {
     ($($x:expr),*) => ({
-        let mut buffer = $crate::vec![];
+        let mut buffer = vec![];
         buffer.reserve(64);
         {$crate::push_bytes_to_vec!(buffer, $($x),*)}.map(|_| buffer)
     });

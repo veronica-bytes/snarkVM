@@ -308,7 +308,7 @@ impl<A: Aleo> Request<A> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-program"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::Circuit;

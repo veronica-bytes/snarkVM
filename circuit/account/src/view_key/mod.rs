@@ -29,7 +29,6 @@ use std::cell::OnceCell;
 /// The account view key is able to decrypt records and ciphertext.
 pub struct ViewKey<A: Aleo>(Scalar<A>, OnceCell<Address<A>>);
 
-#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Inject for ViewKey<A> {
     type Primitive = console::ViewKey<A::Network>;
 
@@ -39,7 +38,6 @@ impl<A: Aleo> Inject for ViewKey<A> {
     }
 }
 
-#[cfg(feature = "snarkvm-console-account")]
 impl<A: Aleo> Eject for ViewKey<A> {
     type Primitive = console::ViewKey<A::Network>;
 
@@ -62,7 +60,7 @@ impl<A: Aleo> Deref for ViewKey<A> {
     }
 }
 
-#[cfg(all(test, feature = "snarkvm-console-account"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::{Circuit, helpers::generate_account};

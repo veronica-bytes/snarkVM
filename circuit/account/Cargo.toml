@@ -10,7 +10,6 @@ edition = "2021"
 
 [dependencies.snarkvm-console-account]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-circuit-network]
 workspace = true
@@ -23,7 +22,3 @@ workspace = true
 
 [dev-dependencies.anyhow]
 workspace = true
-
-[features]
-default = [ "enable_console" ]
-enable_console = [ "snarkvm-console-account" ]

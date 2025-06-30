@@ -36,7 +36,7 @@ pub use signature::*;
 pub mod view_key;
 pub use view_key::*;
 
-#[cfg(all(test, feature = "snarkvm-console-account"))]
+#[cfg(test)]
 pub(crate) mod helpers {
     use snarkvm_circuit_network::AleoV0;
     use snarkvm_circuit_types::environment::Environment;

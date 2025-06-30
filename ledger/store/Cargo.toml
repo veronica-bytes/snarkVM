@@ -17,7 +17,7 @@ license = "Apache-2.0"
 edition = "2021"
 
 [features]
-default = [ "indexmap/rayon", "rayon" ]
+default = [ "indexmap/rayon" ]
 locktick = [ "dep:locktick", "snarkvm-ledger-puzzle/locktick" ]
 rocks = [ "rocksdb", "smallvec", "tracing" ]
 serial = [
@@ -90,7 +90,6 @@ workspace = true
 
 [dependencies.rayon]
 workspace = true
-optional = true
 
 [dependencies.rocksdb]
 version = "0.21"

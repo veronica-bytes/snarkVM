@@ -159,7 +159,7 @@ pub(super) fn impl_canonical_deserialize(ast: &syn::DeriveInput) -> TokenStream 
 
     let mut gen = quote! {
         impl #impl_generics CanonicalDeserialize for #name #ty_generics #where_clause {
-            fn deserialize_with_mode<R: snarkvm_utilities::io::Read>(
+            fn deserialize_with_mode<R: std::io::Read>(
                 mut reader: R,
                 compress: snarkvm_utilities::serialize::Compress,
                 validate: snarkvm_utilities::serialize::Validate,
