@@ -393,7 +393,6 @@ version = "=3.8.0"
 [workspace.dependencies.snarkvm-synthesizer]
 path = "synthesizer"
 version = "=3.8.0"
-default-features = false
 
 [workspace.dependencies.snarkvm-synthesizer-process]
 path = "synthesizer/process"

@@ -24,7 +24,6 @@ license = "Apache-2.0"
 edition = "2021"
 
 [features]
-default = [ "rayon" ]
 locktick = [
   "dep:locktick",
   "snarkvm-ledger-puzzle/locktick",
@@ -51,7 +50,6 @@ setup = [ ]
 test = [ "snarkvm-console/test" ]
 timer = [ "aleo-std/timer" ]
 wasm = [
-  "rayon",
   "snarkvm-console/wasm",
   "snarkvm-ledger-block/wasm",
   "snarkvm-ledger-committee/wasm",
@@ -143,7 +141,6 @@ workspace = true
 
 [dependencies.rayon]
 workspace = true
-optional = true
 
 [dependencies.serde]
 workspace = true
