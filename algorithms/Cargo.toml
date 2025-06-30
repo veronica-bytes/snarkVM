@@ -73,11 +73,9 @@ default-features = true
 
 [dependencies.cfg-if]
 workspace = true
-optional = true
 
 [dependencies.fxhash]
 version = "0.2.1"
-optional = true
 
 [dependencies.hashbrown]
 version = "0.15"
@@ -87,7 +85,6 @@ workspace = true
 
 [dependencies.indexmap]
 workspace = true
-optional = true
 
 [dependencies.itertools]
 workspace = true
