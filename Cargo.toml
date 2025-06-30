@@ -128,8 +128,6 @@ cli = [
 file = [
   "console",
   "synthesizer",
-  "snarkvm-synthesizer/snark",
-  "snarkvm-synthesizer/program",
   "dep:serde_json"
 ]
 package = [
@@ -137,7 +135,6 @@ package = [
   "circuit",
   "file",
   "ledger",
-  "snarkvm-synthesizer/process",
   "dep:ureq",
   "dep:dotenvy"
 ]
