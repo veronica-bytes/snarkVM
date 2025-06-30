@@ -25,35 +25,26 @@ extern crate tracing;
 extern crate snarkvm_circuit as circuit;
 extern crate snarkvm_console as console;
 
-#[cfg(feature = "process")]
 pub use snarkvm_synthesizer_process as process;
-#[cfg(feature = "program")]
 pub use snarkvm_synthesizer_program as program;
-#[cfg(feature = "snark")]
 pub use snarkvm_synthesizer_snark as snark;
 
-#[cfg(feature = "process")]
-pub use crate::process::{Authorization, CallMetrics, Process, Stack, Trace};
-#[cfg(feature = "program")]
-pub use crate::program::{Closure, Command, Finalize, Function, Instruction, Program};
+pub use crate::{
+    process::{Authorization, CallMetrics, Process, Stack, Trace},
+    program::{Closure, Command, Finalize, Function, Instruction, Program},
+};
 
-#[cfg(all(feature = "process", feature = "program", feature = "snark"))]
 mod restrictions;
-#[cfg(all(feature = "process", feature = "program", feature = "snark"))]
 pub use restrictions::*;
 
-#[cfg(all(feature = "process", feature = "program", feature = "snark"))]
 pub mod vm;
-#[cfg(all(feature = "process", feature = "program", feature = "snark"))]
 pub use vm::*;
 
 pub mod prelude {
-    #[cfg(feature = "process")]
-    pub use crate::process::*;
-    #[cfg(feature = "program")]
-    pub use crate::program::{Closure, Finalize, Function, Instruction, Mapping, Program};
-    #[cfg(feature = "snark")]
-    pub use crate::snark::{Certificate, Proof, ProvingKey, UniversalSRS, VerifyingKey};
-    #[cfg(all(feature = "process", feature = "program", feature = "snark"))]
-    pub use crate::vm::*;
+    pub use crate::{
+        process::*,
+        program::{Closure, Finalize, Function, Instruction, Mapping, Program},
+        snark::{Certificate, Proof, ProvingKey, UniversalSRS, VerifyingKey},
+        vm::*,
+    };
 }

@@ -24,17 +24,14 @@ license = "Apache-2.0"
 edition = "2021"
 
 [features]
-default = [ "process", "program", "rayon", "snark" ]
+default = [ "rayon" ]
 locktick = [
   "dep:locktick",
   "snarkvm-ledger-puzzle/locktick",
   "snarkvm-ledger-puzzle-epoch/locktick",
   "snarkvm-ledger-store/locktick",
-  "snarkvm-synthesizer-process?/locktick"
+  "snarkvm-synthesizer-process/locktick"
 ]
-process = [ "snarkvm-synthesizer-process" ]
-program = [ "snarkvm-synthesizer-program" ]
-snark = [ "snarkvm-synthesizer-snark" ]
 aleo-cli = [ ]
 async = [ "snarkvm-ledger-query/async", "snarkvm-synthesizer-process/async" ]
 cuda = [ "snarkvm-algorithms/cuda" ]
@@ -54,10 +51,7 @@ setup = [ ]
 test = [ "snarkvm-console/test" ]
 timer = [ "aleo-std/timer" ]
 wasm = [
-  "process",
-  "program",
   "rayon",
-  "snark",
   "snarkvm-console/wasm",
   "snarkvm-ledger-block/wasm",
   "snarkvm-ledger-committee/wasm",
@@ -110,15 +104,12 @@ workspace = true
 
 [dependencies.snarkvm-synthesizer-process]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-synthesizer-program]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-synthesizer-snark]
 workspace = true
-optional = true
 
 [dependencies.snarkvm-utilities]
 workspace = true
