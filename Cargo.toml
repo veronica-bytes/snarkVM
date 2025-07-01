@@ -146,6 +146,7 @@ save_r1cs_hashes = [ "snarkvm-circuit/save_r1cs_hashes" ]
 history = [ "snarkvm-synthesizer/history" ]
 parameters_no_std_out = [ "snarkvm-parameters/no_std_out" ]
 locktick = [
+  "snarkvm-algorithms?/locktick",
   "snarkvm-ledger?/locktick",
   "snarkvm-parameters?/locktick",
   "snarkvm-synthesizer?/locktick"

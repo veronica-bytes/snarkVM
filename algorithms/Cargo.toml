@@ -130,6 +130,7 @@ workspace = true
 
 [features]
 cuda = [ "snarkvm-algorithms-cuda" ]
+locktick = [ "snarkvm-parameters/locktick" ]
 profiler = [ "aleo-std/profiler" ]
 test = [ ]
 serial = [
