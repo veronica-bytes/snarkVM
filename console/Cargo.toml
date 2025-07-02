@@ -62,3 +62,7 @@ serial = [ "snarkvm-console-collections/serial", "snarkvm-console-types/serial" 
 types = [ "snarkvm-console-types" ]
 test_targets = [ "snarkvm-console-network/test_targets" ]
 test_consensus_heights = [ "snarkvm-console-network/test_consensus_heights" ]
+
+[lints.clippy]
+manual_div_ceil = "allow"
+

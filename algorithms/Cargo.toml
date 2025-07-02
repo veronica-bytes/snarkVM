@@ -191,3 +191,6 @@ serial = [
 snark = [ "crypto_hash", "fft", "msm", "polycommit", "r1cs" ]
 test_exports = [ ]
 dev-print = [ "snarkvm-utilities/dev-print" ]
+
+[lints.clippy]
+manual_div_ceil = "allow"

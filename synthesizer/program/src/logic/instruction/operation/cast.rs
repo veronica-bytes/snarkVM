@@ -79,9 +79,9 @@ impl<N: Network> Display for CastType<N> {
         match self {
             Self::GroupXCoordinate => write!(f, "group.x"),
             Self::GroupYCoordinate => write!(f, "group.y"),
-            Self::Plaintext(plaintext_type) => write!(f, "{}", plaintext_type),
-            Self::Record(identifier) => write!(f, "{}.record", identifier),
-            Self::ExternalRecord(locator) => write!(f, "{}.record", locator),
+            Self::Plaintext(plaintext_type) => write!(f, "{plaintext_type}"),
+            Self::Record(identifier) => write!(f, "{identifier}.record"),
+            Self::ExternalRecord(locator) => write!(f, "{locator}.record"),
         }
     }
 }

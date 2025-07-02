@@ -359,12 +359,12 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
 
     /// Returns `true` if the given `program ID` and `mapping name` exist.
     fn contains_mapping_confirmed(&self, program_id: &ProgramID<N>, mapping_name: &Identifier<N>) -> Result<bool> {
-        Ok(self.program_id_map().get_confirmed(program_id)?.map_or(false, |m| m.contains(mapping_name)))
+        Ok(self.program_id_map().get_confirmed(program_id)?.is_some_and(|m| m.contains(mapping_name)))
     }
 
     /// Returns `true` if the given `program ID` and `mapping name` exist.
     fn contains_mapping_speculative(&self, program_id: &ProgramID<N>, mapping_name: &Identifier<N>) -> Result<bool> {
-        Ok(self.program_id_map().get_speculative(program_id)?.map_or(false, |m| m.contains(mapping_name)))
+        Ok(self.program_id_map().get_speculative(program_id)?.is_some_and(|m| m.contains(mapping_name)))
     }
 
     /// Returns `true` if the given `program ID`, `mapping name`, and `key` exist.

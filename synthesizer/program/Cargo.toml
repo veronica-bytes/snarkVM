@@ -76,3 +76,7 @@ version = "0.5"
 [dev-dependencies.synthesizer-process]
 package = "snarkvm-synthesizer-process"
 path = "../process"
+
+[lints.clippy]
+needless_as_bytes = "allow"
+uninlined_format_args = "allow"

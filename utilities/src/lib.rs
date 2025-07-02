@@ -85,5 +85,5 @@ pub fn error(_msg: &'static str) -> io::Error {
 
 #[cfg(feature = "std")]
 pub fn error<S: ToString>(msg: S) -> io::Error {
-    io::Error::new(io::ErrorKind::Other, msg.to_string())
+    io::Error::other(msg.to_string())
 }

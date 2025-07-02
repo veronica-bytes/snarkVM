@@ -379,8 +379,8 @@ mod tests {
             let scaled_data: Vec<(i64, u64)> = data.iter().map(|&(t, s)| (t, s * 10)).collect();
 
             if weighted_median(data.clone()) != weighted_median(scaled_data.clone()) {
-                println!("data: {:?}", data);
-                println!("scaled_data: {:?}", scaled_data);
+                println!("data: {data:?}");
+                println!("scaled_data: {scaled_data:?}");
             }
             assert_eq!(weighted_median(data), weighted_median(scaled_data));
         }

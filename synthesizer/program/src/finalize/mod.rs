@@ -258,7 +258,7 @@ mod tests {
         // Ensure that adding more than the maximum number of positions will fail.
         for i in 1..u8::MAX as usize * 2 {
             let position = to_unique_string(i);
-            println!("position: {}", position);
+            // println!("position: {position}");
             let command = Command::<CurrentNetwork>::from_str(&format!("position {position};")).unwrap();
 
             match finalize.commands.len() < u8::MAX as usize {

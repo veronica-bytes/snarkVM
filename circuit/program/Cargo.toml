@@ -60,3 +60,6 @@ version = "0.8"
 default = [ "enable_console" ]
 enable_console = [ "console" ]
 dev-print = [ "snarkvm-utilities/dev-print" ]
+
+[lints.clippy]
+needless_as_bytes = "allow"

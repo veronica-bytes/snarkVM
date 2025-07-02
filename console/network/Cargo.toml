@@ -71,3 +71,6 @@ version = "1.0"
 
 [package.metadata.cargo-machete]
 ignored = ["paste"]
+
+[lints.clippy]
+manual_div_ceil = "allow"

@@ -257,7 +257,7 @@ impl<N: Network> Transaction<N> {
             // Check the execution and fee.
             Self::Execute(_, _, execution, fee) => {
                 execution.contains_transition(transition_id)
-                    || fee.as_ref().map_or(false, |fee| fee.id() == transition_id)
+                    || fee.as_ref().is_some_and(|fee| fee.id() == transition_id)
             }
             // Check the fee.
             Self::Fee(_, fee) => fee.id() == transition_id,

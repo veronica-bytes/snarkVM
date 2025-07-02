@@ -169,3 +169,6 @@ path = "../../ledger/test-helpers"
 
 [dev-dependencies.tempfile]
 version = "3"
+
+[lints.clippy]
+uninlined_format_args = "allow"

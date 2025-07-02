@@ -57,6 +57,6 @@ impl From<std::path::StripPrefixError> for ParameterError {
 
 impl From<ParameterError> for std::io::Error {
     fn from(error: ParameterError) -> Self {
-        std::io::Error::new(std::io::ErrorKind::Other, format!("{error:?}"))
+        std::io::Error::other(format!("{error:?}"))
     }
 }

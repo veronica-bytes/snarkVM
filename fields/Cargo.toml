@@ -77,3 +77,6 @@ default = [ "snarkvm-utilities/default" ]
 profiler = [ "aleo-std/profiler" ]
 serial = [ "snarkvm-utilities/serial" ]
 dev-print = [ "snarkvm-utilities/dev-print" ]
+
+[lints.clippy]
+manual_div_ceil = "allow"

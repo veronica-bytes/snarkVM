@@ -396,7 +396,7 @@ impl<F: FftField> EvaluationDomain<F> {
     pub fn in_order_fft_with_pc<T: DomainCoeff<F>>(&self, x_s: &[T], pc: &FFTPrecomputation<F>) -> Vec<T> {
         let mut x_s = x_s.to_vec();
         if self.size() != x_s.len() {
-            x_s.extend(core::iter::repeat(T::zero()).take(self.size() - x_s.len()));
+            x_s.extend(core::iter::repeat_n(T::zero(), self.size() - x_s.len()));
         }
         self.fft_helper_in_place_with_pc(&mut x_s, FFTOrder::II, pc);
         x_s

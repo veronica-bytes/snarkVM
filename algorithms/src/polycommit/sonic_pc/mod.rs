@@ -56,7 +56,7 @@ pub struct SonicKZG10<E: PairingEngine, S: AlgebraicSponge<E::Fq, 2>> {
 
 impl<E: PairingEngine, S: AlgebraicSponge<E::Fq, 2>> SonicKZG10<E, S> {
     pub fn load_srs(max_degree: usize) -> Result<UniversalParams<E>, PCError> {
-        kzg10::KZG10::load_srs(max_degree).map_err(Into::into)
+        kzg10::KZG10::load_srs(max_degree)
     }
 
     pub fn trim(
@@ -410,7 +410,7 @@ impl<E: PairingEngine, S: AlgebraicSponge<E::Fq, 2>> SonicKZG10<E, S> {
 
         let result = Self::check_elems(vk, combined_comms, combined_witness, combined_adjusted_witness);
         end_timer!(batch_check_time);
-        result.map_err(Into::into)
+        result
     }
 
     pub fn open_combinations<'a>(

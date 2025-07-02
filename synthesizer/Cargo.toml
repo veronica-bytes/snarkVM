@@ -230,3 +230,6 @@ version = "3"
 
 [dev-dependencies.walkdir]
 version = "2"
+
+[lints.clippy]
+uninlined_format_args = "allow"

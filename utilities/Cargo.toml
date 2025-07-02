@@ -91,3 +91,6 @@ dev-print = [ ]
 serial = [ "derive" ]
 std = [ ]
 wasm = [ ]
+
+[lints.clippy]
+manual_div_ceil = "allow"

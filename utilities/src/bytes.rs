@@ -495,7 +495,7 @@ impl<W: Write> LimitedWriter<W> {
 impl<W: Write> Write for LimitedWriter<W> {
     fn write(&mut self, buf: &[u8]) -> IoResult<usize> {
         if self.remaining == 0 && !buf.is_empty() {
-            return Err(std::io::Error::new(std::io::ErrorKind::Other, format!("Byte limit exceeded: {}", self.limit)));
+            return Err(std::io::Error::other(format!("Byte limit exceeded: {}", self.limit)));
         }
 
         let max_write = std::cmp::min(buf.len(), self.remaining);
