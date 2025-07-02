@@ -317,13 +317,11 @@ pub mod indexmap {
     {
         cfg_if! {
             if #[cfg(feature = "serial") ] {
-                let result = imap.values().find_map(closure);
+                imap.values().find_map(closure)
             } else {
-                let result = imap.par_values().filter_map(closure).find_any(|_| true);
+                imap.par_values().filter_map(closure).find_any(|_| true)
             }
         }
-
-        result
     }
 
     /// Returns a sorted, by-value, iterator for the given IndexMap/IndexSet

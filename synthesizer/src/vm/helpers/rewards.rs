@@ -443,7 +443,7 @@ mod tests {
         let committee = ledger_committee::test_helpers::sample_committee(rng);
 
         // Compute the staking rewards (empty).
-        let rewards = staking_rewards::<CurrentNetwork>(&indexmap![], &committee, rng.gen());
+        let rewards = staking_rewards::<CurrentNetwork>(&indexmap![], &committee, rng.r#gen());
         assert!(rewards.is_empty());
     }
 
@@ -490,7 +490,7 @@ mod tests {
         let address = Address::rand(rng);
 
         // Compute the proving rewards (empty).
-        let rewards = proving_rewards::<CurrentNetwork>(vec![], rng.gen());
+        let rewards = proving_rewards::<CurrentNetwork>(vec![], rng.r#gen());
         assert!(rewards.is_empty());
 
         // Check that a maxed out coinbase reward, returns empty.

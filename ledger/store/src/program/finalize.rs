@@ -1329,7 +1329,7 @@ mod tests {
             }
 
             // Prepare the key and value.
-            let item: u64 = rng.gen();
+            let item: u64 = rng.r#gen();
             let key = Plaintext::from(Literal::Field(Field::from_u64(item)));
             let value = Value::from(Literal::U64(U64::new(item)));
 

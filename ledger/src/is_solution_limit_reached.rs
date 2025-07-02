@@ -102,7 +102,7 @@ mod tests {
                 // Choose a time strictly between the steps.
                 let timestamp = rng.gen_range(prev_time..next_time);
                 // Generate a random prover stake.
-                let prover_stake: u64 = rng.gen();
+                let prover_stake: u64 = rng.r#gen();
                 let expected_num_solutions = prover_stake / stake_per_solution;
 
                 assert_eq!(maximum_allowed_solutions_per_epoch(prover_stake, timestamp), expected_num_solutions,);
@@ -124,7 +124,7 @@ mod tests {
 
         // Check that before enforcement, the number of solutions is unrestricted for any prover stake.
         for _ in 0..ITERATIONS {
-            assert_eq!(maximum_allowed_solutions_per_epoch(rng.gen(), rng.gen_range(0..time_before_first)), u64::MAX);
+            assert_eq!(maximum_allowed_solutions_per_epoch(rng.r#gen(), rng.gen_range(0..time_before_first)), u64::MAX);
         }
     }
 
@@ -135,7 +135,7 @@ mod tests {
 
         // Check that all timestamps after the last one are treated as the last one.
         for _ in 0..ITERATIONS {
-            let prover_stake: u64 = rng.gen();
+            let prover_stake: u64 = rng.r#gen();
             let time_after_last = rng.gen_range(last_timestamp..i64::MAX);
             let expected_num_solutions = prover_stake / stake_per_solution;
 

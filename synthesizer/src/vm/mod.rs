@@ -2925,7 +2925,7 @@ function add_thrice:
         let vm = sample_vm();
 
         // Ensure this call succeeds.
-        vm.puzzle.prove(rng.gen(), rng.gen(), rng.gen(), None).unwrap();
+        vm.puzzle.prove(rng.r#gen(), rng.r#gen(), rng.r#gen(), None).unwrap();
     }
 
     #[test]

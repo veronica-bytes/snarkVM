@@ -2857,8 +2857,7 @@ mod sanity_checks {
         // Synthesize the circuit.
         let _response = stack.execute_function::<A, _>(call_stack, None, None, rng).unwrap();
         // Retrieve the assignment.
-        let assignment = assignments.read().last().unwrap().0.clone();
-        assignment
+        assignments.read().last().unwrap().0.clone()
     }
 
     #[test]

@@ -508,9 +508,9 @@ pub trait BlockStorage<N: Network>: 'static + Clone + Send + Sync {
 
         // Determine the certificate IDs to remove.
         let certificate_ids_to_remove = match self.authority_map().get_confirmed(block_hash)? {
-            Some(authority) => match authority {
+            Some(authority) => match &authority {
                 Cow::Owned(Authority::Beacon(_)) | Cow::Borrowed(Authority::Beacon(_)) => Vec::new(),
-                Cow::Owned(Authority::Quorum(ref subdag)) | Cow::Borrowed(Authority::Quorum(ref subdag)) => {
+                Cow::Owned(Authority::Quorum(subdag)) | Cow::Borrowed(Authority::Quorum(subdag)) => {
                     subdag.values().flatten().map(|c| c.id()).collect()
                 }
             },
@@ -793,8 +793,8 @@ pub trait BlockStorage<N: Network>: 'static + Clone + Send + Sync {
             bail!("The authority for '{block_hash}' is missing in block storage")
         };
         // Retrieve the certificate for the given certificate ID.
-        match authority {
-            Cow::Owned(Authority::Quorum(ref subdag)) | Cow::Borrowed(Authority::Quorum(ref subdag)) => {
+        match &authority {
+            Cow::Owned(Authority::Quorum(subdag)) | Cow::Borrowed(Authority::Quorum(subdag)) => {
                 match subdag.get(&round) {
                     Some(certificates) => {
                         // Retrieve the certificate for the given certificate ID.
@@ -844,7 +844,7 @@ pub trait BlockStorage<N: Network>: 'static + Clone + Send + Sync {
         };
         // Retrieve the prover solution.
         match solutions.deref().deref() {
-            Some(ref solutions) => solutions.get(solution_id).cloned().ok_or_else(|| {
+            Some(solutions) => solutions.get(solution_id).cloned().ok_or_else(|| {
                 anyhow!("The prover solution for solution ID '{solution_id}' is missing in block storage")
             }),
             _ => bail!("The prover solution for solution ID '{solution_id}' is missing in block storage"),

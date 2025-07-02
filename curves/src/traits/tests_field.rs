@@ -198,7 +198,7 @@ fn random_string_tests<F: PrimeField>(rng: &mut TestRng) {
     assert!(F::from_str("00000000000").is_err());
 
     for _ in 0..ITERATIONS {
-        let n: u64 = rng.gen();
+        let n: u64 = rng.r#gen();
 
         let a = F::from_str(&format!("{n}")).map_err(|_| ()).unwrap();
         let b = F::from_bigint(n.into()).unwrap();

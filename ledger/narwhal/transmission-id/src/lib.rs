@@ -93,15 +93,15 @@ pub mod test_helpers {
         // Append sample solution IDs.
         for _ in 0..5 {
             sample.push(TransmissionID::Solution(
-                SolutionID::from(rng.gen::<u64>()),
-                <CurrentNetwork as Network>::TransmissionChecksum::from(rng.gen::<u128>()),
+                SolutionID::from(rng.r#gen::<u64>()),
+                <CurrentNetwork as Network>::TransmissionChecksum::from(rng.r#gen::<u128>()),
             ));
         }
         // Append sample transaction IDs.
         for _ in 0..5 {
             let id = TransmissionID::Transaction(
                 <CurrentNetwork as Network>::TransactionID::from(Field::rand(rng)),
-                <CurrentNetwork as Network>::TransmissionChecksum::from(rng.gen::<u128>()),
+                <CurrentNetwork as Network>::TransmissionChecksum::from(rng.r#gen::<u128>()),
             );
             sample.push(id);
         }

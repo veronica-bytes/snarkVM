@@ -158,7 +158,7 @@ mod tests {
         let mut rng = TestRng::default();
 
         // Initialize a random epoch hash.
-        let epoch_hash = rng.gen();
+        let epoch_hash = rng.r#gen();
         // Initialize a new epoch program.
         let epoch_program_0 = EpochProgram::<CurrentNetwork>::new(epoch_hash).unwrap();
         // Initialize a new epoch program.
@@ -172,7 +172,7 @@ mod tests {
         let mut rng = TestRng::default();
 
         // Initialize a random epoch hash.
-        let epoch_hash = rng.gen();
+        let epoch_hash = rng.r#gen();
         // Initialize a new epoch program.
         let epoch_program = EpochProgram::<CurrentNetwork>::new(epoch_hash).unwrap();
         // Retrieve the instructions.

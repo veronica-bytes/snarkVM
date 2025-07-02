@@ -326,11 +326,11 @@ pub(crate) mod test_helpers {
                 let num_iterations = (remaining_microcredits / staker_amount).saturating_sub(1);
 
                 // Construct the map of stakers.
-                let rngs = (0..num_iterations).map(|_| TestRng::from_seed(rng.gen())).collect::<Vec<_>>();
+                let rngs = (0..num_iterations).map(|_| TestRng::from_seed(rng.r#gen())).collect::<Vec<_>>();
                 let mut stakers: IndexMap<_, _> = cfg_iter(rngs)
                     .map(|mut rng| {
                         // Sample a random staker.
-                        let staker = Address::<N>::new(rng.gen());
+                        let staker = Address::<N>::new(rng.r#gen());
                         // Output the staker.
                         (staker, (*validator, staker_amount))
                     })
@@ -342,7 +342,7 @@ pub(crate) mod test_helpers {
                 // Insert the last staker.
                 let final_amount = remaining_microcredits.saturating_sub(num_iterations * staker_amount);
                 if final_amount > 0 {
-                    let staker = Address::<N>::new(rng.gen());
+                    let staker = Address::<N>::new(rng.r#gen());
                     stakers.insert(staker, (*validator, final_amount));
                 }
                 // Return the stakers.
@@ -369,7 +369,7 @@ pub(crate) mod test_helpers {
             .into_iter()
             .map(|(staker, _)| {
                 // Sample a random withdraw address.
-                let withdraw_address = Address::<N>::new(rng.gen());
+                let withdraw_address = Address::<N>::new(rng.r#gen());
                 // Return the withdraw address.
                 (*staker, withdraw_address)
             })

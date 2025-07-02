@@ -415,9 +415,9 @@ mod tests {
         assert!(store.current_round().is_err());
         assert!(store.current_height().is_err());
         assert!(store.current_committee().is_err());
-        assert_eq!(store.get_height_for_round(rng.gen()).unwrap(), None);
-        assert_eq!(store.get_committee(rng.gen()).unwrap(), None);
-        assert_eq!(store.get_committee_for_round(rng.gen()).unwrap(), None);
+        assert_eq!(store.get_height_for_round(rng.r#gen()).unwrap(), None);
+        assert_eq!(store.get_committee(rng.r#gen()).unwrap(), None);
+        assert_eq!(store.get_committee_for_round(rng.r#gen()).unwrap(), None);
 
         // Insert the committee.
         store.insert(0, committee_0.clone()).unwrap();

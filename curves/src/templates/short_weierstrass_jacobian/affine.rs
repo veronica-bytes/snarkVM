@@ -318,7 +318,7 @@ impl<P: Parameters> Distribution<Affine<P>> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Affine<P> {
         loop {
             let x = P::BaseField::rand(rng);
-            let greatest = rng.gen();
+            let greatest = rng.r#gen();
 
             if let Some(p) = Affine::from_x_coordinate(x, greatest) {
                 return p.mul_by_cofactor();

@@ -257,7 +257,7 @@ pub mod test_helpers {
 
     /// Returns a sample batch header, sampled at random.
     pub fn sample_batch_header(rng: &mut TestRng) -> BatchHeader<CurrentNetwork> {
-        sample_batch_header_for_round(rng.gen(), rng)
+        sample_batch_header_for_round(rng.r#gen(), rng)
     }
 
     /// Returns a sample batch header with a given round; the rest is sampled at random.

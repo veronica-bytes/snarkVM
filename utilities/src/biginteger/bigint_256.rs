@@ -332,7 +332,7 @@ impl PartialOrd for BigInteger256 {
 
 impl Distribution<BigInteger256> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> BigInteger256 {
-        BigInteger256(rng.gen())
+        BigInteger256(rng.r#gen())
     }
 }
 

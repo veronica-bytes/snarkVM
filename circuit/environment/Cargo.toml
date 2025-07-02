@@ -6,6 +6,7 @@ description = "Circuit environment for a decentralized virtual machine"
 homepage = "https://aleo.org"
 repository = "https://github.com/ProvableHQ/snarkVM"
 license = "Apache-2.0"
+# Upgrade to Rust 2024 when once we deal with std::env::set_var
 edition = "2021"
 
 [[bench]]

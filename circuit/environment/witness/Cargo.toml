@@ -6,7 +6,7 @@ description = "A procedural macro to construct a witness in an environment"
 homepage = "https://aleo.org"
 repository = "https://github.com/ProvableHQ/snarkVM"
 license = "Apache-2.0"
-edition = "2018"
+edition = "2024"
 
 [lib]
 proc-macro = true

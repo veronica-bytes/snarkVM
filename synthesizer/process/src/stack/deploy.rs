@@ -161,7 +161,7 @@ impl<N: Network> Stack<N> {
         }
 
         // Verify the certificates.
-        let rngs = (0..call_stacks.len()).map(|_| StdRng::from_seed(seeded_rng.gen())).collect::<Vec<_>>();
+        let rngs = (0..call_stacks.len()).map(|_| StdRng::from_seed(seeded_rng.r#gen())).collect::<Vec<_>>();
         cfg_iter(call_stacks).zip_eq(deployment.verifying_keys()).zip_eq(rngs).try_for_each(
             |(((function_name, call_stack, assignments), (_, (verifying_key, certificate))), mut rng)| {
                 // Synthesize the circuit.
