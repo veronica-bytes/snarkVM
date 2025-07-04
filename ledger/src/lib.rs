@@ -19,21 +19,10 @@
 #[macro_use]
 extern crate tracing;
 
-pub use ledger_authority as authority;
-pub use ledger_block as block;
-pub use ledger_committee as committee;
-pub use ledger_narwhal as narwhal;
-pub use ledger_puzzle as puzzle;
-pub use ledger_query as query;
-pub use ledger_store as store;
-
-pub use crate::block::*;
-
-#[cfg(feature = "test-helpers")]
-pub use ledger_test_helpers;
-
 mod helpers;
-pub use helpers::*;
+use helpers::*;
+
+use crate::block::*;
 
 mod advance;
 mod check_next_block;
@@ -458,3 +447,15 @@ impl<N: Network, C: ConsensusStorage<N>> Ledger<N, C> {
 
 #[cfg(any(test, feature = "test-helpers"))]
 pub mod test_helpers;
+
+pub use ledger_authority as authority;
+pub use ledger_block as block;
+pub use ledger_committee as committee;
+pub use ledger_narwhal as narwhal;
+pub use ledger_puzzle as puzzle;
+pub use ledger_query as query;
+pub use ledger_store as store;
+
+pub mod prelude {
+    pub use crate::{authority, block, block::*, committee, helpers::*, narwhal, puzzle, query};
+}

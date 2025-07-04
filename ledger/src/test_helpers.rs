@@ -27,6 +27,8 @@ use ledger_store::ConsensusStore;
 use snarkvm_circuit::network::AleoV0;
 use synthesizer::vm::VM;
 
+pub use ledger_test_helpers::*;
+
 pub type CurrentNetwork = MainnetV0;
 pub type CurrentAleo = AleoV0;
 
