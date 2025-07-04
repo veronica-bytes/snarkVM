@@ -30,7 +30,7 @@ type Network = console::network::MainnetV0;
 fn block_storage(c: &mut Criterion) {
     let rng = &mut TestRng::default();
 
-    c.bench_function(&format!("BlockStore:insert"), |b| {
+    c.bench_function("BlockStore:insert", |b| {
         b.iter_batched(
             || {
                 let store = BlockStore::<Network, BlockMemory<Network>>::open(StorageMode::new_test(None)).unwrap();
@@ -51,7 +51,7 @@ fn block_storage(c: &mut Criterion) {
     });
     /*
     {
-        c.bench_function(&format!("BlockStore::get_block"), |b| b.iter(|| store.get_block(&block.hash()).unwrap()));
+        c.bench_function("BlockStore::get_block", |b| b.iter(|| store.get_block(&block.hash()).unwrap()));
     }*/
 }
 
