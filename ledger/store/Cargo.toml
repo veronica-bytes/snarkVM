@@ -136,6 +136,10 @@ optional = true
 [dev-dependencies.aleo-std]
 version = "1.0.1"
 
+[dev-dependencies.ledger-block]
+package = "snarkvm-ledger-block"
+path = "../block"
+
 [dev-dependencies.ledger-committee]
 package = "snarkvm-ledger-committee"
 path = "../committee"
