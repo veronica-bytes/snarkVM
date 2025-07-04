@@ -256,7 +256,7 @@ version = "0.4.4"
 version = "0.8"
 
 [dependencies.self_update]
-version = "0.41"
+version = "0.42"
 optional = true
 
 [dependencies.serde_json]
