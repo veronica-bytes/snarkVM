@@ -171,7 +171,7 @@ impl Network for MainnetV0 {
     const GENESIS_COINBASE_TARGET: u64 = (1u64 << 5).saturating_sub(1);
     /// The genesis block proof target.
     #[cfg(not(feature = "test"))]
-    const GENESIS_PROOF_TARGET: u64 = (1u64 << 5).saturating_sub(1);
+    const GENESIS_PROOF_TARGET: u64 = 1u64 << 27;
     /// The genesis block proof target.
     /// This is deliberately set to a low value (8) for testing purposes only.
     #[cfg(feature = "test")]
