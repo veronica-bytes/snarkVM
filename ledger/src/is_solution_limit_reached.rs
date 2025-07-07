@@ -79,7 +79,12 @@ impl<N: Network, C: ConsensusStorage<N>> Ledger<N, C> {
         // Calculate the number of remaining solutions for the prover.
         let num_remaining_solutions = self.num_remaining_solutions(prover_address, additional_solutions_in_block);
 
-        info!("Prover {} has {} remaining solutions in the current epoch.", prover_address, num_remaining_solutions);
+        info!(
+            "Prover {} has {} remaining solutions in the current epoch. and height {}",
+            prover_address,
+            num_remaining_solutions,
+            self.latest_block().height()
+        );
         // If the number of remaining solutions is zero, the limit is reached.
         num_remaining_solutions == 0
     }
